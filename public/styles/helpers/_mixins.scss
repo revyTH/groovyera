@@ -1,0 +1,55 @@
+/*
+ * ---------------------------------------------------------------------------------------
+ * _mixins.scss
+ * ---------------------------------------------------------------------------------------
+ */
+
+@mixin media($min, $pixel-ratio: 1, $orientation: false) {
+  @media only screen and (min-width: $min) and (-webkit-min-device-pixel-ratio: $pixel-ratio) {
+    @content
+  }
+}
+
+@mixin media-range($min, $max, $pixel-ratio: 1, $orientation: false) {
+  @media only screen and (min-width: $min) and (max-width: $max) and (-webkit-min-device-pixel-ratio: $pixel-ratio) {
+    @content
+  }
+}
+
+
+//@mixin media-mobile() {
+//  @media only screen and (min-width: $mobile_min_width) and (max-width: $mobile_max_width) and (-webkit-min-device-pixel-ratio: $mobile_min_pixel_ratio) {
+//    @content
+//  }
+//}
+
+
+//@mixin media-tablet() {
+//  @media only screen and (min-width: #{$mobile-max-width + 1}) and (max-width: #{$tablet-max-width}) {
+//    @content
+//  }
+//}
+//
+//
+//@mixin media-desktop() {
+//  @media only screen and (min-width: #{$tablet-max-width + 1}) {
+//    @content
+//  }
+//}
+
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  background-clip: padding-box;  /* stops bg color from leaking outside the border: */
+}
+
+
+
+
+
+@mixin reset-box () {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}

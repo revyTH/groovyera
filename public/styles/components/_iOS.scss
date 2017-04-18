@@ -1,0 +1,32 @@
+/*
+ * ---------------------------------------------------------------------------------------
+ * iOS.scss
+ * ---------------------------------------------------------------------------------------
+ */
+
+
+
+#iOS {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $body-bg;
+  z-index: 100;
+}
+
+#enableAudioBtn {
+  @include border-radius(32px);
+  position: relative;
+  left: 25%;
+  padding: 1em;
+  border: 1px solid white;
+  width: 50%;
+  text-align: center;
+  font-size: 3em;
+  font-weight: bold;
+  background-color: $scifi-text-hover;
+  color: white;
+}
+
