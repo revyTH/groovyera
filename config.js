@@ -23,22 +23,25 @@ module.exports = {
 
     libs: {
         root: "./public/libs",
-        all: "./public/libs/**.*.js"
+        all: [
+            "./public/libs/**.*.js",
+            "./node_modules/angular/angular.js",
+            "./node_modules/angular-route/angular-route.js"
+        ]
     },
 
     js: {
-        root: "./public/js",
-        all: "./public/js/**/*.js",
-        index: "./public/js/index.js",
+        root: "./public/app",
+        all: "./public/app/**/*.js",
+        index: "./public/app/app.js",
         build: "./public/build/"
     },
 
     styles: {
-        root: "./public/styles",
-        sass: "./public/styles/**/*.scss",
-        // sass: "./public/styles/main.scss",
-        all: "./public/styles/**/*.scss",
-
+        root: "./public/app/styles",
+        sass: "./public/app/styles/**/*.scss",
+        // sass: "./public/app/styles/main.scss",
+        all: "./public/app/styles/**/*.scss",
     },
 
     build: {

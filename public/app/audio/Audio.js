@@ -27,10 +27,10 @@ export class Audio {
 
 
         this.soundURLs = {
-            kick: "assets/audio/kick.wav",
-            snare: "assets/audio/snare.wav",
-            hat: "assets/audio/hat.wav",
-            ride: "assets/audio/ride.wav"
+            kick: "app/assets/audio/kick.wav",
+            snare: "app/assets/audio/snare.wav",
+            hat: "app/assets/audio/hat.wav",
+            ride: "app/assets/audio/ride.wav"
         };
 
         if (checkIfiOSdevice()) {

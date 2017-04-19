@@ -1,28 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <title>Drum Machine</title>
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width,height=device-height">
 
     <link rel="stylesheet" href="build/styles/styles.css">
 
 </head>
 <body>
 
-    <div class="title">Titolo nullo</div>
-
-    <div id="iOS" style="visibility: hidden">
-        <button id="enableAudioBtn" style="visibility: hidden">Click to enable audio</button>
-    </div>
 
 
-    <div id="bodyContainer">
-
-
-        <button id="startBtn">Start</button>
-        <button id="btn">Change ticks</button>
-        <button id="muteBtn">Mute</button>
-
+    <!--ANGULAR VIEWS-->
+    <div id="angularView" class="angular-view" ng-view="">
     </div>
 
 
