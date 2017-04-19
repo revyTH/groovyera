@@ -11,38 +11,45 @@
 
  export class Track {
 
-     constructor (audioContext, name = "track_default", buffer = undefined, ticks = [], volume = 1.0, pan = 0, mute = false ) {
+     constructor (audioContext, name = "track_default", buffer = undefined, volume = 1.0, pan = 0, mute = false ) {
          this.name = name;
          this.buffer = buffer;
          this.mute = mute;
          this.ticks = [];
          this.gainNode = audioContext.createGain();
          this.gainNode.gain.value = volume;
-         this.pannerNode = audioContext.createStereoPanner();
-         this.pannerNode.pan.value = pan;
-         this.pannerNode.connect(this.gainNode);
-         this.gainNode.connect(audioContext.destination);
+
+         if (typeof audioContext.createStereoPanner === "function") {
+             this.pannerNode = audioContext.createStereoPanner();
+             this.pannerNode.pan.value = pan;
+             this.gainNode.connect(this.pannerNode);
+             this.pannerNode.connect(audioContext.destination);
+             console.log("Stereo panner supported");
+         } else {
+             this.gainNode.connect(audioContext.destination);
+             console.log("Stereo panner not supported");
+         }
 
          this._initTicks();
      }
 
 
-     setGain(val) {
-         this.gainNode.gain.value = val > 1 ? 1.0 : val;
-     }
+     // setGain(val) {
+     //     this.gainNode.gain.value = val > 1 ? 1.0 : val;
+     // }
 
 
-     setPan(val) {
-         if (val < -1) {
-             this.pannerNode.pan.value = -1;
-         }
-         else if (val > 1) {
-             this.pannerNode.pan.value = 1;
-         }
-         else {
-             this.pannerNode.pan.value = val;
-         }
-     }
+     // setPan(val) {
+     //     if (val < -1) {
+     //         this.pannerNode.pan.value = -1;
+     //     }
+     //     else if (val > 1) {
+     //         this.pannerNode.pan.value = 1;
+     //     }
+     //     else {
+     //         this.pannerNode.pan.value = val;
+     //     }
+     // }
 
 
 

@@ -15,7 +15,6 @@ export class Audio {
         this.tag = "[Audio.js]";
         let AudioContext = window.AudioContext || window.webkitAudioContext;
         this.audioContext = new AudioContext();
-        this.audioContextEnabled = false;
         this.bpm = 120.0;
         this.tickTime = 60.0 / this.bpm / 4.0;  // 1/16 note
         this.isPlaying = false;
@@ -33,6 +32,12 @@ export class Audio {
             hat: "assets/audio/hat.wav",
             ride: "assets/audio/ride.wav"
         };
+
+        if (checkIfiOSdevice()) {
+            this._enableAudioContextForiOS();
+        } else {
+            this.audioContextEnabled = true;
+        }
 
         this._loadDefaultBuffers();
     }
@@ -55,26 +60,26 @@ export class Audio {
         }
     }
 
-    /*
-     * get audioContextEnabled
-     */
-    get audioContextEnabled() {
-        return this._audioContextEnabled;
-    }
-
-    /*
-     * set audioContextEnabled
-     */
-    set audioContextEnabled(val) {
-        if (val !== this._audioContextEnabled) {
-            this._audioContextEnabled = val;
-        }
-    }
-
 
 
     _enableAudioContextForiOS() {
+        $(document).ready(() => {
+            let btn = $("<button/>", {
+                visibility: "hidden"
+            });
 
+            btn.on("touchstart", () => {
+                let buffer = this.audioContext.createBuffer(1, 1, 22050);
+                let source = this.audioContext.createBufferSource();
+                source.buffer = buffer;
+                source.start();
+            });
+
+            btn.trigger("touchstart");
+
+            this.audioContextEnabled = true;
+            console.log("AudioContext enabled for iOS");
+        });
     }
 
 
@@ -114,10 +119,78 @@ export class Audio {
 
         let kickTrack = new Track(this.audioContext, "kick", this.buffers["kick"]);
         kickTrack.setTicksFromArray([1,5,9,13]);
-        let snareTrack = new Track(this.audioContext, "snare", this.buffers["snare"]);
+        let snareTrack = new Track(this.audioContext, "snare", this.buffers["snare"], 1, 0.1);
         snareTrack.setTicksFromArray([5,13]);
-        let hatTrack = new Track(this.audioContext, "hat", this.buffers["hat"]);
-        hatTrack.setTicksFromArray([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
+        let hatTrack = new Track(this.audioContext, "hat", this.buffers["hat"], 0.85, -1);
+        // hatTrack.setTicksFromArray([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
+
+
+        hatTrack.setTicksFromArray([
+            {
+                index: 1,
+                volume: 0.9
+            },
+            {
+                index: 2,
+                volume: 0.5
+            },
+            {
+                index: 3,
+                volume: 1.2
+            },
+            {
+                index: 4,
+                volume: 0.4
+            },
+            {
+                index: 5,
+                volume: 0.9
+            },
+            {
+                index: 6,
+                volume: 0.5
+            },
+            {
+                index: 7,
+                volume: 1.2
+            },
+            {
+                index: 8,
+                volume: 0.4
+            },
+            {
+                index: 9,
+                volume: 0.9
+            },
+            {
+                index: 10,
+                volume: 0.5
+            },
+            {
+                index: 11,
+                volume: 1.2
+            },
+            {
+                index: 12,
+                volume: 0.4
+            },
+            {
+                index: 13,
+                volume: 0.9
+            },
+            {
+                index: 14,
+                volume: 0.5
+            },
+            {
+                index: 15,
+                volume: 1.2
+            },
+            {
+                index: 16,
+                volume: 0.4
+            }
+        ]);
 
         this.tracks.push(kickTrack);
         this.tracks.push(snareTrack);
@@ -127,7 +200,7 @@ export class Audio {
         console.log("Default tracks loaded");
         console.log(this.tracks);
 
-        this._start();
+        // this._start();
     }
 
 
@@ -139,11 +212,18 @@ export class Audio {
 
     _start() {
 
+        if (!this.audioContextEnabled) {
+            console.log("Cannot play: AudioContext is not enabled.");
+            return;
+        }
+
         if (this.isPlaying) {
+            console.log("Cannot play: it is already playing.");
             return;
         }
 
         if (!this.defaultTracksLoaded) {
+            console.log("Cannot play: default tracks not loaded.");
             return;
         }
 
@@ -189,7 +269,7 @@ export class Audio {
                     let tickGainNode = ctx.createGain();
                     tickSound.connect(tickGainNode);
                     tickGainNode.gain.value = trackTick.volume;
-                    tickGainNode.connect(track.pannerNode);
+                    tickGainNode.connect(track.gainNode);
                     tickSound.start(nextTickTime);
 
 
@@ -240,6 +320,24 @@ export class Audio {
         sound.buffer = this.buffers[bufferName];
         sound.connect(ctx.destination);
         sound.start(time);
+    }
+
+
+    addNewTrack(name, soundUrl, volume = 1.0, pan = 0) {
+
+        if (this.buffers.hasOwnProperty(name)) {
+            console.log("Track name collision");
+            return;
+        }
+
+        audioLoader(this.audioContext, soundUrl).then(buffer => {
+            this.buffers[name] = buffer;
+            let newTrack = new Track(this.audioContext, name, this.buffers[name], volume, pan);
+            this.tracks.push(newTrack);
+            console.log("Added track ", newTrack);
+        }, error => {
+            console.log("ERROR", error);
+        });
     }
 
 

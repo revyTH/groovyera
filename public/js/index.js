@@ -7,58 +7,7 @@
  "use strict";
 
 import { Audio } from "./audio/Audio";
-import { audioLoader } from "./audio/audio-loader";
 
-
-
-
-function checkiOS() {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-}
-
-
-function initWebAudioCtxForIOS() {
-    let AudioContext = window.AudioContext || window.webkitAudioContext;
-    let _ctx = new AudioContext();
-    let buffer = _ctx.createBuffer(1, 1, 22050);
-    let source = _ctx.createBufferSource();
-    source.buffer = buffer;
-    source.start();
-    // _contextEnabled = true;
-    // console.log('AudioContext enabled', _contextEnabled);
-}
-
-
-
-
-
-function init() {
-
-    let isiOSDevice = checkiOS();
-
-    if (isiOSDevice) {
-        $("#iOS").css({
-            visibility: "visible"
-        });
-
-        $("#enableAudioBtn").on("click", () => {
-            initWebAudioCtxForIOS();
-
-            $("#iOS").css({
-                visibility: "hidden"
-            });
-
-            testing();
-
-        });
-    } else {
-        testing();
-    }
-
-
-
-
-}
 
 
 
@@ -76,10 +25,16 @@ function testing() {
         audio.bpm = Math.floor(audio.bpm);
     });
 
+    $("#startBtn").on("click", () => {
+        audio._start();
+    });
+
     $("#btn").on("click", () => {
 
         let hatTrack = audio.tracks[0];
         hatTrack.setTick(2);
+
+        audio.addNewTrack("tom-elektro", "./assets/audio/tom-elektro.wav", 3);
 
     });
 
@@ -94,8 +49,8 @@ function testing() {
 
 
 
-init();
 
+testing();
 
 
 
