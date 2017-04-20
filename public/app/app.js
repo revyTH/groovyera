@@ -7,11 +7,14 @@
 
 "use strict";
 
-import { Audio } from "./audio/Audio";
 
 import { initRoutes } from "./routes";
+
 import { mainController } from "./components/main/mainController";
 import { testController } from "./components/test/testController";
+
+import { trackDirective } from "./directives/trackDirective";
+import { verticalSliderDirective } from "./directives/verticalSlider-dir";
 
 
 
@@ -27,6 +30,11 @@ import { testController } from "./components/test/testController";
     // bind controllers
     app.controller("mainController", ['$scope', mainController]);
     app.controller("testController", ['$scope', testController]);
+
+
+    // register directives
+    app.directive("verticalSlider", verticalSliderDirective);
+    app.directive("theTrack", trackDirective);
 
 
 

@@ -9,7 +9,8 @@
 
  export class Tick {
 
-     constructor(active = false, volume = 1.0) {
+     constructor(index = 0, active = false, volume = 1.0) {
+         this.index = index;
          this.active = active;
          this.volume = volume;
      }

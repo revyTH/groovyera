@@ -16,6 +16,7 @@
          this.buffer = buffer;
          this.mute = mute;
          this.ticks = [];
+         this.pannerNodeSupported = false;
          this.gainNode = audioContext.createGain();
          this.gainNode.gain.value = volume;
 
@@ -24,6 +25,7 @@
              this.pannerNode.pan.value = pan;
              this.gainNode.connect(this.pannerNode);
              this.pannerNode.connect(audioContext.destination);
+             this.pannerNodeSupported = true;
              console.log("Stereo panner supported");
          } else {
              this.gainNode.connect(audioContext.destination);
@@ -59,7 +61,7 @@
      _initTicks() {
          this.ticks = [];
          for (let i = 0; i <= 16; ++i) {
-             this.ticks.push(new Tick());
+             this.ticks.push(new Tick(i));
          }
      }
 

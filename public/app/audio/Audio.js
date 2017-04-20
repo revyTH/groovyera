@@ -39,7 +39,7 @@ export class Audio {
             this.audioContextEnabled = true;
         }
 
-        this._loadDefaultBuffers();
+        // this._loadDefaultBuffers();
     }
 
 
@@ -88,23 +88,29 @@ export class Audio {
         let ctx = this.audioContext;
         let urls = this.soundURLs;
 
-        Promise.all([
-            audioLoader(ctx, urls.kick),
-            audioLoader(ctx, urls.snare),
-            audioLoader(ctx, urls.hat),
-            audioLoader(ctx, urls.ride)
-        ]).then(values => {
-            this.buffers["kick"] = values[0];
-            this.buffers["snare"] = values[1];
-            this.buffers["hat"] = values[2];
-            this.buffers["ride"] = values[3];
-            this.defaultBuffersLoaded = true;
-            console.log(this.buffers);
+        return new Promise((resolve, reject) => {
+            Promise.all([
+                audioLoader(ctx, urls.kick),
+                audioLoader(ctx, urls.snare),
+                audioLoader(ctx, urls.hat),
+                audioLoader(ctx, urls.ride)
+            ]).then(values => {
+                this.buffers["kick"] = values[0];
+                this.buffers["snare"] = values[1];
+                this.buffers["hat"] = values[2];
+                this.buffers["ride"] = values[3];
+                this.defaultBuffersLoaded = true;
+                console.log(this.buffers);
 
-            this.defaultBuffersLoaded = true;
-            console.log("Default buffers loaded");
-            this._initDefaultTracks();
+                this.defaultBuffersLoaded = true;
+                console.log("Default buffers loaded");
+                // this._initDefaultTracks();
 
+                resolve("Default buffers loaded");
+
+            }, error => {
+                reject(error);
+            });
         });
     }
 
@@ -197,8 +203,7 @@ export class Audio {
         this.tracks.push(hatTrack);
 
         this.defaultTracksLoaded = true;
-        console.log("Default tracks loaded");
-        console.log(this.tracks);
+        console.log("Default tracks loaded" , this.tracks);
 
         // this._start();
     }
@@ -249,14 +254,6 @@ export class Audio {
                         return;
                     }
 
-                    // let trackVolumeNode = ctx.createGain();
-                    // trackVolumeNode.gain.value = track.volume;
-                    // let pannerNode = ctx.createStereoPanner();
-                    // pannerNode.pan.value = track.pan;
-                    //
-                    // trackVolumeNode.connect(pannerNode);
-                    // pannerNode.connect(ctx.destination);
-
 
                     let trackTick = track.ticks[index];
 
@@ -271,25 +268,6 @@ export class Audio {
                     tickGainNode.gain.value = trackTick.volume;
                     tickGainNode.connect(track.gainNode);
                     tickSound.start(nextTickTime);
-
-
-
-
-
-                    // track.ticks.forEach(tick => {
-                    //     if (tick.index !== index) {
-                    //         return;
-                    //     }
-                    //
-                    //     let tickSound = ctx.createBufferSource();
-                    //     tickSound.buffer = track.buffer;
-                    //     let tickVolumeNode = ctx.createGain();
-                    //     tickVolumeNode.gain.value = tick.volume;
-                    //     tickVolumeNode.connect(trackVolumeNode);
-                    //     tickSound.connect(tickVolumeNode);
-                    //     tickSound.start(nextTickTime);
-                    //
-                    // });
 
                 });
 
@@ -323,6 +301,7 @@ export class Audio {
     }
 
 
+
     addNewTrack(name, soundUrl, volume = 1.0, pan = 0) {
 
         if (this.buffers.hasOwnProperty(name)) {
@@ -339,13 +318,6 @@ export class Audio {
             console.log("ERROR", error);
         });
     }
-
-
-
-
-
-
-
 
 
 }

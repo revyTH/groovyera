@@ -6,6 +6,7 @@
 
 
 body {
+  padding: $body-padding;
   font-family: "Helvetica Neue", "Helvetica";
   font-style: normal;
   font-weight: normal;
@@ -14,6 +15,13 @@ body {
   letter-spacing: .1em;
   color: $scifi-text-hover;
   background: $body-bg;
+
+
+  @include smartphone {
+    padding: 0;
+  }
+
+
 }
 
 

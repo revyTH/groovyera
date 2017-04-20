@@ -17,6 +17,25 @@
 }
 
 
+@mixin desktop {
+  @media (min-width: #{$desktop-min-width}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$tablet-min-width}) and (max-width: #{$desktop-min-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin smartphone {
+  @media (min-width: #{$smartphone-min-width}) and (max-width: #{$tablet-min-width - 1px}) {
+    @content;
+  }
+}
+
+
 //@mixin media-mobile() {
 //  @media only screen and (min-width: $mobile_min_width) and (max-width: $mobile_max_width) and (-webkit-min-device-pixel-ratio: $mobile_min_pixel_ratio) {
 //    @content
@@ -43,8 +62,6 @@
   border-radius: $radius;
   background-clip: padding-box;  /* stops bg color from leaking outside the border: */
 }
-
-
 
 
 

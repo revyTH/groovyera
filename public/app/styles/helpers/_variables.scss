@@ -7,24 +7,20 @@
 
 
 // media queries variables
-$mobile_min_width: 320px;
-$mobile_max_width: 480px;
-$mobile_min_pixel_ratio: 2;
+$mobile-min-pixel-ratio: 2;
+$smartphone-min-width: 320px;
+$tablet-min-width: 768px;
+$desktop-min-width: 1024px;
+
+
+
 
 
 // layout variables
-$body_margin: 0;
-$body_padding: 1em;
+$body-margin: 0;
+$body-padding: 1em;
 
 
 
 
-/*
- * ---------------------------------------------------------------------------------------
- * variables for tablet - desktop
- * ---------------------------------------------------------------------------------------
- */
-$tablet_max_width: 769px;     // 768 should be the max size in portrait orientation when
-$desktop_min_width: 1200px;
 
-$body_padding_desktop: 20px;

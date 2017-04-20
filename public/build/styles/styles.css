@@ -10,11 +10,6 @@
  */
 /*
  * ---------------------------------------------------------------------------------------
- * variables for tablet - desktop
- * ---------------------------------------------------------------------------------------
- */
-/*
- * ---------------------------------------------------------------------------------------
  * _colors.scss
  * ---------------------------------------------------------------------------------------
  */
@@ -62,6 +57,7 @@ table {
  * ---------------------------------------------------------------------------------------
  */
 body {
+  padding: 1em;
   font-family: "Helvetica Neue", "Helvetica";
   font-style: normal;
   font-weight: normal;
@@ -70,6 +66,9 @@ body {
   letter-spacing: .1em;
   color: #1ea4f9;
   background: #212121; }
+  @media (min-width: 320px) and (max-width: 767px) {
+    body {
+      padding: 0; } }
 
 canvas {
   -webkit-touch-callout: none;
@@ -123,5 +122,30 @@ canvas {
   font-weight: bold;
   background-color: #1ea4f9;
   color: white; }
+
+.track-container {
+  left: 0;
+  width: 100%; }
+
+.track {
+  padding: 1em;
+  border-top: 1px solid white;
+  background-color: #212121; }
+
+.ui-slider {
+  border: 1px solid white !important;
+  background-color: #b30015; }
+
+.ui-slider-vertical {
+  width: 2em;
+  height: 100px !important; }
+
+.ui-slider-vertical .ui-slider-handle {
+  left: 0 !important;
+  margin-bottom: 0px !important;
+  width: 100% !important;
+  height: 8px !important;
+  border: 0 !important;
+  background-color: #8a7dff; }
 
 /*# sourceMappingURL=styles.css.map */

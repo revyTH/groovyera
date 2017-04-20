@@ -18,12 +18,7 @@ function testing() {
 
     let audio = new Audio();
 
-    let gui = new dat.GUI();
-    let bpmController = gui.add(audio, "bpm", 60.0, 180.0);
 
-    bpmController.onChange(value => {
-        audio.bpm = Math.floor(audio.bpm);
-    });
 
     $("#startBtn").on("click", () => {
         audio._start();

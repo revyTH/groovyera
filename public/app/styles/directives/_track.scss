@@ -1,0 +1,44 @@
+
+
+.track-container {
+  left: 0;
+  width: 100%;
+}
+
+
+.track {
+
+  //margin-top: 0.5em;
+  //margin-bottom: 0.5em;
+  padding: 1em;
+
+  //@include border-radius(1em);
+  border-top: 1px solid white;
+  background-color: #212121;
+
+}
+
+
+
+
+// jquery slider styles overriding
+
+.ui-slider {
+  //margin: 0 !important;
+  border: 1px solid white !important;
+  background-color: #b30015;
+}
+
+.ui-slider-vertical {
+  width: 2em;
+  height: 100px !important;
+}
+
+.ui-slider-vertical .ui-slider-handle {
+  left: 0 !important;
+  margin-bottom: 0px !important;
+  width: 100% !important;
+  height: 8px !important;
+  border: 0 !important;
+  background-color: #8a7dff;
+}

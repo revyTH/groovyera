@@ -1,0 +1,16 @@
+<div>
+
+    {{track.name}}
+
+    <br>
+
+    <!--<div vertical-slider track="track" style="left: 100px; height:200px;" />-->
+
+
+    <div ng-repeat="tick in track.ticks" style="position: relative; display: inline-block;">
+        <div vertical-slider tick="tick" style="left: 100px; height:200px; display: inline-block;" />
+    </div>
+
+    <br>
+
+</div>

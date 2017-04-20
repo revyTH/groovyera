@@ -24,7 +24,10 @@ module.exports = {
     libs: {
         root: "./public/libs",
         all: [
-            "./public/libs/**.*.js",
+            "./public/libs/jquery/jquery-3.2.1.min.js",
+            "./public/libs/jquery-ui/jquery-ui.min.js",
+            "./public/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js",
+            "./public/libs/*.js",
             "./node_modules/angular/angular.js",
             "./node_modules/angular-route/angular-route.js"
         ]
