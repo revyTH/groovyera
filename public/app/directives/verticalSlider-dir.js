@@ -24,7 +24,7 @@ export function verticalSliderDirective() {
                 min: 0,
                 max: 100,
                 orientation: "vertical",
-                value: scope.tick.volume * 100,
+                value: scope.tick.active ? scope.tick.volume * 100 : 0,
                 slide: (event, ui) => {
 
                     if (!scope.tick.active) {

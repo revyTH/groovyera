@@ -29,7 +29,7 @@ export function mainController($scope) {
 
 
     initDefaultTracks($scope, audio);
-    // initDATgui(audio);
+    initDATgui(audio);
 
 }
 
