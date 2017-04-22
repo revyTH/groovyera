@@ -12,6 +12,7 @@ export function mainController($scope) {
 
     $scope.title = "Main Controller";
     $scope.tracks = [];
+    $scope.ticksElements = [];
     console.log("Main controller");
 
 
@@ -23,9 +24,6 @@ export function mainController($scope) {
     };
 
 
-    $scope.handleFiles = function(files) {
-        console.log("FILES", files);
-    }
 
 
     initDefaultTracks($scope, audio);

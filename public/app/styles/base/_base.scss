@@ -5,8 +5,18 @@
  */
 
 
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+
+html {
+
+}
+
+
 body {
-  padding: $body-padding;
+
   font-family: "Helvetica Neue", "Helvetica";
   font-style: normal;
   font-weight: normal;
@@ -18,12 +28,11 @@ body {
 
 
   @include smartphone {
-    padding: 0;
+
   }
 
 
 }
-
 
 
 
@@ -42,15 +51,11 @@ canvas {
 
 
 
-
-
-
-
-.title {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  font-size: 4em;
-  text-align: center;
-
-  color: red;
+#angularView {
+  position: relative;
+  left: 0;
+  width: 100%;
 }
+
+
+

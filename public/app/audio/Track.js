@@ -12,6 +12,7 @@
  export class Track {
 
      constructor (audioContext, name = "track_default", buffer = undefined, volume = 1.0, pan = 0, mute = false ) {
+         this.audioContext = audioContext;
          this.name = name;
          this.buffer = buffer;
          this.mute = mute;
@@ -60,14 +61,14 @@
       */
      _initTicks() {
          this.ticks = [];
-         for (let i = 0; i <= 16; ++i) {
+         for (let i = 0; i < 16; ++i) {
              this.ticks.push(new Tick(i));
          }
      }
 
 
      setTick(index, active = true, volume = 1.0) {
-         if (index < 1 || index > 16) {
+         if (index < 0 || index > 15) {
              return;
          }
 
@@ -80,7 +81,7 @@
          data.forEach(e => {
 
              if (typeof e === "object") {
-                 if (!e.index || e.index < 1 || e.index > 16) {
+                 if (!e.index || e.index < 0 || e.index > 15) {
                      return;
                  }
 
@@ -93,6 +94,12 @@
              }
 
          });
+     }
+
+
+     setBuffer(buffer, fileName) {
+         this.buffer = buffer;
+         console.log("Track " + this.name + ": audio buffer changed ( " + fileName + " )");
      }
 
 

@@ -13,8 +13,8 @@ import { initRoutes } from "./routes";
 import { mainController } from "./components/main/mainController";
 import { testController } from "./components/test/testController";
 
-import { trackDirective } from "./directives/trackDirective";
-import { verticalSliderDirective } from "./directives/verticalSlider-dir";
+import { trackDirective } from "./directives/track-directive";
+import { tickSliderDirective } from "./directives/tickSlider-directive";
 
 
 
@@ -33,9 +33,21 @@ import { verticalSliderDirective } from "./directives/verticalSlider-dir";
 
 
     // register directives
-    app.directive("verticalSlider", verticalSliderDirective);
-    app.directive("theTrack", trackDirective);
+    app.directive("tickSlider", tickSliderDirective);
+    app.directive("theTrack", ["supportedAudioFormats", trackDirective]);
 
+
+
+    let supportedAudioFormats = new Set();
+    supportedAudioFormats.add("audio/wav");
+    supportedAudioFormats.add("audio/x-wav");
+    supportedAudioFormats.add("audio/mp3");
+    supportedAudioFormats.add("audio/x-mp3");
+    supportedAudioFormats.add("audio/ogg");
+    supportedAudioFormats.add("audio/x-ogg");
+
+    // constants
+    app.constant("supportedAudioFormats", supportedAudioFormats);
 
 
 

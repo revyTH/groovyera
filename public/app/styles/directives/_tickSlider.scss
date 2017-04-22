@@ -1,0 +1,31 @@
+
+
+
+
+
+
+
+
+// jquery slider styles overriding
+
+.ui-slider {
+  //margin: 0 !important;
+  //margin-left: 2px;
+  margin-right: 8px;
+  border: 1px solid white !important;
+  background-color: black;
+}
+
+.ui-slider-vertical {
+  width: 1em;
+  height: 4em !important;
+}
+
+.ui-slider-vertical .ui-slider-handle {
+  left: 0 !important;
+  margin-bottom: 0px !important;
+  width: 100% !important;
+  height: 8px !important;
+  border: 0 !important;
+  background-color: $scifi-text-hover;
+}

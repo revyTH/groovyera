@@ -6,18 +6,25 @@
 
 "use strict";
 
-export function verticalSliderDirective() {
+export function tickSliderDirective() {
 
     return {
         restrict: 'AE',
         replace: 'false',
-        scope: {tick: "="},
+        scope: {
+            tick: "=",
+            ticksElements: "=",
+            resizeTick: "="
+        },
         link: (scope, elem, attrs) => {
 
-            if (scope.tick.index === 0) {
-                return;
-            }
-            console.log(scope.tick);
+
+            // console.log(scope.tick);
+            scope.ticksElements.push(elem);
+            scope.resizeTick(elem);
+
+
+
 
 
             elem.slider({
@@ -29,12 +36,10 @@ export function verticalSliderDirective() {
 
                     if (!scope.tick.active) {
                         scope.tick.active = true;
-                        // console.log("Tick not active");
-                        // return;
                     }
 
                     scope.tick.volume = ui.value * 0.01;
-                    console.log(scope.tick.volume);
+                    // console.log(scope.tick.volume);
                 }
             }).draggable();
         }

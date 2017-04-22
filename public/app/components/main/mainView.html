@@ -3,26 +3,36 @@
 
 
 <h1>{{title}}</h1>
+<br><br><br><br><br>
 
 
-<div class="track-container">
-    <ul ng-repeat="track in tracks">
-        <li>
-            <div the-track track="track"  />
-            <!--<div vertical-slider track="track" style="left: 100px; height:200px;" />-->
+
+
+
+<div class="tracks-container">
+
+    <ul>
+        <li ng-repeat="track in tracks">
+            <div class="track-separator"></div>
+            <div the-track track="track" ticks-elements="ticksElements" class="track"></div>
         </li>
+        <div class="track-separator"></div>
     </ul>
+
 </div>
 
 
-<br><br><br><br><br><br><br><br><br>
+
+
+
+<br><br><br><br><br><br><br>
 
 
 
 
 
 <button id="startBtn" ng-click="startSequencer()">START</button>
-<input type="file" id="input" onchange="angular.element(this).scope().handleFiles(this.files)">
+
 
 
 

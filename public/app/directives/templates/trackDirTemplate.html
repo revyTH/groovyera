@@ -1,16 +1,36 @@
+
 <div>
 
-    {{track.name}}
+    <div class="track-top-container">
 
-    <br>
+        {{track.name}}
 
-    <!--<div vertical-slider track="track" style="left: 100px; height:200px;" />-->
+        <input type="file" id="input" onchange="angular.element(this).scope().handleFiles(this.files)">
 
-
-    <div ng-repeat="tick in track.ticks" style="position: relative; display: inline-block;">
-        <div vertical-slider tick="tick" style="left: 100px; height:200px; display: inline-block;" />
     </div>
 
-    <br>
+
+
+    <div class="separator"></div>
+
+
+
+    <div class="track-bottom-container">
+        <div class="ticks-container">
+            <ul>
+                <li ng-repeat="tick in track.ticks" style="display: inline-block">
+                    <div tick-slider tick="tick" ticks-elements="ticksElements" resize-tick="resizeTick" class="tick"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
 
 </div>
+
+
+
+
+
+
+

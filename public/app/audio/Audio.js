@@ -124,76 +124,76 @@ export class Audio {
         this.tracks = [];
 
         let kickTrack = new Track(this.audioContext, "kick", this.buffers["kick"]);
-        kickTrack.setTicksFromArray([1,5,9,13]);
+        kickTrack.setTicksFromArray([0,4,8,12]);
         let snareTrack = new Track(this.audioContext, "snare", this.buffers["snare"], 1, 0.1);
-        snareTrack.setTicksFromArray([5,13]);
+        snareTrack.setTicksFromArray([4,12]);
         let hatTrack = new Track(this.audioContext, "hat", this.buffers["hat"], 0.85, -1);
         // hatTrack.setTicksFromArray([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
 
 
         hatTrack.setTicksFromArray([
             {
-                index: 1,
+                index: 0,
                 volume: 0.9
+            },
+            {
+                index: 1,
+                volume: 0.5
             },
             {
                 index: 2,
-                volume: 0.5
+                volume: 1.2
             },
             {
                 index: 3,
-                volume: 1.2
+                volume: 0.4
             },
             {
                 index: 4,
-                volume: 0.4
+                volume: 0.9
             },
             {
                 index: 5,
-                volume: 0.9
+                volume: 0.5
             },
             {
                 index: 6,
-                volume: 0.5
+                volume: 1.2
             },
             {
                 index: 7,
-                volume: 1.2
+                volume: 0.4
             },
             {
                 index: 8,
-                volume: 0.4
+                volume: 0.9
             },
             {
                 index: 9,
-                volume: 0.9
+                volume: 0.5
             },
             {
                 index: 10,
-                volume: 0.5
+                volume: 1.2
             },
             {
                 index: 11,
-                volume: 1.2
-            },
-            {
-                index: 12,
                 volume: 0.4
             },
             {
-                index: 13,
+                index: 12,
                 volume: 0.9
             },
             {
-                index: 14,
+                index: 13,
                 volume: 0.5
             },
             {
-                index: 15,
+                index: 14,
                 volume: 1.2
             },
             {
-                index: 16,
+                index: 15,
                 volume: 0.4
             }
         ]);
@@ -237,7 +237,7 @@ export class Audio {
         let ctx = this.audioContext;
         let startTime = ctx.currentTime;
         let nextTickTime = startTime + self.tickTime;
-        let index = 1;
+        let index = 0;
 
         function scheduler() {
 
@@ -273,11 +273,11 @@ export class Audio {
 
 
                 self.currentTickIndex = index;
-                console.log("Tick " + self.currentTickIndex);
+                // console.log("Tick " + self.currentTickIndex);
                 nextTickTime += self.tickTime;
 
                 index += 1;
-                index = index > 16 ? 1 : index;
+                index = index === 16 ? 0 : index;
 
             }
 

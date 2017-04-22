@@ -1,6 +1,8 @@
 
 
-.track-container {
+
+.tracks-container {
+  position: relative;
   left: 0;
   width: 100%;
 }
@@ -8,37 +10,63 @@
 
 .track {
 
-  //margin-top: 0.5em;
-  //margin-bottom: 0.5em;
+  position: relative;
   padding: 1em;
+  width: 100%;
 
-  //@include border-radius(1em);
-  border-top: 1px solid white;
-  background-color: #212121;
+  @include linear-gradient($track-bg-start, $track-bg-end);
+}
 
+
+.track-top-container {
+  position: relative;
+  left: 0;
+  width: 100%;
+}
+
+.track-bottom-container {
+  position: relative;
+  left: 0;
+  width: 100%;
+}
+
+
+.ticks-container {
+  position: relative;
+  left: 0;
+  background-color: purple;
+}
+
+
+.tick {
+  //height: 200px;
+  //display: inline-block;
+}
+
+
+.track-separator {
+  position: relative;
+  left: 0;
+  width : 100%;
+  height: 4px;
+
+  @include linear-gradient(to bottom, #222 8%, #ddd 84%, #222 8%);
+
+}
+
+
+.separator {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  position: relative;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 
 
 
-// jquery slider styles overriding
 
-.ui-slider {
-  //margin: 0 !important;
-  border: 1px solid white !important;
-  background-color: #b30015;
-}
 
-.ui-slider-vertical {
-  width: 2em;
-  height: 100px !important;
-}
-
-.ui-slider-vertical .ui-slider-handle {
-  left: 0 !important;
-  margin-bottom: 0px !important;
-  width: 100% !important;
-  height: 8px !important;
-  border: 0 !important;
-  background-color: #8a7dff;
-}
