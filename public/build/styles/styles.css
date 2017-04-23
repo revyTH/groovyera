@@ -131,19 +131,20 @@ canvas {
   color: white; }
 
 .ui-slider {
-  margin-right: 8px;
   border: 1px solid white !important;
-  background-color: black; }
+  background: blue;
+  background: -webkit-linear-gradient(legacy-direction(black), blue);
+  background: linear-gradient(black, blue); }
 
 .ui-slider-vertical {
   width: 1em;
-  height: 4em !important; }
+  height: 2em !important; }
 
 .ui-slider-vertical .ui-slider-handle {
   left: 0 !important;
   margin-bottom: 0px !important;
   width: 100% !important;
-  height: 8px !important;
+  height: 4px !important;
   border: 0 !important;
   background-color: #1ea4f9; }
 
@@ -160,20 +161,42 @@ canvas {
   background: -webkit-linear-gradient(legacy-direction(#616564), #292a2b);
   background: linear-gradient(#616564, #292a2b); }
 
+.track-name {
+  display: inline-block;
+  position: relative;
+  top: 2px;
+  margin: 0;
+  border: 0;
+  font-size: 1em;
+  font-weight: bold;
+  color: white;
+  background: none;
+  background-color: transparent;
+  outline: none; }
+
 .track-top-container {
   position: relative;
   left: 0;
   width: 100%; }
 
 .track-bottom-container {
+  margin-top: 1em;
   position: relative;
   left: 0;
-  width: 100%; }
+  width: 100%;
+  height: 2em; }
 
-.ticks-container {
+.track-dragfile {
+  background: #bbb;
+  background: -webkit-linear-gradient(legacy-direction(#888), #bbb);
+  background: linear-gradient(#888, #bbb); }
+
+.track-top-header {
+  display: inline-block;
   position: relative;
+  top: 0;
   left: 0;
-  background-color: purple; }
+  height: 100%; }
 
 .track-separator {
   position: relative;
@@ -184,13 +207,44 @@ canvas {
   background: -webkit-linear-gradient(legacy-direction(to bottom), #222 8%, #ddd 84%, #222 8%);
   background: linear-gradient(to bottom, #222 8%, #ddd 84%, #222 8%); }
 
+.track-remove-button {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  position: absolute;
+  top: 0;
+  right: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */
+  background-color: transparent;
+  outline: none; }
+
+.ticks-container {
+  position: relative;
+  left: 0;
+  background-color: purple; }
+
 .separator {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
   position: relative;
   left: 0;
   width: 100%;
   height: 1px;
   background-color: rgba(255, 255, 255, 0.5); }
+
+.play-sound-button {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  width: 1.5em;
+  height: 1.5em;
+  -webkit-border-radius: 0.75em;
+  border-radius: 0.75em;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */
+  outline: none; }
 
 /*# sourceMappingURL=styles.css.map */

@@ -7,11 +7,13 @@
  "use strict";
 
  import { Tick } from "./Tick";
+import { guid } from "../utils/utils";
 
 
  export class Track {
 
      constructor (audioContext, name = "track_default", buffer = undefined, volume = 1.0, pan = 0, mute = false ) {
+         this.id = guid();
          this.audioContext = audioContext;
          this.name = name;
          this.buffer = buffer;
@@ -100,6 +102,15 @@
      setBuffer(buffer, fileName) {
          this.buffer = buffer;
          console.log("Track " + this.name + ": audio buffer changed ( " + fileName + " )");
+     }
+
+
+     playSound() {
+         if (!this.audioContext) return;
+         let sound = this.audioContext.createBufferSource();
+         sound.buffer = this.buffer;
+         sound.connect(this.audioContext.destination);
+         sound.start();
      }
 
 

@@ -13,6 +13,7 @@ export function mainController($scope) {
     $scope.title = "Main Controller";
     $scope.tracks = [];
     $scope.ticksElements = [];
+    $scope.removeTrack = removeTrack;
     console.log("Main controller");
 
 
@@ -24,6 +25,19 @@ export function mainController($scope) {
     };
 
 
+
+
+    function removeTrack(track) {
+        let tracks = $scope.tracks;
+        for (let i = 0; i < tracks.length; ++i) {
+            if (tracks[i].id === track.id) {
+                // console.log(tracks[i], track);
+                // console.log(i);
+                $scope.tracks.splice(i, 1);
+                break;
+            }
+        }
+    }
 
 
     initDefaultTracks($scope, audio);
@@ -54,3 +68,5 @@ function initDATgui(audio) {
         audio.bpm = Math.floor(audio.bpm);
     });
 }
+
+

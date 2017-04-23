@@ -1,17 +1,27 @@
 
 <div>
 
+    <button name="removeTrackButton" class="track-remove-button" data-ng-click="removeTrack(track);">X</button>
+
     <div class="track-top-container">
 
-        {{track.name}}
 
-        <input type="file" id="input" onchange="angular.element(this).scope().handleFiles(this.files)">
+        <div class="track-top-header">
+            <div>
+                <button name="playSoundButton" class="play-sound-button" data-ng-click="playSound();"></button>
+                <input type="text" data-ng-model="track.name" class="track-name">
+            </div>
+
+            <div style="margin-top: 0.5em;">
+                <input type="file" name="loadFile" style="color: transparent;" onchange="angular.element(this).scope().handleFiles(this.files)">
+            </div>
+        </div>
 
     </div>
 
 
 
-    <div class="separator"></div>
+    <!--<div class="separator"></div>-->
 
 
 
