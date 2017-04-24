@@ -21,10 +21,6 @@ export function tickSliderDirective() {
 
             // console.log(scope.tick);
             scope.ticksElements.push(elem);
-            scope.resizeTick(elem);
-
-
-
 
 
             elem.slider({
@@ -42,6 +38,11 @@ export function tickSliderDirective() {
                     // console.log(scope.tick.volume);
                 }
             }).draggable();
+
+
+
+            scope.resizeTick(elem);
+
         }
     };
 

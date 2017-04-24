@@ -20,9 +20,13 @@
 .track-name {
   display: inline-block;
   position: relative;
-  top: 2px;
+  overflow: scroll;
+  line-height: normal;
+  //top: 2px;
   margin: 0;
+  padding: 0;
   border: 0;
+  width: 6em;
   font-size: 1em;
   font-weight: bold;
   color: white;
@@ -34,18 +38,14 @@
 
 .track-top-container {
   position: relative;
+  top: 0;
   left: 0;
   width: 100%;
+  height: 4em;
   //height: $track-container-height;
 }
 
-.track-bottom-container {
-  margin-top: 1em;
-  position: relative;
-  left: 0;
-  width: 100%;
-  height: $track-container-height;
-}
+
 
 
 .track-dragfile {
@@ -55,11 +55,66 @@
 
 .track-top-header {
   display: inline-block;
+  vertical-align:top;
   position: relative;
   top: 0;
   left: 0;
+  width: auto;
   height: 100%;
+  //background-color: #8a7dff;
 }
+
+.track-top-controls {
+  position: absolute;
+  //display: inline-block;
+  //vertical-align:top;
+  //position: relative;
+  top: 0;
+  right: 0;
+  //width: 8em;
+  height: 100%;
+  //background-color: #b30015;
+}
+
+
+.track-control-label {
+  display: inline-block;
+  margin-right: 1em;
+  font-size: 0.5em;
+  color: #bbb;
+
+
+  @include smartphone {
+    display: none;
+  }
+}
+
+
+
+
+
+.ui-slider.ui-slider-horizontal {
+  position: relative;
+  top: 0;
+  height: 0.5em;
+  width: 6em;
+
+  @include smartphone {
+    width: 4em;
+  }
+}
+
+
+.ui-slider .ui-slider-handle {
+  height: 1em;
+  width: 4px;
+  padding-left: 12px;
+  background-color: $scifi-text-hover;
+  outline: none;
+
+}
+
+
 
 .track-separator {
   position: relative;
@@ -90,18 +145,41 @@
 
 
 
-
-
-.ticks-container {
+.track-bottom-container {
+  margin-top: 1em;
   position: relative;
   left: 0;
-  background-color: purple;
+  width: 100%;
+}
+
+.ticks-panel {
+  padding: 1em;
+  padding-bottom: 0;
+  position: relative;
+  left: 0;
+  width: 100%;
+  @include border-radius(0.5em);
+  box-shadow:inset 0 0 10px #ddd;
+  background-color: #111;
 }
 
 
-.tick {
-  //height: 200px;
-  //display: inline-block;
+
+.ticks-container {
+  list-style: none;
+  padding: 0;
+  text-align: justify;
+}
+
+.ticks-container:after {
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 0;
+}
+
+.ticks-container li {
+  display: inline-block;
 }
 
 
@@ -121,12 +199,21 @@
 
 .play-sound-button {
   display: inline-block;
+  line-height: normal;
+  position: relative;
   margin: 0;
   padding: 0;
+  top: 0;
+  left: 0;
   width: 1.5em;
   height: 1.5em;
   @include border-radius(0.75em);
   outline: none;
+}
+
+.ui-button[name="playSoundButton"] {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 

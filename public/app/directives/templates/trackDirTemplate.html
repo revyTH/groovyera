@@ -4,19 +4,30 @@
     <button name="removeTrackButton" class="track-remove-button" data-ng-click="removeTrack(track);">X</button>
 
     <div class="track-top-container">
-
-
         <div class="track-top-header">
-            <div>
+            <div style="width: auto; display: inline-block; vertical-align: middle;">
                 <button name="playSoundButton" class="play-sound-button" data-ng-click="playSound();"></button>
                 <input type="text" data-ng-model="track.name" class="track-name">
             </div>
 
             <div style="margin-top: 0.5em;">
-                <input type="file" name="loadFile" style="color: transparent;" onchange="angular.element(this).scope().handleFiles(this.files)">
+                <input type="file" name="loadFile" style="color: transparent; width: 8em;" onchange="angular.element(this).scope().handleFiles(this.files)">
             </div>
         </div>
 
+        <div class="track-top-controls">
+            <div style="display: inline-block; vertical-align: top; position: relative; top: 0; left: 0; height: 100%;">
+                <div>
+                    <label for="trackVolumeSlider" class="track-control-label volume-label">vol</label>
+                    <div id="trackVolumeSlider" style="margin-top: 1em; display: inline-block"></div>
+                </div>
+                <div>
+                    <label for="trackPanSlider" class="track-control-label pan-label">pan</label>
+                    <div id="trackPanSlider" style="margin-top: 1.5em; display: inline-block"></div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 
@@ -26,14 +37,21 @@
 
 
     <div class="track-bottom-container">
-        <div class="ticks-container">
-            <ul>
-                <li ng-repeat="tick in track.ticks" style="display: inline-block">
-                    <div tick-slider tick="tick" ticks-elements="ticksElements" resize-tick="resizeTick" class="tick"></div>
+        <div class="ticks-panel">
+            <ul class="ticks-container">
+                <span ng-repeat-start="tick in track.ticks"></span>
+                <li>
+                    <div tick-slider tick="tick" ticks-elements="ticksElements" resize-tick="resizeTick"></div>
                 </li>
+                <span ng-repeat-end></span>
             </ul>
         </div>
     </div>
+
+
+
+
+
 
 
 </div>

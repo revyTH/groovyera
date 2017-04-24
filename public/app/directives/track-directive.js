@@ -30,7 +30,7 @@ export function trackDirective(supportedAudioFormats) {
 
             /*
              * ---------------------------------------------------------------------------------------
-             * styles
+             * styles & widgets
              * ---------------------------------------------------------------------------------------
              */
 
@@ -43,6 +43,34 @@ export function trackDirective(supportedAudioFormats) {
                 icon: "ui-icon-circle-triangle-e",
                 showLabel: false
             });
+
+            elem.find('div[id="trackVolumeSlider"]').slider({
+                min: 0,
+                max: 100,
+                orientation: "horizontal",
+                value: scope.track.gainNode.gain.value * 100,
+                slide: (event, ui) => {
+                    scope.track.gainNode.gain.value = ui.value * 0.01;
+                }
+            }).draggable();
+
+            if (scope.track.pannerNodeSupported) {
+                elem.find('div[id="trackPanSlider"]').slider({
+                    min: -100,
+                    max: 100,
+                    orientation: "horizontal",
+                    value: scope.track.pannerNode.pan.value * 100,
+                    slide: (event, ui) => {
+                        scope.track.pannerNode.pan.value = ui.value * 0.01;
+                    }
+                }).draggable();
+            } else {
+                elem.find('div[id="trackPanSlider"]').remove();
+                elem.find(".pan-label").remove();
+            }
+
+
+
 
 
 
@@ -58,6 +86,8 @@ export function trackDirective(supportedAudioFormats) {
                     resizeTick(e);
                 });
             });
+
+
 
 
             elem.on("dragover", onDragOver);
@@ -78,16 +108,33 @@ export function trackDirective(supportedAudioFormats) {
              * ---------------------------------------------------------------------------------------
              */
 
-            function resizeTick(elem) {
-                let trackWidth = $(".track").width();
-                let margin = 4;
-                let tickWidth = (trackWidth / 16.0) - margin;
+            function resizeTick(tickElem) {
+                let ticksContainerWidth = elem.find(".ticks-container").width();
+                console.log(ticksContainerWidth);
+                let margin = 8;
+                let tickWidth = Math.floor((ticksContainerWidth - 15 * margin) / 16.0);
+                console.log(tickWidth);
+                console.log();
 
 
-                elem.css({
-                    width: tickWidth,
-                    marginRight: margin
-                });
+                // tickElem.css({
+                //     width: 32,
+                //     marginRight: "8px !important"
+                // });
+
+
+                // tickElem.parent().css({
+                //     width: tickWidth,
+                //     marginRight: margin
+                // });
+
+
+
+                // tickElem.find(".ui-slider-handle").css({
+                //
+                // });
+
+                console.log("Resize");
             }
 
 

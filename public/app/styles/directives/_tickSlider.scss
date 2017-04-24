@@ -9,20 +9,22 @@
 // jquery slider styles overriding
 
 .ui-slider {
-  border: 1px solid white !important;
-  @include linear-gradient(black, blue);
+
 }
 
 .ui-slider-vertical {
-  width: 1em;
+  width: 8px;
+  //width: 100% !important;
+
   height: $track-container-height !important;
+  border: 1px solid white !important;
+
+  @include linear-gradient($slider-start, $slider-end);
 }
 
 .ui-slider-vertical .ui-slider-handle {
-  left: 0 !important;
-  margin-bottom: 0px !important;
-  width: 100% !important;
-  height: 4px !important;
-  border: 0 !important;
-  background-color: $scifi-text-hover;
+  margin-bottom: -4px !important;
+  left: -4px !important;
+  height: 0.5em !important;
+
 }
