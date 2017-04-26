@@ -157,19 +157,17 @@ canvas {
 
 .track-name {
   display: inline-block;
+  vertical-align: middle;
   position: relative;
-  top: 4px;
   overflow: scroll;
-  line-height: normal;
   margin: 0;
   padding: 0;
   border: 0;
-  width: 6em;
+  width: 5em;
   font-size: 1em;
   font-weight: bold;
   color: white;
   background: none;
-  background-color: transparent;
   outline: none; }
 
 .track-top-container {
@@ -177,37 +175,16 @@ canvas {
   top: 0;
   left: 0;
   width: 100%;
-  height: 4em; }
+  min-height: 4em; }
 
 .track-dragfile {
   background: #bbb;
   background: -webkit-linear-gradient(legacy-direction(#888), #bbb);
   background: linear-gradient(#888, #bbb); }
 
-.track-top-header {
-  display: inline-block;
-  vertical-align: top;
-  position: relative;
-  top: 0;
-  left: 0;
-  width: auto;
-  height: 100%; }
-
-.track-top-controls {
-  display: inline-block;
-  vertical-align: top;
-  position: relative;
-  width: auto;
-  height: 100%; }
-
-.track-top-slider-controls {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%; }
-
 .track-control-label {
   display: inline-block;
+  vertical-align: middle;
   margin-right: 1em;
   font-size: 0.5em;
   color: #bbb; }
@@ -216,7 +193,13 @@ canvas {
       display: none; } }
 
 .track-control-button {
-  outline: none; }
+  display: inline-block;
+  vertical-align: middle;
+  outline: none;
+  width: 4em; }
+  @media (min-width: 320px) and (max-width: 511px) {
+    .track-control-button {
+      width: 3em; } }
 
 .track-control-button.ui-button {
   display: inline-block;
@@ -316,16 +299,14 @@ canvas {
 
 .play-sound-button {
   display: inline-block;
-  line-height: normal;
+  vertical-align: middle;
   position: relative;
   margin: 0;
   padding: 0;
-  top: 0;
-  left: 0;
-  width: 1.5em;
-  height: 1.5em;
-  -webkit-border-radius: 0.75em;
-  border-radius: 0.75em;
+  width: 2em;
+  height: 2em;
+  -webkit-border-radius: 1em;
+  border-radius: 1em;
   background-clip: padding-box;
   /* stops bg color from leaking outside the border: */
   outline: none; }

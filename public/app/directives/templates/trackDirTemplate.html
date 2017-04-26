@@ -3,57 +3,40 @@
 
     <button name="removeTrackButton" class="track-remove-button" data-ng-click="removeTrack(track);">X</button>
 
+
     <div class="track-top-container">
-        <div class="track-top-header">
-            <div style="width: auto; display: inline-block; vertical-align: middle;">
-                <button name="playSoundButton" class="play-sound-button" data-ng-click="playSound();"></button>
-                <input type="text" data-ng-model="track.name" class="track-name">
-            </div>
 
-            <div style="margin-top: 0.5em; vertical-align: top;">
-                <input type="file" name="loadFile" style="color: transparent; width: 8em;" onchange="angular.element(this).scope().handleFiles(this.files)">
+        <div style="width: 100%; min-height: 2em; line-height: 2em; ">
+            <button name="playSoundButton" class="play-sound-button" data-ng-click="playSound();"></button>
+            <input type="text" data-ng-model="track.name" class="track-name">
 
-                <button name="soloTrackButton" class="track-control-button" data-ng-class="{'solo-button-active' : track.solo}"
-                        data-ng-click="onSoloTrack();">s</button>
-                <button name="muteTrackButton" class="track-control-button" data-ng-class="{'mute-button-active' : track.mute}"
-                        data-ng-click="onMuteTrack();" >m</button>
+            <button name="soloTrackButton" class="track-control-button" data-ng-class="{'solo-button-active' : track.solo}"
+            data-ng-click="onSoloTrack();">s</button>
+            <button name="muteTrackButton" class="track-control-button" data-ng-class="{'mute-button-active' : track.mute}"
+            data-ng-click="onMuteTrack();" >m</button>
+
+
+            <div style="position: absolute; right: 0; top: 0; height: 2em; line-height: 2em;">
+                <label for="trackVolumeSlider" class="track-control-label volume-label">vol</label>
+                <div id="trackVolumeSlider" style="display: inline-block; vertical-align: middle;"></div>
             </div>
         </div>
 
-        <!--<div class="track-top-controls">-->
-            <!--<button name="soloTrackButton" class="track-control-button" data-ng-class="{'solo-button-active' : track.solo}"-->
-                    <!--data-ng-click="onSoloTrack();">s</button>-->
-            <!--<button name="muteTrackButton" class="track-control-button" data-ng-class="{'mute-button-active' : track.mute}"-->
-                    <!--data-ng-click="onMuteTrack();" >m</button>-->
-        <!--</div>-->
+
+        <div style="width: 100%; min-height: 2em; line-height: 2em;">
+            <input type="file" name="loadFile" style="display: inline-block; vertical-align: middle; color: transparent; width: 8em;"
+                   onchange="angular.element(this).scope().handleFiles(this.files)">
 
 
-        <div class="track-top-slider-controls">
-            <!--<div style="display: inline-block; vertical-align: top; position: relative; top: 0; left: 0; height: 100%;">-->
-                <!--<div>-->
-                    <!--<label for="trackVolumeSlider" class="track-control-label volume-label">vol</label>-->
-                    <!--<div id="trackVolumeSlider" style="margin-top: 1em; display: inline-block"></div>-->
-                <!--</div>-->
-                <!--<div>-->
-                    <!--<label for="trackPanSlider" class="track-control-label pan-label">pan</label>-->
-                    <!--<div id="trackPanSlider" style="margin-top: 1.5em; display: inline-block"></div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-
-                <div style="display: block; position: relative; left: 0; width: 100%;">
-                    <label for="trackVolumeSlider" class="track-control-label volume-label">vol</label>
-                    <div id="trackVolumeSlider" style="display: inline-block"></div>
-                </div>
-                <div style="display: block; position: relative; left: 0; bottom: 0; width: 100%;">
-                    <label for="trackPanSlider" class="track-control-label pan-label">pan</label>
-                    <div id="trackPanSlider" style="display: inline-block"></div>
-                </div>
-
-
-
+            <div style="position: absolute; right: 0; bottom: 0; height: 2em; line-height: 2em;">
+                <label for="trackPanSlider" class="track-control-label pan-label">pan</label>
+                <div id="trackPanSlider" style="display: inline-block; vertical-align: middle"></div>
+            </div>
         </div>
+
     </div>
+
+
 
 
 
@@ -72,8 +55,6 @@
             </ul>
         </div>
     </div>
-
-
 
 
 
