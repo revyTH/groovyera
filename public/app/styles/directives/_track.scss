@@ -3,6 +3,7 @@
 
 .tracks-container {
   position: relative;
+  top: 10em;
   left: 0;
   width: 100%;
 }
@@ -104,11 +105,18 @@
   top: 0;
   height: 0.5em;
   width: 6em;
-  @include linear-gradient(to right, $slider-start, $slider-end);
 
   @include smartphone {
     width: 4em;
   }
+}
+
+.ui-slider[id="trackVolumeSlider"] {
+  @include linear-gradient(to right, $slider-end, $slider-start);
+}
+
+.ui-slider[id="trackPanSlider"] {
+  @include linear-gradient(to right, $slider-start, $slider-end, $slider-start);
 }
 
 

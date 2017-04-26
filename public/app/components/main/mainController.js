@@ -10,6 +10,19 @@ import { DrumMachine } from "../../audio/DrumMachine";
 
 export function mainController($scope) {
 
+    $scope.safeApply = function(fn) {
+        var phase = this.$root.$$phase;
+        if(phase == '$apply' || phase == '$digest') {
+            if(fn && (typeof(fn) === 'function')) {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
+
+
+
     $scope.title = "Main Controller";
     $scope.tracks = [];
     $scope.ticksElements = [];
@@ -20,8 +33,56 @@ export function mainController($scope) {
     let drumMachine = new DrumMachine();
 
 
+    $scope.beats = new Array(drumMachine.numberOfBeats).fill(false);
+    // drumMachine.addCallBackInLoop(updateBeatIndicators);
+
+
+    $(window).ready(() => {
+
+        let beatIndicatorsContainer = document.getElementById("beatIndicatorsContainer");
+        let beatIndicators = beatIndicatorsContainer.getElementsByClassName("tick-indicator");
+
+        function updateBeatIndicators(previousTickIndex,tickIndex) {
+            $(beatIndicators[previousTickIndex]).removeClass("tick-indicator-active");
+            $(beatIndicators[tickIndex]).addClass("tick-indicator-active");
+        }
+
+        drumMachine.addCallBackInLoop(updateBeatIndicators);
+
+    });
+
+
+
+
+
+
+
+
+    // $(window).ready(() => {
+    //     let container = $("#beatIndicatorsContainer");
+    //     drumMachine.beats.forEach(e => {
+    //         container.append(createBeatIndicator());
+    //     });
+    // });
+    //
+    //
+    //
+    //
+    // function createBeatIndicator() {
+    //     return $("<li></li>\n\r").append($("<div></div> ").addClass("tick-indicator"));
+    // }
+
+
+
+
     $scope.startSequencer = () => {
         drumMachine._start();
+    };
+
+    $scope.stopSequencer = () => {
+        drumMachine._stop();
+        let indicators = document.getElementById("beatIndicatorsContainer").getElementsByClassName("tick-indicator");
+        $(indicators).removeClass("tick-indicator-active");
     };
 
 

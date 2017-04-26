@@ -13,19 +13,24 @@ export class DrumMachine {
 
     constructor() {
         this.tag = "[DrumMachine.js]";
+        this.numberOfBeats = 16;
         let AudioContext = window.AudioContext || window.webkitAudioContext;
         this.audioContext = new AudioContext();
         this.bpm = 120.0;
         this.tickTime = 60.0 / this.bpm / 4.0;  // 1/16 note
         this.isPlaying = false;
+        this.isStopped = false;
         this.buffers = {};
         this.tracks = {};
+        this.beats = [];
         this.defaultBuffersLoaded = false;
         this.defaultTracksLoaded = false;
         this.tracksInSolo = new Set();
         this.tracksInMute = new Set();
 
         this.currentTickIndex = 1;
+
+        this.callBacksInLoop = [];
 
 
         this.soundURLs = {
@@ -40,6 +45,8 @@ export class DrumMachine {
         } else {
             this.audioContextEnabled = true;
         }
+
+        this._initBeats();
 
         // this._loadDefaultBuffers();
     }
@@ -60,6 +67,15 @@ export class DrumMachine {
             this._bpm = val;
             this._onBpmChanged();
         }
+    }
+
+
+    _initBeats() {
+        this.beats = [];
+        for (let i = 0; i < this.numberOfBeats; ++i) {
+            this.beats.push(false);
+        }
+        this.beats[0] = true;
     }
 
 
@@ -235,13 +251,21 @@ export class DrumMachine {
         }
 
         this.isPlaying = true;
+        this.isStopped = false;
         let self = this;
         let ctx = this.audioContext;
         let startTime = ctx.currentTime;
         let nextTickTime = startTime + self.tickTime;
         let index = 0;
+        let timeOutID;
 
         function scheduler() {
+
+            if (self.isStopped) {
+                clearTimeout(timeOutID);
+                self.isPlaying = false;
+                return;
+            }
 
             if (nextTickTime <= ctx.currentTime + self.tickTime ) {
             // if (nextTickTime <= ctx.currentTime + 0.05 ) {
@@ -277,19 +301,30 @@ export class DrumMachine {
 
                 self.currentTickIndex = index;
                 // console.log("Tick " + self.currentTickIndex);
+
+                let previousIndex = index === 0 ? (self.numberOfBeats - 1) : index - 1;
+
+                self.callBacksInLoop.forEach(fn => {
+                   fn(previousIndex, index);
+                });
+
                 nextTickTime += self.tickTime;
 
                 index += 1;
-                index = index === 16 ? 0 : index;
+                index = index === self.numberOfBeats ? 0 : index;
 
             }
 
-            window.setTimeout(scheduler, 0);
+            timeOutID = window.setTimeout(scheduler, 0);
         }
 
         scheduler();
     }
 
+
+    _stop() {
+        this.isStopped = true;
+    }
 
 
 
@@ -441,6 +476,12 @@ export class DrumMachine {
             }
 
         }
+    }
+
+
+    addCallBackInLoop(fn) {
+        if (!typeof fn === "function") return;
+        this.callBacksInLoop.push( fn );
     }
 
 
