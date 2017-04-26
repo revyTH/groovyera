@@ -12,26 +12,29 @@ import { guid } from "../utils/utils";
 
  export class Track {
 
-     constructor (audioContext, name = "track_default", buffer = undefined, volume = 1.0, pan = 0, mute = false ) {
+     constructor (drumMachine, name = "track_default", buffer = undefined, volume = 1.0, pan = 0, mute = false ) {
          this.id = guid();
-         this.audioContext = audioContext;
+         this.drumMachine = drumMachine;
+         this.audioContext = drumMachine.audioContext;
          this.name = name;
          this.buffer = buffer;
+         this.solo = false;
          this.mute = mute;
          this.ticks = [];
          this.pannerNodeSupported = false;
-         this.gainNode = audioContext.createGain();
+         this.gainNode = this.audioContext.createGain();
          this.gainNode.gain.value = volume;
 
-         if (typeof audioContext.createStereoPanner === "function") {
-             this.pannerNode = audioContext.createStereoPanner();
+
+         if (typeof this.audioContext.createStereoPanner === "function") {
+             this.pannerNode = this.audioContext.createStereoPanner();
              this.pannerNode.pan.value = pan;
              this.gainNode.connect(this.pannerNode);
-             this.pannerNode.connect(audioContext.destination);
+             this.pannerNode.connect(this.audioContext.destination);
              this.pannerNodeSupported = true;
              console.log("Stereo panner supported");
          } else {
-             this.gainNode.connect(audioContext.destination);
+             this.gainNode.connect(this.audioContext.destination);
              console.log("Stereo panner not supported");
          }
 
@@ -112,6 +115,10 @@ import { guid } from "../utils/utils";
          sound.connect(this.audioContext.destination);
          sound.start();
      }
+
+
+
+
 
 
  }

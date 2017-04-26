@@ -20,6 +20,7 @@
 .track-name {
   display: inline-block;
   position: relative;
+  top: 4px;
   overflow: scroll;
   line-height: normal;
   //top: 2px;
@@ -65,15 +66,18 @@
 }
 
 .track-top-controls {
+  display: inline-block;
+  vertical-align:top;
+  position: relative;
+  width: auto;
+  height: 100%;
+}
+
+.track-top-slider-controls {
   position: absolute;
-  //display: inline-block;
-  //vertical-align:top;
-  //position: relative;
   top: 0;
   right: 0;
-  //width: 8em;
   height: 100%;
-  //background-color: #b30015;
 }
 
 
@@ -83,10 +87,28 @@
   font-size: 0.5em;
   color: #bbb;
 
-
   @include smartphone {
     display: none;
   }
+}
+
+.track-control-button {
+  outline: none;
+}
+
+.track-control-button.ui-button {
+  display: inline-block;
+  font-size: 0.5em;
+}
+
+.solo-button-active {
+  color: #ddd !important;
+  background: $scifi-text-hover !important;
+}
+
+.mute-button-active {
+  color: #ddd !important;
+  background: red !important;
 }
 
 
@@ -98,6 +120,7 @@
   top: 0;
   height: 0.5em;
   width: 6em;
+  @include linear-gradient(to right, $slider-start, $slider-end);
 
   @include smartphone {
     width: 4em;

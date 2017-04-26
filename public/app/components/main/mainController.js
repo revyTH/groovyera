@@ -5,7 +5,7 @@
  */
 
 
-import { Audio } from "../../audio/Audio";
+import { DrumMachine } from "../../audio/DrumMachine";
 
 
 export function mainController($scope) {
@@ -17,41 +17,31 @@ export function mainController($scope) {
     console.log("Main controller");
 
 
-    let audio = new Audio();
+    let drumMachine = new DrumMachine();
 
 
     $scope.startSequencer = () => {
-        audio._start();
+        drumMachine._start();
     };
 
 
-
-
     function removeTrack(track) {
-        let tracks = $scope.tracks;
-        for (let i = 0; i < tracks.length; ++i) {
-            if (tracks[i].id === track.id) {
-                // console.log(tracks[i], track);
-                // console.log(i);
-                $scope.tracks.splice(i, 1);
-                break;
-            }
-        }
+        drumMachine.removeTrack(track.id);
     }
 
 
-    initDefaultTracks($scope, audio);
-    initDATgui(audio);
+    initDefaultTracks($scope, drumMachine);
+    initDATgui(drumMachine);
 
 }
 
 
 
 
-function initDefaultTracks($scope, audio) {
-    audio._loadDefaultBuffers().then(() => {
-        audio._initDefaultTracks();
-        $scope.tracks = audio.tracks;
+function initDefaultTracks($scope, drumMachine) {
+    drumMachine._loadDefaultBuffers().then(() => {
+        drumMachine._initDefaultTracks();
+        $scope.tracks = drumMachine.tracks;
         $scope.$apply();
     }, error => {
         console.log(error);
@@ -60,12 +50,12 @@ function initDefaultTracks($scope, audio) {
 
 
 
-function initDATgui(audio) {
+function initDATgui(drumMachine) {
     let gui = new dat.GUI();
-    let bpmController = gui.add(audio, "bpm", 50.0, 220.0);
+    let bpmController = gui.add(drumMachine, "bpm", 50.0, 220.0);
 
     bpmController.onChange(value => {
-        audio.bpm = Math.floor(audio.bpm);
+        drumMachine.bpm = Math.floor(drumMachine.bpm);
     });
 }
 

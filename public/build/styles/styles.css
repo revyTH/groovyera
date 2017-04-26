@@ -133,10 +133,9 @@ canvas {
 .ui-slider-vertical {
   width: 8px;
   height: 2em !important;
-  border: 1px solid white !important;
-  background: #ddd;
-  background: -webkit-linear-gradient(legacy-direction(#888), #ddd);
-  background: linear-gradient(#888, #ddd); }
+  background: #888;
+  background: -webkit-linear-gradient(legacy-direction(#ddd), #888);
+  background: linear-gradient(#ddd, #888); }
 
 .ui-slider-vertical .ui-slider-handle {
   margin-bottom: -4px !important;
@@ -159,6 +158,7 @@ canvas {
 .track-name {
   display: inline-block;
   position: relative;
+  top: 4px;
   overflow: scroll;
   line-height: normal;
   margin: 0;
@@ -194,6 +194,13 @@ canvas {
   height: 100%; }
 
 .track-top-controls {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: auto;
+  height: 100%; }
+
+.track-top-slider-controls {
   position: absolute;
   top: 0;
   right: 0;
@@ -208,11 +215,29 @@ canvas {
     .track-control-label {
       display: none; } }
 
+.track-control-button {
+  outline: none; }
+
+.track-control-button.ui-button {
+  display: inline-block;
+  font-size: 0.5em; }
+
+.solo-button-active {
+  color: #ddd !important;
+  background: #1ea4f9 !important; }
+
+.mute-button-active {
+  color: #ddd !important;
+  background: red !important; }
+
 .ui-slider.ui-slider-horizontal {
   position: relative;
   top: 0;
   height: 0.5em;
-  width: 6em; }
+  width: 6em;
+  background: #ddd;
+  background: -webkit-linear-gradient(legacy-direction(to right), #ddd, #888);
+  background: linear-gradient(to right, #ddd, #888); }
   @media (min-width: 320px) and (max-width: 511px) {
     .ui-slider.ui-slider-horizontal {
       width: 4em; } }

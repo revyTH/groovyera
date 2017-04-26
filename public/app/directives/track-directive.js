@@ -25,6 +25,8 @@ export function trackDirective(supportedAudioFormats) {
             scope.resizeTick = resizeTick;
             scope.handleFiles = handleFiles;
             scope.playSound = playSound;
+            scope.onSoloTrack = onSoloTrack;
+            scope.onMuteTrack = onMuteTrack;
 
 
 
@@ -67,7 +69,23 @@ export function trackDirective(supportedAudioFormats) {
             } else {
                 elem.find('div[id="trackPanSlider"]').remove();
                 elem.find(".pan-label").remove();
+
+                // push down volume slider
+                elem.find('div[id="trackVolumeSlider"]').css({
+                    // marginTop: 0,
+                    // position: "relative",
+                    // bottom: 0
+                });
             }
+
+
+            elem.find('button[name=soloTrackButton]').button({
+
+            });
+
+            elem.find('button[name=muteTrackButton]').button({
+
+            });
 
 
 
@@ -81,11 +99,11 @@ export function trackDirective(supportedAudioFormats) {
              * ---------------------------------------------------------------------------------------
              */
 
-            $(window).resize(() => {
-                scope.ticksElements.forEach((e) => {
-                    resizeTick(e);
-                });
-            });
+            // $(window).resize(() => {
+            //     scope.ticksElements.forEach((e) => {
+            //         resizeTick(e);
+            //     });
+            // });
 
 
 
@@ -113,8 +131,6 @@ export function trackDirective(supportedAudioFormats) {
                 console.log(ticksContainerWidth);
                 let margin = 8;
                 let tickWidth = Math.floor((ticksContainerWidth - 15 * margin) / 16.0);
-                console.log(tickWidth);
-                console.log();
 
 
                 // tickElem.css({
@@ -134,7 +150,6 @@ export function trackDirective(supportedAudioFormats) {
                 //
                 // });
 
-                console.log("Resize");
             }
 
 
@@ -188,6 +203,15 @@ export function trackDirective(supportedAudioFormats) {
 
             function playSound() {
                 scope.track.playSound();
+            }
+
+
+            function onSoloTrack() {
+                scope.track.drumMachine.soloTrack(scope.track.id);
+            }
+
+            function onMuteTrack() {
+                scope.track.drumMachine.muteTrack(scope.track.id);
             }
 
 

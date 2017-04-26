@@ -17,7 +17,7 @@
   //width: 100% !important;
 
   height: $track-container-height !important;
-  border: 1px solid white !important;
+
 
   @include linear-gradient($slider-start, $slider-end);
 }

@@ -1,6 +1,6 @@
 /*
  * ---------------------------------------------------------------------------------------
- * Audio.js
+ * DrumMachine.js
  * ---------------------------------------------------------------------------------------
  */
 
@@ -9,19 +9,21 @@ import { checkIfiOSdevice } from "../utils/utils";
 import { Track } from "./Track";
 
 
-export class Audio {
+export class DrumMachine {
 
     constructor() {
-        this.tag = "[Audio.js]";
+        this.tag = "[DrumMachine.js]";
         let AudioContext = window.AudioContext || window.webkitAudioContext;
         this.audioContext = new AudioContext();
         this.bpm = 120.0;
         this.tickTime = 60.0 / this.bpm / 4.0;  // 1/16 note
         this.isPlaying = false;
         this.buffers = {};
-        this.tracks = [];
+        this.tracks = {};
         this.defaultBuffersLoaded = false;
         this.defaultTracksLoaded = false;
+        this.tracksInSolo = new Set();
+        this.tracksInMute = new Set();
 
         this.currentTickIndex = 1;
 
@@ -121,13 +123,13 @@ export class Audio {
             return;
         }
 
-        this.tracks = [];
+        this.tracks = {};
 
-        let kickTrack = new Track(this.audioContext, "kick", this.buffers["kick"]);
+        let kickTrack = new Track(this, "kick", this.buffers["kick"]);
         kickTrack.setTicksFromArray([0,4,8,12]);
-        let snareTrack = new Track(this.audioContext, "snare", this.buffers["snare"], 1, 0.1);
+        let snareTrack = new Track(this, "snare", this.buffers["snare"], 1, 0.1);
         snareTrack.setTicksFromArray([4,12]);
-        let hatTrack = new Track(this.audioContext, "hat", this.buffers["hat"], 0.85, -1);
+        let hatTrack = new Track(this, "hat", this.buffers["hat"], 0.85, -1);
         // hatTrack.setTicksFromArray([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
 
 
@@ -198,9 +200,9 @@ export class Audio {
             }
         ]);
 
-        this.tracks.push(kickTrack);
-        this.tracks.push(snareTrack);
-        this.tracks.push(hatTrack);
+        this.tracks[kickTrack.id] = kickTrack;
+        this.tracks[snareTrack.id] = snareTrack;
+        this.tracks[hatTrack.id] = hatTrack;
 
         this.defaultTracksLoaded = true;
         console.log("Default tracks loaded" , this.tracks);
@@ -244,7 +246,8 @@ export class Audio {
             if (nextTickTime <= ctx.currentTime + self.tickTime ) {
             // if (nextTickTime <= ctx.currentTime + 0.05 ) {
 
-                self.tracks.forEach(track => {
+                $.each(self.tracks, (id, track) => {
+                // self.tracks.forEach(track => {
 
                     if (track.mute) {
                         return;
@@ -311,13 +314,136 @@ export class Audio {
 
         audioLoader(this.audioContext, soundUrl).then(buffer => {
             this.buffers[name] = buffer;
-            let newTrack = new Track(this.audioContext, name, this.buffers[name], volume, pan);
-            this.tracks.push(newTrack);
+            let newTrack = new Track(this, name, this.buffers[name], volume, pan);
+            this.tracks[newTrack.id] = newTrack;
             console.log("Added track ", newTrack);
         }, error => {
             console.log("ERROR", error);
         });
     }
+
+
+    removeTrack(trackID) {
+        delete this.tracks[trackID];
+    }
+
+
+
+    soloTrack(trackID) {
+
+        if (!this.tracks.hasOwnProperty(trackID)) return;
+
+        let focusTrack = this.tracks[trackID];
+        let tracksInSolo = this.tracksInSolo;
+        let tracksInMute = this.tracksInMute;
+
+        // case 1: track is not in solo and not in mute
+        if (!tracksInSolo.has(focusTrack) && !tracksInMute.has(focusTrack)) {
+            tracksInSolo.add(focusTrack);
+            focusTrack.solo = true;
+            focusTrack.mute = false;
+
+            $.each(this.tracks, (id, track) => {
+               if (id === trackID) {
+                   return;
+               }
+
+               if (!tracksInSolo.has(track)) {
+                   tracksInMute.add(track);
+                   track.mute = true;
+                   track.solo = false;
+               }
+            });
+        }
+
+
+        // case 2: track is in solo
+        else if (tracksInSolo.has(focusTrack)) {
+            tracksInSolo.delete(focusTrack);
+            focusTrack.solo = false;
+
+            if (tracksInSolo.size > 0) {
+                tracksInMute.add(focusTrack);
+                focusTrack.mute = true;
+            } else {
+                tracksInMute.clear();
+                tracksInSolo.clear();
+                $.each(this.tracks, (id, track) => {
+                   track.mute = false;
+                   track.solo = false;
+                });
+            }
+        }
+
+        // case 3: track is in mute
+        else {
+
+            tracksInSolo.add(focusTrack);
+            focusTrack.solo = true;
+            focusTrack.mute = false;
+
+            if (tracksInSolo.size === 1) {
+                $.each(this.tracks, (id, track) => {
+                   if (id !== trackID) {
+                       tracksInMute.add(track);
+                       track.mute = true;
+                   }
+                });
+            }
+        }
+    }
+
+
+
+    muteTrack(trackID) {
+
+        if (!this.tracks.hasOwnProperty(trackID)) return;
+
+        let focusTrack = this.tracks[trackID];
+        let tracksInSolo = this.tracksInSolo;
+        let tracksInMute = this.tracksInMute;
+
+        // case 1: track not in solo or mute
+        if (!tracksInSolo.has(focusTrack) && !tracksInMute.has(focusTrack)) {
+            tracksInMute.add(focusTrack);
+            focusTrack.mute = true;
+            focusTrack.solo = false;
+        }
+
+        // case 2: track is in solo
+        else if (tracksInSolo.has(focusTrack)) {
+            tracksInSolo.delete(focusTrack);
+            tracksInMute.add(focusTrack);
+            focusTrack.solo = false;
+            focusTrack.mute = true;
+
+            if (tracksInSolo.size === 0) {
+                $.each(this.tracks, (id, track) => {
+                    if (id !== trackID) {
+                        tracksInMute.delete(track);
+                        track.mute = false;
+                    }
+                });
+            }
+        }
+
+        // case 3: track is in mute
+        else if (tracksInMute.has(focusTrack)) {
+            if (tracksInSolo.size > 0) {
+                tracksInMute.delete(focusTrack);
+                tracksInSolo.add(focusTrack);
+                focusTrack.mute = false;
+                focusTrack.solo = true;
+            }
+            else {
+                tracksInMute.delete(focusTrack);
+                focusTrack.mute = false;
+            }
+
+        }
+    }
+
+
 
 
 }

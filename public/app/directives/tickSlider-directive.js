@@ -41,7 +41,7 @@ export function tickSliderDirective() {
 
 
 
-            scope.resizeTick(elem);
+            // scope.resizeTick(elem);
 
         }
     };
