@@ -39,8 +39,6 @@ export function tickSliderDirective() {
                 }
             }).draggable();
 
-
-
             // scope.resizeTick(elem);
 
         }

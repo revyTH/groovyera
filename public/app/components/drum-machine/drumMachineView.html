@@ -1,0 +1,121 @@
+
+
+
+<div id="sequencerTransportContainer">
+
+    <ul id="sequencerControlsContainer">
+        <li>
+            <button id="sequencerPlayButton" class="sequencer-control-button"></button>
+        </li>
+
+        <div style="position: absolute; padding: 0; top: 0; left: 0; right: 0; width: 38px; height: 1em;
+            background-color: transparent; margin: 0 auto;">
+            <!--{{bpm}}-->
+            <input type="number" ng-model="bpm" step="1" min="30" max="260" ng-pattern="integerval"
+                   ng-change="updateSlider();" ng-model-options="{debounce:100}" id="sequencerBPMsliderLabel">
+        </div>
+        <li style="position: relative;">
+            <div id="sequencerBPMslider"></div>
+        </li>
+
+        <li>
+            <button id="sequencerStopButton" class="sequencer-control-button"></button>
+        </li>
+
+        <!--<div style="float: left; margin-left: 2em;">-->
+
+            <!--&lt;!&ndash;<input type="number" ng-model="bpm" step="1" min="30" max="260"  ng-pattern="integerval" ng-change="updateSlider();" ng-model-options="{debounce:100}"&ndash;&gt;-->
+            <!--&lt;!&ndash;id="sequencerBPMLabel">&ndash;&gt;-->
+
+            <!--<div id="sequencerBPMslider"></div>-->
+        <!--</div>-->
+
+    </ul>
+
+
+    <div class="beat-indicators-container">
+        <ul id="beatIndicators" class="ticks-container" style="height: 2em; line-height: 2em;">
+            <span ng-repeat-start="beat in beats track by $index"></span>
+            <li>
+                <div class="beat-indicator"></div>
+            </li>
+            <span ng-repeat-end></span>
+        </ul>
+    </div>
+
+
+</div>
+
+
+
+
+
+<!--<div class="sequencer-controls-container">-->
+    <!--<button id="sequencerPlayButton" class="sequencer-control-button"></button>-->
+
+    <!--&lt;!&ndash;<div style="position: relative; display: inline-block; height: 4em;">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label for="sequencerBPMslider" style="position: relative; top: 0;">bpm</label>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div id="sequencerBPMslider" style="position: relative; top: 1em;"></div>    &ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--<div style="position: relative; display: inline-block; height: 4em; vertical-align: top;">-->
+        <!--&lt;!&ndash;<input type="text" data-ng-model="bpm" type="range" min="30" max="260" style="position: absolute; top: 0;&ndash;&gt;-->
+            <!--&lt;!&ndash;font-size: 1em; background: none; color: cornflowerblue; border: 0; margin: 0; padding: 0;">&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<input type="number" ng-model="bpm" step="1" min="30" max="260"  ng-pattern="integerval" ng-change="updateSlider();" ng-model-options="{debounce:100}"&ndash;&gt;-->
+               <!--&lt;!&ndash;id="sequencerBPMLabel">&ndash;&gt;-->
+        <!--<div id="sequencerBPMslider" style="position: relative; display:block; top: 3em;"></div>-->
+    <!--</div>-->
+
+
+    <!--<button id="sequencerStopButton" class="sequencer-control-button"></button>-->
+<!--</div>-->
+
+
+<!--<div class="beat-indicators-container">-->
+        <!--<ul id="beatIndicators" class="ticks-container" style="height: 2em; line-height: 2em; margin-left: 2em; margin-right: 2em;">-->
+            <!--<span ng-repeat-start="beat in beats track by $index"></span>-->
+            <!--<li>-->
+                <!--<div class="beat-indicator"></div>-->
+            <!--</li>-->
+            <!--<span ng-repeat-end></span>-->
+        <!--</ul>-->
+<!--</div>-->
+
+
+
+
+<div class="tracks-container">
+
+    <ul>
+        <li ng-repeat="(id, track) in tracks">
+            <div class="track-separator"></div>
+            <div the-track track="track" ticks-elements="ticksElements" remove-track="removeTrack" class="track"></div>
+        </li>
+        <div class="track-separator"></div>
+    </ul>
+
+    <button id="addTrackBtn" data-ng-click="addTrack();"></button>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="width: 100%">
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <button id="startBtn" ng-click="startSequencer()">START</button>
+    <button id="stopBtn" ng-click="stopSequencer()">STOP</button>
+    <br><br><br>
+</div>
+
+
+
+
+
+

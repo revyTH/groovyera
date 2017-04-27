@@ -77,7 +77,9 @@ body {
   text-justify: inter-word;
   letter-spacing: .1em;
   color: #1ea4f9;
-  background: #212121; }
+  background: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
 
 canvas {
   -webkit-touch-callout: none;
@@ -95,41 +97,118 @@ canvas {
   left: 0;
   width: 100%; }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */ }
+
 /*
  * ---------------------------------------------------------------------------------------
  * layout.scss
  * ---------------------------------------------------------------------------------------
  */
-.sequencer-controls-container {
+#addTrackBtn {
+  margin-top: 1em;
+  margin-left: 1em;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  -webkit-border-radius: 18px;
+  border-radius: 18px;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */
+  background-color: transparent;
+  background-size: 100%;
+  background-image: url("../../app/assets/icons/Plus-50-white.png");
+  outline: none; }
+
+#addTrackBtn:active {
+  background-image: url("../../app/assets/icons/Plus-Filled-50-white.png"); }
+
+#sequencerTransportContainer {
   position: fixed;
   overflow: hidden;
-  top: 2em;
+  padding-left: calc(2em - 4px);
+  padding-right: calc(2em - 4px);
+  top: 1em;
   width: 100%;
-  height: 4em;
-  line-height: 4em;
-  background-color: black;
+  background-color: #111;
   z-index: 10; }
 
-.sequencer-control-button {
+#sequencerControlsContainer {
+  position: relative;
+  list-style: none;
+  text-align: justify;
+  width: 100%;
+  height: 48px; }
+  @media (min-width: 320px) and (max-width: 511px) {
+    #sequencerControlsContainer {
+      height: 32px; } }
+
+#sequencerControlsContainer:after {
+  content: '';
   display: inline-block;
-  vertical-align: middle;
+  width: 100%;
+  height: 0; }
+
+#sequencerControlsContainer li {
+  display: inline-block;
+  vertical-align: middle; }
+
+.sequencer-control-button {
   margin: 0;
   padding: 0;
-  width: 4em;
-  height: 4em;
-  background-color: #111;
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
   background-size: 100%;
   outline: none; }
   @media (min-width: 320px) and (max-width: 511px) {
     .sequencer-control-button {
-      width: 3em;
-      height: 3em; } }
+      width: 32px;
+      height: 32px; } }
 
 #sequencerPlayButton {
   background-image: url("../../app/assets/icons/Play-50-white.png"); }
 
 #sequencerStopButton {
   background-image: url("../../app/assets/icons/Stop-50-red.png"); }
+
+#sequencerBPMsliderLabel {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 1em;
+  color: #1ea4f9;
+  background: none;
+  background-color: transparent;
+  outline: none; }
+  @media (min-width: 320px) and (max-width: 511px) {
+    #sequencerBPMsliderLabel {
+      font-size: 12px; } }
+
+#sequencerBPMslider {
+  position: relative;
+  top: 1em;
+  width: calc(100vw - 2em - 48px - 48px - 48px - 48px);
+  height: 4px;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */
+  background: #ddd;
+  background: -webkit-linear-gradient(legacy-direction(to right), #ddd, #888);
+  background: linear-gradient(to right, #ddd, #888);
+  border: 1px solid #999; }
+  @media (min-width: 320px) and (max-width: 511px) {
+    #sequencerBPMslider {
+      top: 12px;
+      width: calc(100vw - 2em - 32px - 32px - 32px - 32px); } }
+
+#sequencerBPMslider > .ui-slider-handle {
+  height: 12px; }
 
 #sequencerBPMLabel {
   position: absolute;
@@ -142,13 +221,9 @@ canvas {
   color: cornflowerblue; }
 
 .beat-indicators-container {
-  position: fixed;
-  overflow: hidden;
-  top: 6em;
   width: 100%;
   height: 2em;
-  background-color: #111;
-  z-index: 10; }
+  background-color: #111; }
 
 .beat-indicator {
   display: inline-block;
@@ -180,10 +255,12 @@ canvas {
   height: 0.5em !important; }
 
 .tracks-container {
-  position: relative;
-  top: 10em;
+  margin-top: calc(48px + 2em + 1em);
   left: 0;
   width: 100%; }
+  @media (min-width: 320px) and (max-width: 511px) {
+    .tracks-container {
+      margin-top: calc(32px + 2em + 1em); } }
 
 .track {
   position: relative;

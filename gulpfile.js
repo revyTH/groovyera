@@ -127,7 +127,6 @@ function browserSyncInit(cb) {
 function watch() {
     gulp.watch(config.js.all).on("change", gulp.series(build_js));
     gulp.watch(config.styles.all).on("change", gulp.series(build_sass));
-
     gulp.watch(config.html.all).on("change", browserSync.reload);
 
 

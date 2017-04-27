@@ -44,7 +44,7 @@ module.exports = {
         root: "./public/app/styles",
         sass: "./public/app/styles/**/*.scss",
         // sass: "./public/app/styles/main.scss",
-        all: "./public/app/styles/**/*.scss",
+        all: ["./public/app/styles/**/*.scss", "./public/app/components/**/*.scss"]
     },
 
     build: {

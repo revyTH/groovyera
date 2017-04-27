@@ -8,7 +8,7 @@
 import { DrumMachine } from "../../audio/DrumMachine";
 
 
-export function mainController($scope) {
+export function drumMachineController($scope) {
 
     $scope.safeApply = function(fn) {
         var phase = this.$root.$$phase;
@@ -60,7 +60,6 @@ export function mainController($scope) {
         function updateBeatIndicators(previousTickIndex, tickIndex) {
             $(beatIndicators[previousTickIndex]).removeClass("beat-indicator-active");
             $(beatIndicators[tickIndex]).addClass("beat-indicator-active");
-            console.log(previousTickIndex, tickIndex);
         }
 
         drumMachine.addCallBackInLoop(updateBeatIndicators);
@@ -88,6 +87,9 @@ export function mainController($scope) {
 
 
 
+
+
+
     /*
      * ---------------------------------------------------------------------------------------
      * public
@@ -108,6 +110,10 @@ export function mainController($scope) {
         $(indicators).removeClass("beat-indicator-active");
     };
 
+
+    $scope.addTrack = () => {
+        drumMachine.addEmptyTrack();
+    };
 
 
 
@@ -190,6 +196,7 @@ export function mainController($scope) {
         }).draggable();
 
 
+
         scope.updateSlider = function() {
             if (drumMachine.isInRangeBPM(scope.bpm)) {
                 bpmSlider.slider("value", scope.bpm);
@@ -234,6 +241,10 @@ export function mainController($scope) {
 
         $scope.stopSequencer();
     }
+
+
+
+
 
 
 

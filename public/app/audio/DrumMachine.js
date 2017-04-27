@@ -18,7 +18,7 @@ export class DrumMachine {
         this.audioContext = new AudioContext();
         this.bpm = 120;
         this.bpmMin = 30;
-        this.bpmMax = 260;
+        this.bpmMax = 240;
         this.tickTime = 60.0 / this.bpm / 4.0;  // 1/16 note
         this.isPlaying = false;
         this.isStopped = true;
@@ -142,66 +142,82 @@ export class DrumMachine {
 
         hatTrack.setTicksFromArray([
             {
+                active: true,
                 index: 0,
                 volume: 0.5
             },
             {
+                active: true,
                 index: 1,
                 volume: 0.5
             },
             {
+                active: true,
                 index: 2,
                 volume: 1.2
             },
             {
+                active: true,
                 index: 3,
                 volume: 0.4
             },
             {
+                active: true,
                 index: 4,
                 volume: 0.9
             },
             {
+                active: true,
                 index: 5,
                 volume: 0.5
             },
             {
+                active: true,
                 index: 6,
                 volume: 1.2
             },
             {
+                active: true,
                 index: 7,
                 volume: 0.4
             },
             {
+                active: true,
                 index: 8,
                 volume: 0.9
             },
             {
+                active: true,
                 index: 9,
                 volume: 0.5
             },
             {
+                active: true,
                 index: 10,
                 volume: 1.2
             },
             {
+                active: true,
                 index: 11,
                 volume: 0.4
             },
             {
+                active: true,
                 index: 12,
                 volume: 0.9
             },
             {
+                active: true,
                 index: 13,
                 volume: 0.5
             },
             {
+                active: true,
                 index: 14,
                 volume: 1.2
             },
             {
+                active: true,
                 index: 15,
                 volume: 0.4
             }
@@ -333,25 +349,11 @@ export class DrumMachine {
 
 
 
-    addNewTrack(name, soundUrl, volume = 1.0, pan = 0) {
-
-        if (this.buffers.hasOwnProperty(name)) {
-            console.log("Track name collision");
-            return;
-        }
-
-        audioLoader(this.audioContext, soundUrl).then(buffer => {
-            this.buffers[name] = buffer;
-            let newTrack = new Track(this, name, this.buffers[name], volume, pan);
-            this.tracks[newTrack.id] = newTrack;
-            console.log("Added track ", newTrack);
-        }, error => {
-            console.log("ERROR", error);
-        });
-    }
-
 
     removeTrack(trackID) {
+        let track = this.tracks[trackID];
+        this.tracksInSolo.delete(track);
+        this.tracksInMute.delete(track);
         delete this.tracks[trackID];
     }
 
@@ -484,6 +486,30 @@ export class DrumMachine {
         } else {
             return false;
         }
+    }
+
+
+    _createEmptyTicksArray() {
+        let ticks = [];
+        for(let i = 0; i < this.numberOfBeats; i++) {
+
+            console.log(i);
+
+            ticks.push({
+                index: i,
+                volume: 0,
+                active: true
+            });
+        }
+        return ticks;
+    }
+
+
+    addEmptyTrack() {
+        let name = "track_" + Object.keys(this.tracks).length;
+        let track = new Track(this, name);
+        track.setTicksFromArray(this._createEmptyTicksArray());
+        this.tracks[track.id] = track;
     }
 
 

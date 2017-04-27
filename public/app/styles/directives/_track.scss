@@ -2,10 +2,13 @@
 
 
 .tracks-container {
-  position: relative;
-  top: 10em;
+  margin-top: calc(48px + 2em + 1em);
   left: 0;
   width: 100%;
+
+  @include smartphone {
+    margin-top: calc(32px + 2em + 1em);
+  }
 }
 
 

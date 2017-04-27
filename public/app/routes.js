@@ -8,8 +8,8 @@ export function initRoutes($routeProvider) {
 
 
     $routeProvider.when('/', {
-        controller: "mainController",
-        templateUrl: "app/components/main/mainView.html"
+        controller: "drumMachineController",
+        templateUrl: "app/components/drum-machine/drumMachineView.html"
     });
 
     $routeProvider.when('/test', {

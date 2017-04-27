@@ -86,18 +86,16 @@ import { guid } from "../utils/utils";
          data.forEach(e => {
 
              if (typeof e === "object") {
-                 if (!e.index || e.index < 0 || e.index > (this.drumMachine.numberOfBeats-1)) {
+                 if (e.index === "undefined" || e.index < 0 || e.index > (this.drumMachine.numberOfBeats-1)) {
                      return;
                  }
 
-                 let tick = this.ticks[e.index];
-                 tick.volume = e.volume ? e.volume : 1.0;
-                 tick.active = e.active ? e.active : true;
+                 this.ticks[e.index].volume = e.volume !== "undefined" ? e.volume : 0;
+                 this.ticks[e.index].active = e.active !== "undefined" ? e.active : false;
              }
              else {
                  this.ticks[e].active = true;
              }
-
          });
      }
 
@@ -109,7 +107,7 @@ import { guid } from "../utils/utils";
 
 
      playSound() {
-         if (!this.audioContext) return;
+         if (!this.audioContext || !this.buffer) return;
          let sound = this.audioContext.createBufferSource();
          sound.buffer = this.buffer;
          sound.connect(this.audioContext.destination);

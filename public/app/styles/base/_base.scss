@@ -26,7 +26,10 @@ body {
   text-justify: inter-word;
   letter-spacing: .1em;
   color: $scifi-text-hover;
-  background: $body-bg;
+  background: #333;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
 
   @include smartphone {
@@ -57,6 +60,14 @@ canvas {
   position: relative;
   left: 0;
   width: 100%;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 

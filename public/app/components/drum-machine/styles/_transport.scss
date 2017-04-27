@@ -1,0 +1,147 @@
+
+
+#sequencerTransportContainer {
+  position: fixed;
+  overflow: hidden;
+  padding-left: calc(2em - 4px);
+  padding-right: calc(2em - 4px);
+  top: 1em;
+  width: 100%;
+  background-color: $cod-gray;
+  z-index: 10;
+}
+
+
+
+
+
+#sequencerControlsContainer {
+  position: relative;
+  list-style: none;
+  text-align: justify;
+  width: 100%;
+  height: 48px;
+  //line-height: 4em;
+
+  @include smartphone {
+    height: 32px;
+  }
+}
+
+#sequencerControlsContainer:after {
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 0;
+}
+
+
+
+#sequencerControlsContainer li {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+
+.sequencer-control-button {
+  margin: 0;
+  padding: 0;
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
+  background-size: 100%;
+  outline: none;
+
+  @include smartphone {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+#sequencerPlayButton {
+  background-image: url('../../app/assets/icons/Play-50-white.png');
+}
+
+#sequencerStopButton {
+  background-image: url('../../app/assets/icons/Stop-50-red.png');
+}
+
+#sequencerBPMsliderLabel {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 1em;
+  color: $scifi-text-hover;
+  background: none;
+  background-color: transparent;
+  outline: none;
+
+  @include smartphone {
+    font-size: 12px;
+  }
+}
+
+
+#sequencerBPMslider {
+  position: relative;
+  top: 1em;
+  width: calc(100vw - 2em - 48px - 48px - 48px - 48px);
+  height: 4px;
+  @include border-radius(0);
+  @include linear-gradient(to right, $slider-start, $slider-end);
+  border: 1px solid #999;
+
+  @include smartphone {
+    top: 12px;
+    width: calc(100vw - 2em - 32px - 32px - 32px - 32px);
+  }
+}
+
+
+
+#sequencerBPMslider > .ui-slider-handle {
+  height: 12px;
+}
+
+
+
+#sequencerBPMLabel {
+  position: absolute;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  font-size: 1em;
+  background: none;
+  color: cornflowerblue;
+}
+
+
+
+
+
+
+.beat-indicators-container {
+  width: 100%;
+  height: 2em;
+  background-color: #111;
+}
+
+
+.beat-indicator {
+  display: inline-block;
+  width: 1em;
+  height: 0.5em;
+  @include border-radius(4px);
+  background-color: red;
+
+  @include smartphone {
+    width: 0.5em;
+    height: 4px;
+  }
+}
+
+.beat-indicator-active {
+  background-color: yellow;
+}

@@ -10,7 +10,7 @@
 
 import { initRoutes } from "./routes";
 
-import { mainController } from "./components/main/mainController";
+import { drumMachineController } from "./components/drum-machine/drumMachineController";
 import { testController } from "./components/test/testController";
 
 import { trackDirective } from "./directives/track-directive";
@@ -28,7 +28,7 @@ import { tickSliderDirective } from "./directives/tickSlider-directive";
 
 
     // bind controllers
-    app.controller("mainController", ['$scope', mainController]);
+    app.controller("drumMachineController", ['$scope', drumMachineController]);
     app.controller("testController", ['$scope', testController]);
 
 

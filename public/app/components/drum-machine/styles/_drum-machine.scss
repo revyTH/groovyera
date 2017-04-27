@@ -1,0 +1,20 @@
+
+
+
+#addTrackBtn {
+  margin-top: 1em;
+  margin-left: 1em;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  @include border-radius(18px);
+  background-color: transparent;
+  background-size: 100%;
+  background-image: url('../../app/assets/icons/Plus-50-white.png');
+  outline:  none;
+
+}
+
+#addTrackBtn:active {
+  background-image: url('../../app/assets/icons/Plus-Filled-50-white.png');
+}
