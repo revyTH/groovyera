@@ -66,14 +66,14 @@ import { guid } from "../utils/utils";
       */
      _initTicks() {
          this.ticks = [];
-         for (let i = 0; i < 16; ++i) {
+         for (let i = 0; i < this.drumMachine.numberOfBeats; ++i) {
              this.ticks.push(new Tick(i));
          }
      }
 
 
      setTick(index, active = true, volume = 1.0) {
-         if (index < 0 || index > 15) {
+         if (index < 0 || index > (this.drumMachine.numberOfBeats-1)) {
              return;
          }
 
@@ -86,7 +86,7 @@ import { guid } from "../utils/utils";
          data.forEach(e => {
 
              if (typeof e === "object") {
-                 if (!e.index || e.index < 0 || e.index > 15) {
+                 if (!e.index || e.index < 0 || e.index > (this.drumMachine.numberOfBeats-1)) {
                      return;
                  }
 

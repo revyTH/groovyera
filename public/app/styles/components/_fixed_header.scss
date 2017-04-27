@@ -1,0 +1,84 @@
+
+
+
+
+.sequencer-controls-container {
+  position: fixed;
+  overflow: hidden;
+  top: 2em;
+  width: 100%;
+  height: 4em;
+  line-height: 4em;
+  background-color: black;
+  z-index: 10;
+}
+
+.sequencer-control-button {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  width: 4em;
+  height: 4em;
+  background-color: #111;
+  background-size: 100%;
+  outline: none;
+
+  @include smartphone {
+    width: 3em;
+    height: 3em;
+  }
+}
+
+#sequencerPlayButton {
+  background-image: url('../../app/assets/icons/Play-50-white.png');
+}
+
+#sequencerStopButton {
+  background-image: url('../../app/assets/icons/Stop-50-red.png');
+}
+
+
+#sequencerBPMLabel {
+  position: absolute;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  font-size: 1em;
+  background: none;
+  color: cornflowerblue;
+}
+
+
+
+
+
+
+.beat-indicators-container {
+  position: fixed;
+  overflow: hidden;
+  top: 6em;
+  width: 100%;
+  height: 2em;
+  background-color: #111;
+  z-index: 10;
+}
+
+
+.beat-indicator {
+  display: inline-block;
+  width: 1em;
+  height: 0.5em;
+  @include border-radius(4px);
+  background-color: red;
+
+  @include smartphone {
+    width: 0.5em;
+    height: 4px;
+  }
+}
+
+.beat-indicator-active {
+  background-color: yellow;
+}

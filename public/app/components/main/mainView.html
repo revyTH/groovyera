@@ -1,21 +1,36 @@
 
 
 
+<div class="sequencer-controls-container">
+    <button id="sequencerPlayButton" class="sequencer-control-button"></button>
+
+    <!--<div style="position: relative; display: inline-block; height: 4em;">-->
+        <!--<label for="sequencerBPMslider" style="position: relative; top: 0;">bpm</label>-->
+        <!--<div id="sequencerBPMslider" style="position: relative; top: 1em;"></div>    -->
+    <!--</div>-->
+
+    <div style="position: relative; display: inline-block; height: 4em; vertical-align: top;">
+        <!--<input type="text" data-ng-model="bpm" type="range" min="30" max="260" style="position: absolute; top: 0;-->
+            <!--font-size: 1em; background: none; color: cornflowerblue; border: 0; margin: 0; padding: 0;">-->
+
+        <input type="number" ng-model="bpm" step="1" min="30" max="260"  ng-pattern="integerval" ng-change="updateSlider();" ng-model-options="{debounce:100}"
+               id="sequencerBPMLabel">
+        <div id="sequencerBPMslider" style="position: relative; display:block; top: 3em;"></div>
+    </div>
 
 
+    <button id="sequencerStopButton" class="sequencer-control-button"></button>
+</div>
 
-<div class="tick-indicator-container">
-    <div class="ticks-panel">
-        <ul id="beatIndicatorsContainer" class="ticks-container">
+
+<div class="beat-indicators-container">
+        <ul id="beatIndicators" class="ticks-container" style="height: 2em; line-height: 2em; margin-left: 2em; margin-right: 2em;">
             <span ng-repeat-start="beat in beats track by $index"></span>
             <li>
-                <!--<div style="display: inline-block; width: 1em; height: 0.5em; background-color: red;"></div>-->
-                <!--<div class="tick-indicator" data-ng-class="{'tick-indicator-active' : beat}" ></div>-->
-                <div class="tick-indicator"></div>
+                <div class="beat-indicator"></div>
             </li>
             <span ng-repeat-end></span>
         </ul>
-    </div>
 </div>
 
 

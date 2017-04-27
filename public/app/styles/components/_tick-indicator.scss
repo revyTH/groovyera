@@ -1,24 +1,24 @@
 
 
-.tick-indicator-container {
+.beat-indicators-container {
   position: fixed;
   overflow: hidden;
-  padding: 1em;
   top: 6em;
   width: 100%;
-  height: 4em;
-  background-color: black;
+  height: 2em;
+  background-color: #111;
   z-index: 10;
 }
 
 
-.tick-indicator {
+.beat-indicator {
   display: inline-block;
   width: 1em;
   height: 0.5em;
-  background-color: #bbb;
+  @include border-radius(4px);
+  background-color: red;
 }
 
-.tick-indicator-active {
-  background-color: red;
+.beat-indicator-active {
+  background-color: yellow;
 }

@@ -16,22 +16,22 @@ export class DrumMachine {
         this.numberOfBeats = 16;
         let AudioContext = window.AudioContext || window.webkitAudioContext;
         this.audioContext = new AudioContext();
-        this.bpm = 120.0;
+        this.bpm = 120;
+        this.bpmMin = 30;
+        this.bpmMax = 260;
         this.tickTime = 60.0 / this.bpm / 4.0;  // 1/16 note
         this.isPlaying = false;
-        this.isStopped = false;
+        this.isStopped = true;
         this.buffers = {};
         this.tracks = {};
-        this.beats = [];
         this.defaultBuffersLoaded = false;
         this.defaultTracksLoaded = false;
         this.tracksInSolo = new Set();
         this.tracksInMute = new Set();
 
-        this.currentTickIndex = 1;
+        this.currentTickIndex = 0;
 
         this.callBacksInLoop = [];
-
 
         this.soundURLs = {
             kick: "app/assets/audio/kick.wav",
@@ -46,9 +46,6 @@ export class DrumMachine {
             this.audioContextEnabled = true;
         }
 
-        this._initBeats();
-
-        // this._loadDefaultBuffers();
     }
 
 
@@ -70,13 +67,6 @@ export class DrumMachine {
     }
 
 
-    _initBeats() {
-        this.beats = [];
-        for (let i = 0; i < this.numberOfBeats; ++i) {
-            this.beats.push(false);
-        }
-        this.beats[0] = true;
-    }
 
 
 
@@ -91,12 +81,13 @@ export class DrumMachine {
                 let source = this.audioContext.createBufferSource();
                 source.buffer = buffer;
                 source.start();
+
+                this.audioContextEnabled = true;
+                console.log("AudioContext enabled for iOS");
             });
 
             btn.trigger("touchstart");
 
-            this.audioContextEnabled = true;
-            console.log("AudioContext enabled for iOS");
         });
     }
 
@@ -152,7 +143,7 @@ export class DrumMachine {
         hatTrack.setTicksFromArray([
             {
                 index: 0,
-                volume: 0.9
+                volume: 0.5
             },
             {
                 index: 1,
@@ -250,7 +241,7 @@ export class DrumMachine {
             return;
         }
 
-        this.isPlaying = true;
+
         this.isStopped = false;
         let self = this;
         let ctx = this.audioContext;
@@ -258,6 +249,8 @@ export class DrumMachine {
         let nextTickTime = startTime + self.tickTime;
         let index = 0;
         let timeOutID;
+        let firstLoopEnded = false;
+
 
         function scheduler() {
 
@@ -267,11 +260,13 @@ export class DrumMachine {
                 return;
             }
 
+
             if (nextTickTime <= ctx.currentTime + self.tickTime ) {
-            // if (nextTickTime <= ctx.currentTime + 0.05 ) {
+
+                self.isPlaying = true;
+                self.isStopped = false;
 
                 $.each(self.tracks, (id, track) => {
-                // self.tracks.forEach(track => {
 
                     if (track.mute) {
                         return;
@@ -280,7 +275,6 @@ export class DrumMachine {
                     if (!track.buffer) {
                         return;
                     }
-
 
                     let trackTick = track.ticks[index];
 
@@ -298,23 +292,22 @@ export class DrumMachine {
 
                 });
 
-
                 self.currentTickIndex = index;
-                // console.log("Tick " + self.currentTickIndex);
-
                 let previousIndex = index === 0 ? (self.numberOfBeats - 1) : index - 1;
+                let previousPrevious = previousIndex === 0 ? (self.numberOfBeats - 1) : previousIndex - 1;
 
-                self.callBacksInLoop.forEach(fn => {
-                   fn(previousIndex, index);
-                });
+                // to syncronize web audio api schedule with ui beat indicators
+                if (firstLoopEnded) {
+                    self.callBacksInLoop.forEach(fn => {
+                        fn(previousPrevious, previousIndex);
+                    });
+                }
 
                 nextTickTime += self.tickTime;
-
-                index += 1;
-                index = index === self.numberOfBeats ? 0 : index;
-
+                index = ++index === self.numberOfBeats ? 0 : index;
             }
 
+            firstLoopEnded = true;
             timeOutID = window.setTimeout(scheduler, 0);
         }
 
@@ -482,6 +475,15 @@ export class DrumMachine {
     addCallBackInLoop(fn) {
         if (!typeof fn === "function") return;
         this.callBacksInLoop.push( fn );
+    }
+
+
+    isInRangeBPM(value) {
+        if (value >= this.bpmMin && value <= this.bpmMax) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
