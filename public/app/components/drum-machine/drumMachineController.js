@@ -208,6 +208,84 @@ export function drumMachineController($scope, $http, FileSaver, Blob) {
 
 
 
+    $scope.loadPreset = () => {
+
+        let preset = {
+
+            bpm: 90,
+            timeSignature: {
+                num: 4,
+                den: 4
+            },
+
+            tracks: [
+                {
+                    name: "kick",
+                    soundPath: "app/assets/audio/kick.wav",
+                    volume: 1,
+                    pan: 0,
+                    ticks: [
+                        {
+                            active: true,
+                            index: 0,
+                            volume: 1
+                        },
+                        {
+                            active: true,
+                            index: 3,
+                            volume: 0.5
+                        },
+                        {
+                            active: true,
+                            index: 5,
+                            volume: 1
+                        },
+                        {
+                            active: true,
+                            index: 7,
+                            volume: 0.5
+                        }
+                    ]
+                },
+                {
+                    name: "snare",
+                    soundPath: "app/assets/audio/snare.wav",
+                    volume: 1,
+                    pan: 0,
+                    ticks: [
+                        {
+                            active: true,
+                            index: 4,
+                            volume: 0.5
+                        },
+                        {
+                            active: true,
+                            index: 8,
+                            volume: 0.5
+                        }
+                    ]
+                },
+            ]
+        };
+
+
+        drumMachine.loadPreset(preset).then(tracks => {
+
+            tracks.forEach(t => {
+                drumMachine.tracks[t.id] = t;
+            });
+
+            $scope.$apply();
+
+        }, error => {
+            console.log(error);
+        });
+
+
+    };
+
+
+
 
 
     /*

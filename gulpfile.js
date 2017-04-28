@@ -20,12 +20,24 @@ var gulp = require("gulp"),
     sass = require("gulp-sass"),
     watchify = require("watchify"),
     path = require("path"),
+    nodemon = require("gulp-nodemon"),
     config = require("./config");
 
 
 
 
-/*
+
+gulp.task("node", function () {
+    nodemon({
+        script: "backend/server.js"
+        , ext: "js html"
+        , env: { "NODE_ENV": "development" }
+    });
+});
+
+
+
+/**
  * build_libs
  */
 function build_libs() {
@@ -37,7 +49,7 @@ function build_libs() {
 
 
 
-/*
+/**
  * build
  */
 function build_js() {
@@ -67,7 +79,7 @@ function build_js() {
 
 
 
-/*
+/**
  * sass
  */
 function build_sass() {
@@ -96,7 +108,7 @@ function build_sass() {
 
 
 
-/*
+/**
  * browserSyncInit
  */
 function browserSyncInit(cb) {
@@ -121,7 +133,7 @@ function browserSyncInit(cb) {
 
 
 
-/*
+/**
  * watch
  */
 function watch() {
@@ -138,7 +150,7 @@ function watch() {
 
 
 
-/*
+/**
  * debugMode
  */
 function debugMode(done) {
@@ -148,7 +160,7 @@ function debugMode(done) {
 }
 
 
-/*
+/**
  * productionMode
  */
 function productionMode(done) {
@@ -165,7 +177,7 @@ function productionMode(done) {
 
 
 
-/*
+/**
  * ---------------------------------------------------------------------------------------
  * tasks
  * ---------------------------------------------------------------------------------------
@@ -174,8 +186,8 @@ function productionMode(done) {
 
 gulp.task("bundle", gulp.series(build_libs, build_js, build_sass));
 
-gulp.task("default", gulp.series(debugMode, "bundle", gulp.parallel(browserSyncInit, watch)));
-gulp.task("prod", gulp.series(productionMode, "bundle", gulp.parallel(browserSyncInit, watch)));
+gulp.task("default", gulp.series(debugMode, "bundle", gulp.parallel("node", browserSyncInit, watch)));
+gulp.task("prod", gulp.series(productionMode, "bundle", gulp.parallel("node", browserSyncInit, watch)));
 
 
 

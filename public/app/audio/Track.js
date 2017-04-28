@@ -84,7 +84,6 @@ import { guid } from "../utils/utils";
 
      setTicksFromArray(data) {
          data.forEach(e => {
-
              if (typeof e === "object") {
                  if (e.index === "undefined" || e.index < 0 || e.index > (this.drumMachine.numberOfBeats-1)) {
                      return;

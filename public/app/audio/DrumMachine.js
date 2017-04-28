@@ -505,11 +505,75 @@ export class DrumMachine {
     }
 
 
+    _clearTracks() {
+        this.tracksInSolo.clear();
+        this.tracksInMute.clear();
+
+        for (let key in this.tracks) {
+            if (this.tracks.hasOwnProperty(key)) {
+                delete this.tracks[key];
+            }
+        }
+    }
+
+
     addEmptyTrack() {
         let name = "track_" + Object.keys(this.tracks).length;
         let track = new Track(this, name);
         track.setTicksFromArray(this._createEmptyTicksArray());
         this.tracks[track.id] = track;
+    }
+
+
+    createTrack(name, soundPath, volume, pan, ticks) {
+        return new Promise((resolve, reject) => {
+            audioLoader(this.audioContext, soundPath).then(buffer => {
+
+                let track = new Track(this, name, buffer);
+
+                if (ticks) {
+                    track.setTicksFromArray(ticks);
+                } else {
+                    track.setTicksFromArray(this._createEmptyTicksArray());
+                }
+
+                if (volume) {
+                    track.volume = volume;
+                }
+
+                if (pan) {
+                    track.pan = pan;
+                }
+
+                resolve(track);
+
+            }, error => {
+                console.log(error);
+                reject(error);
+            });
+        });
+    }
+
+
+
+    loadPreset(data) {
+        try {
+            this.bpm = data.bpm;
+            this._clearTracks();
+
+            let promises = [];
+
+            data.tracks.forEach((track) => {
+                promises.push(this.createTrack(track.name, track.soundPath, track.volume, track.pan, track.ticks));
+            });
+
+            return Promise.all(promises);
+        }
+        catch (e) {
+            return new Promise((resolve, reject) => {
+                reject(e);
+            });
+        }
     }
 
 
