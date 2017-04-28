@@ -20,7 +20,7 @@ import { tickSliderDirective } from "./directives/tickSlider-directive";
 
 (function() {
 
-    let app = angular.module("myApp", ["ngRoute"]);
+    let app = angular.module("myApp", ["ngRoute", "ngFileSaver"]);
 
 
     // configure angular routes
@@ -28,7 +28,7 @@ import { tickSliderDirective } from "./directives/tickSlider-directive";
 
 
     // bind controllers
-    app.controller("drumMachineController", ['$scope', drumMachineController]);
+    app.controller("drumMachineController", ["$scope", "$http", "FileSaver", "Blob", drumMachineController]);
     app.controller("testController", ['$scope', testController]);
 
 

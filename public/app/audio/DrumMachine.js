@@ -174,7 +174,7 @@ export class DrumMachine {
             {
                 active: true,
                 index: 6,
-                volume: 1.2
+                volume: 1
             },
             {
                 active: true,
@@ -194,7 +194,7 @@ export class DrumMachine {
             {
                 active: true,
                 index: 10,
-                volume: 1.2
+                volume: 1
             },
             {
                 active: true,
@@ -214,7 +214,7 @@ export class DrumMachine {
             {
                 active: true,
                 index: 14,
-                volume: 1.2
+                volume: 1
             },
             {
                 active: true,
@@ -498,7 +498,7 @@ export class DrumMachine {
             ticks.push({
                 index: i,
                 volume: 0,
-                active: true
+                active: false
             });
         }
         return ticks;

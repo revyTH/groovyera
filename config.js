@@ -29,7 +29,8 @@ module.exports = {
             "./public/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js",
             "./public/libs/*.js",
             "./node_modules/angular/angular.js",
-            "./node_modules/angular-route/angular-route.js"
+            "./node_modules/angular-route/angular-route.js",
+            "./node_modules/angular-file-saver/dist/angular-file-saver.bundle.js"
         ]
     },
 

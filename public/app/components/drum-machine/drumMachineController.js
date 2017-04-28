@@ -8,7 +8,7 @@
 import { DrumMachine } from "../../audio/DrumMachine";
 
 
-export function drumMachineController($scope) {
+export function drumMachineController($scope, $http, FileSaver, Blob) {
 
     $scope.safeApply = function(fn) {
         var phase = this.$root.$$phase;
@@ -113,6 +113,97 @@ export function drumMachineController($scope) {
 
     $scope.addTrack = () => {
         drumMachine.addEmptyTrack();
+    };
+
+
+    $scope.testAPI = () => {
+
+
+        // $http({
+        //     url: 'http://localhost:4500/api/midi',
+        //     method: "GET",
+        //     responseType: "arraybuffer"
+        // }).then(function (response) {
+        //     console.log(response);
+        //     let blob = new Blob([response.data], { type: 'audio/midi' });
+        //     // console.log(response.headers);
+        //     // let fileName = response.headers('content-disposition');
+        //     FileSaver.saveAs(blob, "loopish.mid");
+        // }, function (response) {
+        //     console.log('Unable to download the file')
+        // });
+
+
+        let tracks = [];
+        for (let key in drumMachine.tracks) {
+            if (drumMachine.tracks.hasOwnProperty(key)) {
+
+                let track = drumMachine.tracks[key];
+                let trackData = {
+                    name: track.name,
+                    notes: []
+                };
+
+                let waitCounter = 0;
+                track.ticks.forEach((tick) => {
+
+                    if (tick.active) {
+                        let noteEventData = {
+                            pitch: ["C4"],
+                            velocity: tick.volume,
+                            duration: "16"  // 1/16
+                        };
+
+                        if (waitCounter > 0) {
+                            let waitParam = "T" + waitCounter * 32; //number of ticks to wait (each tick is 1/128)
+                            noteEventData["wait"] = waitParam;
+                        }
+
+                        trackData.notes.push(noteEventData);
+                        waitCounter = 0;
+
+                        // console.log(noteEventData);
+
+                    }
+
+                    else {
+                        waitCounter += 1;
+                    }
+                });
+
+                tracks.push(trackData);
+            }
+        }
+
+
+        let data = {
+            bpm: drumMachine.bpm,
+            timeSignature: {num: 4, den: 4},
+            tracks: tracks
+        };
+
+
+        console.log("DATA TO SEND", data);
+
+
+        $http({
+            url: 'http://localhost:4500/api/midi',
+            method: "POST",
+            responseType: "arraybuffer",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify(data)
+
+        }).then(function (response) {
+            console.log(response);
+            let blob = new Blob([response.data], { type: 'audio/midi' });
+            // let fileName = response.headers('content-disposition');
+            FileSaver.saveAs(blob, "loopish.mid");
+        }, function (response) {
+            console.log(response);
+        });
+
     };
 
 

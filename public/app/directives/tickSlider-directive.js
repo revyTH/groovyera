@@ -30,7 +30,10 @@ export function tickSliderDirective() {
                 value: scope.tick.active ? scope.tick.volume * 100 : 0,
                 slide: (event, ui) => {
 
-                    if (!scope.tick.active) {
+                    if (ui.value === 0) {
+                        scope.tick.active = false;
+                    }
+                    else {
                         scope.tick.active = true;
                     }
 
