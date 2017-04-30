@@ -8,6 +8,7 @@
 
 var express = require("express");
 var midiController = require("./controllers/midiController");
+var presetsController = require("./controllers/presetsController");
 
 var apiRouter = express.Router();
 
@@ -25,6 +26,7 @@ var apiRouter = express.Router();
 
 
     midiController(apiRouter);
+    presetsController(apiRouter);
 
 
 }());

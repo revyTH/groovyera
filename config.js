@@ -16,6 +16,20 @@ module.exports = {
         index: "index.html"
     },
 
+    database: {
+        mLab: {
+            username: "drumdb_admin",
+            password: "5LE-4BY-hfQ-wz2",
+            connectionString: "mongodb://drumdb_admin:5LE-4BY-hfQ-wz2@ds123381.mlab.com:23381/drumdb"
+        },
+
+        MongoDB_Atlas: {
+            username: "ludof",
+            password: "OX3NiC7H9qTzMF8l",
+            connectionString: "mongodb://ludof:OX3NiC7H9qTzMF8l@mycluster-shard-00-00-m9gq6.mongodb.net:27017,mycluster-shard-00-01-m9gq6.mongodb.net:27017,mycluster-shard-00-02-m9gq6.mongodb.net:27017/drumdb?ssl=true&replicaSet=MyCluster-shard-0&authSource=admin"
+        }
+    },
+
     html: {
         root: "./public/index.html",
         all: "./public/**/*.html"

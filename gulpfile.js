@@ -27,12 +27,14 @@ var gulp = require("gulp"),
 
 
 
-gulp.task("node", function () {
+gulp.task("node", function (done) {
     nodemon({
         script: "backend/server.js"
         , ext: "js html"
         , env: { "NODE_ENV": "development" }
     });
+
+    done();
 });
 
 
@@ -137,15 +139,20 @@ function browserSyncInit(cb) {
  * watch
  */
 function watch() {
-    gulp.watch(config.js.all).on("change", gulp.series(build_js));
-    gulp.watch(config.styles.all).on("change", gulp.series(build_sass));
-    gulp.watch(config.html.all).on("change", browserSync.reload);
 
+    return new Promise(function (resolve, reject) {
+        try {
+            gulp.watch(config.js.all).on("change", gulp.series(build_js));
+            gulp.watch(config.styles.all).on("change", gulp.series(build_sass));
+            gulp.watch(config.html.all).on("change", browserSync.reload);
+            // gulp.watch(config.html.all).on("change", function() );
+            resolve();
+        }
+        catch (e) {
+            reject(e);
+        }
 
-
-    // gulp.watch(config.html.all).on("change", function() );
-
-
+    });
 }
 
 

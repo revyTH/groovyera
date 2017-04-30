@@ -84,11 +84,13 @@ function buildMidiFile(data) {
         tracks[0].setTimeSignature(data.timeSignature.num, data.timeSignature.den);
         tracks[0].setTempo(data.bpm);
 
+        var trackIndex = 0;
         data.tracks.forEach(function(trackData) {
 
             var track = new MidiWriter.Track();
-            track.addEvent(new MidiWriter.ProgramChangeEvent({instrument : 1}));
-            track.addInstrumentName(trackData.name);
+            track.addTrackName(trackData.name);
+            track.addEvent(new MidiWriter.ProgramChangeEvent({instrument : trackIndex}));
+
 
             var notes = [];
             trackData.notes.forEach(function(noteData) {
@@ -96,7 +98,8 @@ function buildMidiFile(data) {
                 var noteEventData = {
                     pitch: noteData.pitch,
                     velocity: noteData.velocity * 100,
-                    duration: noteData.duration
+                    duration: noteData.duration,
+                    channel: 1
                 };
 
                 if (noteData.hasOwnProperty("wait")) {
@@ -111,6 +114,7 @@ function buildMidiFile(data) {
             });
 
             tracks.push(track);
+            trackIndex += 1;
         });
 
 

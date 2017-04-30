@@ -210,9 +210,53 @@ export function drumMachineController($scope, $http, FileSaver, Blob) {
 
     $scope.loadPreset = () => {
 
+
+        $http({
+            url: "http://localhost:4500/api/presets",
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then(response => {
+
+            let presets = response.data;
+            if (presets.length === 0) {
+                return;
+            }
+
+            drumMachine.loadPreset(presets[0]).then(tracks => {
+
+                tracks.forEach(t => {
+                    drumMachine.tracks[t.id] = t;
+                });
+
+                $scope.bpm = drumMachine.bpm;
+                bpmSlider.slider("value", $scope.bpm);
+                $scope.$apply();
+
+
+            }, error => {
+                console.log(error);
+            });
+
+
+
+        }, errorResponse => {
+            console.log(errorResponse);
+        });
+
+
+    };
+
+
+
+
+    $scope.savePreset = function() {
+
         let preset = {
 
-            bpm: 90,
+            name: "preset001",
+            bpm: 180,
             timeSignature: {
                 num: 4,
                 den: 4
@@ -232,18 +276,18 @@ export function drumMachineController($scope, $http, FileSaver, Blob) {
                         },
                         {
                             active: true,
-                            index: 3,
-                            volume: 0.5
-                        },
-                        {
-                            active: true,
-                            index: 5,
+                            index: 4,
                             volume: 1
                         },
                         {
                             active: true,
-                            index: 7,
-                            volume: 0.5
+                            index: 8,
+                            volume: 1
+                        },
+                        {
+                            active: true,
+                            index: 12,
+                            volume: 1
                         }
                     ]
                 },
@@ -256,12 +300,71 @@ export function drumMachineController($scope, $http, FileSaver, Blob) {
                         {
                             active: true,
                             index: 4,
+                            volume: 1
+                        },
+                        {
+                            active: true,
+                            index: 12,
+                            volume: 1
+                        }
+                    ]
+                },
+                {
+                    name: "hats",
+                    soundPath: "app/assets/audio/hat.wav",
+                    volume: 1,
+                    pan: 0,
+                    ticks: [
+                        {
+                            active: true,
+                            index: 1,
                             volume: 0.5
                         },
                         {
                             active: true,
-                            index: 8,
+                            index: 2,
+                            volume: 0.9
+                        },
+                        {
+                            active: true,
+                            index: 3,
+                            volume: 0.7
+                        },{
+                            active: true,
+                            index: 5,
                             volume: 0.5
+                        },{
+                            active: true,
+                            index: 6,
+                            volume: 0.9
+                        },{
+                            active: true,
+                            index: 7,
+                            volume: 0.7
+                        },{
+                            active: true,
+                            index: 9,
+                            volume: 0.5
+                        },{
+                            active: true,
+                            index: 10,
+                            volume: 0.9
+                        },{
+                            active: true,
+                            index: 11,
+                            volume: 0.7
+                        },{
+                            active: true,
+                            index: 13,
+                            volume: 0.5
+                        },{
+                            active: true,
+                            index: 14,
+                            volume: 0.9
+                        },{
+                            active: true,
+                            index: 15,
+                            volume: 0.7
                         }
                     ]
                 },
@@ -269,17 +372,21 @@ export function drumMachineController($scope, $http, FileSaver, Blob) {
         };
 
 
-        drumMachine.loadPreset(preset).then(tracks => {
 
-            tracks.forEach(t => {
-                drumMachine.tracks[t.id] = t;
-            });
+        $http({
+            url: 'http://localhost:4500/api/presets',
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify(preset)
 
-            $scope.$apply();
-
-        }, error => {
-            console.log(error);
+        }).then(function (response) {
+            console.log(response);
+        }, function (response) {
+            console.log(response);
         });
+
 
 
     };
