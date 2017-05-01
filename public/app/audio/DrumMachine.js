@@ -26,8 +26,8 @@ export class DrumMachine {
         this.tracks = {};
         this.defaultBuffersLoaded = false;
         this.defaultTracksLoaded = false;
-        this.tracksInSolo = new Set();
-        this.tracksInMute = new Set();
+        this._tracksInSolo = new Set();
+        this._tracksInMute = new Set();
 
         this.currentTickIndex = 0;
 
@@ -352,8 +352,8 @@ export class DrumMachine {
 
     removeTrack(trackID) {
         let track = this.tracks[trackID];
-        this.tracksInSolo.delete(track);
-        this.tracksInMute.delete(track);
+        this._tracksInSolo.delete(track);
+        this._tracksInMute.delete(track);
         delete this.tracks[trackID];
     }
 
@@ -364,8 +364,8 @@ export class DrumMachine {
         if (!this.tracks.hasOwnProperty(trackID)) return;
 
         let focusTrack = this.tracks[trackID];
-        let tracksInSolo = this.tracksInSolo;
-        let tracksInMute = this.tracksInMute;
+        let tracksInSolo = this._tracksInSolo;
+        let tracksInMute = this._tracksInMute;
 
         // case 1: track is not in solo and not in mute
         if (!tracksInSolo.has(focusTrack) && !tracksInMute.has(focusTrack)) {
@@ -430,8 +430,8 @@ export class DrumMachine {
         if (!this.tracks.hasOwnProperty(trackID)) return;
 
         let focusTrack = this.tracks[trackID];
-        let tracksInSolo = this.tracksInSolo;
-        let tracksInMute = this.tracksInMute;
+        let tracksInSolo = this._tracksInSolo;
+        let tracksInMute = this._tracksInMute;
 
         // case 1: track not in solo or mute
         if (!tracksInSolo.has(focusTrack) && !tracksInMute.has(focusTrack)) {
@@ -506,8 +506,8 @@ export class DrumMachine {
 
 
     _clearTracks() {
-        this.tracksInSolo.clear();
-        this.tracksInMute.clear();
+        this._tracksInSolo.clear();
+        this._tracksInMute.clear();
 
         for (let key in this.tracks) {
             if (this.tracks.hasOwnProperty(key)) {

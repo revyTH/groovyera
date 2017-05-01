@@ -3,32 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <title>Drum Machine</title>
-    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width,height=device-height">
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <!--<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width,height=device-height">-->
     <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 
 
     <!--styles-->
     <link rel="stylesheet" href="libs/jquery-ui/jquery-ui.structure.min.css">
     <link rel="stylesheet" href="libs/jquery-ui/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="libs/jquery-mmenu/jquery.mmenu.all.css">
     <link rel="stylesheet" href="build/styles/styles.css">
 
+    <!-- for the one page layout -->
+    <style type="text/css">
+        #intro,
+        #first,
+        #second,
+        #third
+        {
+            height: 400px;
+        }
+        #intro
+        {
+            padding-top: 0;
+        }
+        #first,
+        #second,
+        #third
+        {
+            border-top: 1px solid #ccc;
+            padding-top: 150px;
+        }
+    </style>
+
+    <!-- for the fixed header -->
+    <style type="text/css">
+        .header,
+        .footer
+        {
+            position: fixed;
+            left: 0;
+            right: 0;
+        }
+        .header
+        {
+            top: 0;
+        }
+        .footer
+        {
+            bottom: 0;
+        }
+
+        .content {
+            display: block;
+            position: relative;
+            top: 200px;
+            left: 0;
+        }
+
+        /*@media (min-width: 800px) {*/
+            /*.header a*/
+            /*{*/
+                /*display: none;*/
+            /*}*/
+        /*}*/
+    </style>
+
     <!--js-->
+    <script type="text/javascript" src="http://hammerjs.github.io/dist/hammer.min.js"></script>
     <script src="build/libs/libs.bundle.min.js"></script>
     <script src="build/js/app.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            $('nav#menu').mmenu({
+                drag 		: true,
+                pageScroll 	: {
+                    scroll 		: true,
+                    update		: true
+                },
+                extensions	: {
+//                    '(min-width: 800px)': [ 'widescreen' ]
+                }
+            });
+
+            $("#theBtn").button();
+        });
+    </script>
 
 
 
 
 </head>
-<body ontouchstart="">
+<body>
+
+
+    <div id="page">
+
+
+        <div class="header Fixed">
+            <a href="#menu"><span></span></a>
+            Demo
+        </div>
 
 
 
-    <!--ANGULAR VIEWS-->
-    <div id="angularView" data-ng-view=""></div>
 
 
 
+
+
+
+        <div class="content" id="content">
+
+
+            <!--<div style="position: fixed; top: 40px; left: 0; width: 100%; height: 40px; line-height: 40px; background-color: red;">-->
+                <!--<div style="display: inline-block; vertical-align: middle; height: 32px; background-color: black; color: white;">-->
+                    <!--Hello world-->
+                <!--</div>-->
+                <!--<button id="theBtn" style="display: inline-block;">The button</button>-->
+            <!--</div>-->
+
+
+            <!--<div id="intro">-->
+                <!--<p><strong>This is a demo.</strong><br />-->
+                    <!--Click the menu icon to open the menu.</p>-->
+                <!--<p>Some of the links in the menu link to a section on this page.</p>-->
+            <!--</div>-->
+            <!--<div id="first">-->
+                <!--<p><strong>This is the first section.</strong><br />-->
+                    <!--Notice how the fixed header and footer slide out along with the page.</p>-->
+                <!--<p><a href="#menu">Open the menu.</a></p>-->
+            <!--</div>-->
+            <!--<div id="second">-->
+                <!--<p><strong>This is the second section.</strong><br />-->
+                    <!--You can also drag the page to the right to open the menu.</p>-->
+                <!--<p><a href="#menu">Open the menu.</a></p>-->
+            <!--</div>-->
+            <!--<div id="third">-->
+                <!--<p><strong>This is the third section.</strong><br />-->
+                    <!--It is also the last section.</p>-->
+                <!--<p><a href="#menu">Open the menu.</a></p>-->
+            <!--</div>-->
+
+
+            <!--ANGULAR VIEWS-->
+            <div id="angularView" data-ng-view=""></div>
+        </div>
+
+
+
+
+        <div class="footer Fixed">
+            Fixed footer :-)
+        </div>
+
+
+
+
+        <nav id="menu">
+            <ul>
+                <li><a href="#content">Introduction</a></li>
+                <li><a href="#first">First section</a></li>
+                <li><a href="#second">Second section</a></li>
+                <li><a href="#third">Third section</a></li>
+
+                <li><a href="/about/">About us</a>
+                    <ul>
+                        <li><a href="/about/history/">History</a></li>
+                        <li><a href="/about/team/">The team</a></li>
+                        <li><a href="/about/address/">Our address</a></li>
+                    </ul>
+                </li>
+
+                <li class="Divider">Other demos</li>
+                <li><a href="default.html">Default demo</a></li>
+                <li><a href="advanced.html">Advanced demo</a></li>
+            </ul>
+        </nav>
+
+
+    </div>
 
 
 </body>

@@ -41,6 +41,8 @@ module.exports = {
             "./public/libs/jquery/jquery-1.9.1.min.js",
             "./public/libs/jquery-ui/jquery-ui.min.js",
             "./public/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js",
+            "./public/libs/jquery-mmenu/jquery.mmenu.all.min.js",
+            // "./public/libs/jquery-mmenu/addons/fixedelements/jquery.mmenu.fixedelements.min.js",
             "./public/libs/*.js",
             "./node_modules/angular/angular.js",
             "./node_modules/angular-route/angular-route.js",

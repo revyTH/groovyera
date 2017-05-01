@@ -70,6 +70,7 @@ table {
   box-sizing: border-box; }
 
 body {
+  position: relative;
   font-family: "Helvetica Neue", "Helvetica";
   font-style: normal;
   font-weight: normal;
@@ -79,7 +80,11 @@ body {
   color: #1ea4f9;
   background: #333;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: none; }
+
+body * {
+  text-shadow: none; }
 
 canvas {
   -webkit-touch-callout: none;
@@ -94,6 +99,7 @@ canvas {
 
 #angularView {
   position: relative;
+  top: 0;
   left: 0;
   width: 100%; }
 
@@ -109,6 +115,54 @@ input::-webkit-inner-spin-button {
  * layout.scss
  * ---------------------------------------------------------------------------------------
  */
+nav:not(.mm-menu) {
+  display: none; }
+
+.header,
+.footer {
+  background: #777;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  line-height: 40px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding: 0 50px; }
+
+.header.fixed {
+  position: fixed;
+  top: 0;
+  left: 0; }
+
+.footer.fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0; }
+
+.header a {
+  display: block;
+  width: 28px;
+  height: 18px;
+  padding: 11px;
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.header a:before,
+.header a:after {
+  content: '';
+  display: block;
+  background: #fff;
+  height: 2px; }
+
+.header a span {
+  background: #fff;
+  display: block;
+  height: 2px;
+  margin: 6px 0; }
+
 #addTrackBtn {
   margin-top: 1em;
   margin-left: 1em;
@@ -129,13 +183,13 @@ input::-webkit-inner-spin-button {
 
 #sequencerTransportContainer {
   position: fixed;
-  overflow: hidden;
   padding-left: calc(2em - 4px);
   padding-right: calc(2em - 4px);
-  top: 1em;
+  top: 100px;
+  left: 0;
   width: 100%;
   background-color: #111;
-  z-index: 10; }
+  z-index: 100; }
 
 #sequencerControlsContainer {
   position: relative;
@@ -255,12 +309,12 @@ input::-webkit-inner-spin-button {
   height: 0.5em !important; }
 
 .tracks-container {
-  margin-top: calc(48px + 2em + 1em);
+  margin-top: calc(48px + 2em);
   left: 0;
   width: 100%; }
   @media (min-width: 320px) and (max-width: 511px) {
     .tracks-container {
-      margin-top: calc(32px + 2em + 1em); } }
+      margin-top: calc(32px + 2em); } }
 
 .track {
   position: relative;
