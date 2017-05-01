@@ -15,6 +15,7 @@ import { testController } from "./components/test/testController";
 
 import { trackDirective } from "./directives/track-directive";
 import { tickSliderDirective } from "./directives/tickSlider-directive";
+// import { transportDirective} from "./directives/transport-directive";
 
 
 
@@ -28,13 +29,14 @@ import { tickSliderDirective } from "./directives/tickSlider-directive";
 
 
     // bind controllers
-    app.controller("drumMachineController", ["$scope", "$http", "FileSaver", "Blob", drumMachineController]);
+    app.controller("drumMachineController", ["$scope", "$compile", "$http", "FileSaver", "Blob", drumMachineController]);
     app.controller("testController", ['$scope', testController]);
 
 
     // register directives
     app.directive("tickSlider", tickSliderDirective);
     app.directive("theTrack", ["supportedAudioFormats", trackDirective]);
+    // app.directive("transport", transportDirective);
 
 
 

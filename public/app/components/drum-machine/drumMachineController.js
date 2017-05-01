@@ -8,7 +8,7 @@
 import { DrumMachine } from "../../audio/DrumMachine";
 
 
-export function drumMachineController($scope, $http, FileSaver, Blob) {
+export function drumMachineController($scope, $compile, $http, FileSaver, Blob) {
 
     $scope.safeApply = function(fn) {
         var phase = this.$root.$$phase;
@@ -20,6 +20,17 @@ export function drumMachineController($scope, $http, FileSaver, Blob) {
             this.$apply(fn);
         }
     };
+
+
+
+
+    // let transportDirective = $compile("<transport></transport>");
+    // let transportDiv = transportDirective($scope);
+    // let page = document.getElementById("page");
+    // angular.element(page).append(transportDiv);
+
+
+
 
     let drumMachine = new DrumMachine();
     let playBtn = $("#sequencerPlayButton");
@@ -541,6 +552,7 @@ export function drumMachineController($scope, $http, FileSaver, Blob) {
 
     initDefaultTracks($scope, drumMachine);
     initSequencerControls($scope, drumMachine);
+
     // initDATgui(drumMachine);
 
 }

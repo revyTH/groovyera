@@ -2,12 +2,13 @@
 
 
 .tracks-container {
-  margin-top: calc(48px + 2em);
+  //margin-top: calc(48px + 2em);
   left: 0;
   width: 100%;
+  padding-top: 200px;
 
   @include smartphone {
-    margin-top: calc(32px + 2em);
+    //margin-top: calc(32px + 2em);
   }
 }
 
