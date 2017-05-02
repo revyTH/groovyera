@@ -35,6 +35,12 @@
   }
 }
 
+@mixin smartphone-landscape {
+  @media only screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
+    @content;
+  }
+}
+
 
 //@mixin media-mobile() {
 //  @media only screen and (min-width: $mobile_min_width) and (max-width: $mobile_max_width) and (-webkit-min-device-pixel-ratio: $mobile_min_pixel_ratio) {

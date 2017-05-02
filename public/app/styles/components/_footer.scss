@@ -6,5 +6,6 @@
   padding: 1em;
   left: 0;
   width: 100%;
-  background-color: $cod-gray;
+  //background-color: $cod-gray;
+  @include linear-gradient(#212121, $cod-gray);
 }

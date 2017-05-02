@@ -2,19 +2,38 @@
 
 #sequencerTransportContainer {
   position: fixed;
-  //overflow: hidden;
-  //padding-left: calc(2em - 4px);
-  //padding-right: calc(2em - 4px);
+
   padding: 1em;
   top: 64px;
   left: 0;
   width: 100%;
 
+
+  //left: $body-padding-desktop;
+  //width: calc(100% - #{$body-padding-desktop + $body-padding-desktop});
+
   //background-color: #333;
   @include linear-gradient($cod-gray, #666,$cod-gray);
   z-index: 100;
 
-  //display: none !important;
+  //@include tablet {
+  //  left: $body-padding-tablet;
+  //  width: calc(100% - #{$body-padding-tablet + $body-padding-tablet});
+  //}
+  //
+  //@include smartphone {
+  //  left: 0;
+  //  width: 100%;
+  //}
+
+
+  @include smartphone-landscape {
+    top: 40px;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
 }
 
 
@@ -30,6 +49,10 @@
   //line-height: 4em;
 
   @include smartphone {
+    height: 32px;
+  }
+
+  @include smartphone-landscape {
     height: 32px;
   }
 }
@@ -63,6 +86,11 @@
     width: 32px;
     height: 32px;
   }
+
+  @include smartphone-landscape {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 #sequencerPlayButton {
@@ -86,6 +114,10 @@
   @include smartphone {
     font-size: 12px;
   }
+
+  @include smartphone-landscape {
+
+  }
 }
 
 
@@ -93,15 +125,21 @@
   position: relative;
   top: 1em;
   width: calc(100vw - 2em - 48px - 48px - 48px - 48px);
+  //width: calc(100vw - #{$body-padding-desktop + $body-padding-desktop} - 2em - 48px - 48px - 48px - 48px);
   height: 4px;
   @include border-radius(0);
   @include linear-gradient(to right, $slider-start, $slider-end);
   border: 1px solid #999;
 
-  @include smartphone {
-    top: 12px;
-    width: calc(100vw - 2em - 32px - 32px - 32px - 32px);
-  }
+
+  //@include tablet {
+  //  width: calc(100vw - #{$body-padding-tablet + $body-padding-tablet} - 2em - 48px - 48px - 48px - 48px);
+  //}
+  //
+  //@include smartphone {
+  //  top: 12px;
+  //  width: calc(100vw - 2em - 32px - 32px - 32px - 32px);
+  //}
 }
 
 
@@ -183,6 +221,12 @@
   background-color: red;
 
   @include smartphone {
+    width: 8px;
+    height: 2px;
+    @include border-radius(1px);
+  }
+
+  @include smartphone-landscape {
     width: 8px;
     height: 2px;
     @include border-radius(1px);

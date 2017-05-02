@@ -31,12 +31,14 @@ module.exports = function(router) {
             if (!mongoose.connection.readyState) {
                 res.statusCode = httpStatusCodes.FAILED_DEPENDENCY;
                 res.send("MongoDB connection missing: cannot process request.");
+                return;
             }
 
-            Comment.find({}, function(err, comments) {
+            Comment.find({}).sort('-createdTs').exec(function(err, comments) {
                 if (err) {
                     res.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                     res.end();
+                    return;
                 }
 
                 res.json(comments);
@@ -64,14 +66,19 @@ module.exports = function(router) {
                     if (err.name && err.name === "ValidationError") {
                         res.statusCode = httpStatusCodes.BAD_REQUEST;
                         res.json(err.message);
-                    } else {
+                        return;
+                    }
+                    else {
                         res.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                         res.json("An error has occurred");
+                        return;
                     }
                 }
 
+
                 res.statusCode = httpStatusCodes.CREATED;
-                res.end();
+                res.json(comment);
+
             });
 
         });

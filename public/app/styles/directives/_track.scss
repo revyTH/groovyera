@@ -11,6 +11,10 @@
   @include smartphone {
     padding-top: calc(64px + 1em + 32px + 1em + 24px + 1em);
   }
+
+  @include smartphone-landscape {
+    padding-top: calc(40px + 4px + 32px + 1em + 24px + 4px);
+  }
 }
 
 

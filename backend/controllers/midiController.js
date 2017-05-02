@@ -38,6 +38,7 @@ module.exports = function(router) {
                 if (!req.body) {
                     res.statusCode = httpStatusCodes.BAD_REQUEST;
                     res.end();
+                    return;
                 }
 
                 buildMidiFile(req.body).then(function(buffer) {
@@ -49,6 +50,7 @@ module.exports = function(router) {
                     });
 
                     res.end(new Buffer(buffer), "binary");
+                    return;
 
                 }, function(error) {
                     if (error) {
@@ -58,6 +60,7 @@ module.exports = function(router) {
                     }
                     res.statusCode = httpStatusCodes.BAD_REQUEST;
                     res.end();
+                    return;
                 })
 
             }
@@ -65,6 +68,7 @@ module.exports = function(router) {
             catch (e) {
                 res.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                 res.end();
+                return;
             }
 
         });

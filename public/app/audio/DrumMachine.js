@@ -239,7 +239,6 @@ export class DrumMachine {
     }
 
 
-
     _start() {
 
         if (!this.audioContextEnabled) {
@@ -336,9 +335,6 @@ export class DrumMachine {
     }
 
 
-
-
-
     _playSound(bufferName, time) {
         let ctx = this.audioContext;
         let sound = ctx.createBufferSource();
@@ -346,8 +342,6 @@ export class DrumMachine {
         sound.connect(ctx.destination);
         sound.start(time);
     }
-
-
 
 
     removeTrack(trackID) {
@@ -493,8 +487,6 @@ export class DrumMachine {
         let ticks = [];
         for(let i = 0; i < this.numberOfBeats; i++) {
 
-            console.log(i);
-
             ticks.push({
                 index: i,
                 volume: 0,
@@ -518,7 +510,7 @@ export class DrumMachine {
 
 
     addEmptyTrack() {
-        let name = "track_" + Object.keys(this.tracks).length;
+        let name = "track_" + (Object.keys(this.tracks).length + 1);
         let track = new Track(this, name);
         track.setTicksFromArray(this._createEmptyTicksArray());
         this.tracks[track.id] = track;
@@ -553,7 +545,6 @@ export class DrumMachine {
             });
         });
     }
-
 
 
     loadPreset(data) {

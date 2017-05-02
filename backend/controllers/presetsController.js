@@ -27,12 +27,14 @@ module.exports = function(router) {
             if (!mongoose.connection.readyState) {
                 res.statusCode = httpStatusCodes.FAILED_DEPENDENCY;
                 res.send("MongoDB connection missing: cannot process request.");
+                return;
             }
 
             Preset.find({}, function(err, presets) {
                 if (err) {
                     res.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                     res.end();
+                    return;
                 }
 
                 res.json(presets);
@@ -50,6 +52,7 @@ module.exports = function(router) {
                 if (err) {
                     res.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                     res.end("An error occurred.");
+                    return;
                 }
 
                 res.statusCode = httpStatusCodes.CREATED;

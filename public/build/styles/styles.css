@@ -77,11 +77,12 @@ body {
   text-align: justify;
   text-justify: inter-word;
   letter-spacing: .1em;
-  color: #1ea4f9;
+  color: white;
   background: #333;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: none; }
+  -webkit-text-size-adjust: none;
+  background-color: #666; }
 
 body * {
   text-shadow: none; }
@@ -891,7 +892,6 @@ nav:not(.mm-menu) {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
   margin: 0;
   padding-left: 1em;
   padding-right: 1em;
@@ -904,6 +904,10 @@ nav:not(.mm-menu) {
   font-size: 16px;
   font-weight: bold;
   color: #fff; }
+  @media only screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
+    .header {
+      height: 40px;
+      line-height: 40px; } }
 
 #title {
   display: inline-block;
@@ -925,6 +929,9 @@ nav:not(.mm-menu) {
   @media (min-width: 320px) and (max-width: 511px) {
     .hamburger-box {
       width: 32px !important; } }
+  @media only screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
+    .hamburger-box {
+      width: 32px !important; } }
 
 .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
   width: 100% !important; }
@@ -932,35 +939,15 @@ nav:not(.mm-menu) {
 .hamburger {
   padding: 0 !important; }
 
-.header a {
-  display: block;
-  width: 28px;
-  height: 18px;
-  padding: 11px;
-  position: absolute;
-  top: 0;
-  left: 0; }
-
-.header a:before,
-.header a:after {
-  content: '';
-  display: block;
-  background: #fff;
-  height: 2px; }
-
-.header a span {
-  background: #fff;
-  display: block;
-  height: 2px;
-  margin: 6px 0; }
-
 #footerContainer {
   display: block;
   position: relative;
   padding: 1em;
   left: 0;
   width: 100%;
-  background-color: #111; }
+  background: #111;
+  background: -webkit-linear-gradient(legacy-direction(#212121), #111);
+  background: linear-gradient(#212121, #111); }
 
 #drumMachineViewContainer {
   display: block;
@@ -997,6 +984,13 @@ nav:not(.mm-menu) {
   background: -webkit-linear-gradient(legacy-direction(#111), #666, #111);
   background: linear-gradient(#111, #666, #111);
   z-index: 100; }
+  @media only screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
+    #sequencerTransportContainer {
+      top: 40px;
+      padding-left: 1em;
+      padding-right: 1em;
+      padding-top: 4px;
+      padding-bottom: 4px; } }
 
 #sequencerControlsContainer {
   position: relative;
@@ -1005,6 +999,9 @@ nav:not(.mm-menu) {
   width: 100%;
   height: 48px; }
   @media (min-width: 320px) and (max-width: 511px) {
+    #sequencerControlsContainer {
+      height: 32px; } }
+  @media only screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
     #sequencerControlsContainer {
       height: 32px; } }
 
@@ -1027,6 +1024,10 @@ nav:not(.mm-menu) {
   background-size: 100%;
   outline: none; }
   @media (min-width: 320px) and (max-width: 511px) {
+    .sequencer-control-button {
+      width: 32px;
+      height: 32px; } }
+  @media only screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
     .sequencer-control-button {
       width: 32px;
       height: 32px; } }
@@ -1063,10 +1064,6 @@ nav:not(.mm-menu) {
   background: -webkit-linear-gradient(legacy-direction(to right), #ddd, #888);
   background: linear-gradient(to right, #ddd, #888);
   border: 1px solid #999; }
-  @media (min-width: 320px) and (max-width: 511px) {
-    #sequencerBPMslider {
-      top: 12px;
-      width: calc(100vw - 2em - 32px - 32px - 32px - 32px); } }
 
 #sequencerBPMslider > .ui-slider-handle {
   height: 12px; }
@@ -1132,6 +1129,14 @@ nav:not(.mm-menu) {
       border-radius: 1px;
       background-clip: padding-box;
       /* stops bg color from leaking outside the border: */ } }
+  @media only screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
+    .beat-indicator {
+      width: 8px;
+      height: 2px;
+      -webkit-border-radius: 1px;
+      border-radius: 1px;
+      background-clip: padding-box;
+      /* stops bg color from leaking outside the border: */ } }
 
 .beat-indicator-active {
   background-color: yellow; }
@@ -1156,6 +1161,9 @@ nav:not(.mm-menu) {
   @media (min-width: 320px) and (max-width: 511px) {
     .tracks-container {
       padding-top: calc(64px + 1em + 32px + 1em + 24px + 1em); } }
+  @media only screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape) {
+    .tracks-container {
+      padding-top: calc(40px + 4px + 32px + 1em + 24px + 4px); } }
 
 .track {
   position: relative;
@@ -1334,21 +1342,86 @@ nav:not(.mm-menu) {
   padding: 0 !important; }
 
 #accordionContainer {
-  margin-top: 2em;
+  margin-top: 10em;
   width: 100%; }
 
-.ui-state-focus, .ui-accordion-header {
-  background: #111;
-  background: -webkit-linear-gradient(legacy-direction(#333), #111, #333);
-  background: linear-gradient(#333, #111, #333);
-  border: none;
+#usernameInput {
+  width: 100%;
+  height: 3em;
+  padding: 1em;
+  box-sizing: border-box;
+  border-top: 2px solid #dbdfe4;
+  border-left: 2px solid #dbdfe4;
+  border-right: 2px solid #dbdfe4;
+  border-bottom: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  color: #bababa;
+  background: #2b2b2b;
   outline: none; }
 
+#commentArea {
+  width: 100%;
+  height: 6em;
+  line-height: 1.2em;
+  padding: 1em;
+  box-sizing: border-box;
+  border: 2px solid #dbdfe4;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  color: #bababa;
+  background: #2b2b2b;
+  outline: none;
+  resize: none;
+  maxlength: 30; }
+
+#postCommentBtn {
+  position: absolute;
+  top: 1em;
+  right: 0;
+  display: inline-block;
+  vertical-align: middle;
+  outline: none; }
+
+#commentValidation {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50%;
+  line-height: 1em;
+  font-size: 1em;
+  color: red; }
+
+.ui-state-focus, .ui-accordion-header {
+  border: none;
+  outline: none;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */
+  background-color: #212121; }
+
 .ui-accordion .ui-accordion-content {
-  padding: 2em; }
+  padding: 4em; }
+  @media (min-width: 320px) and (max-width: 511px) {
+    .ui-accordion .ui-accordion-content {
+      padding: 1em; } }
 
 #accordion .ui-accordion-content {
   border: none;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */
   background: #666;
   background: -webkit-linear-gradient(legacy-direction(#333), #666, #111);
   background: linear-gradient(#333, #666, #111); }
@@ -1369,20 +1442,21 @@ nav:not(.mm-menu) {
   top: 0;
   left: 0;
   width: 100%;
-  height: 1.5em;
-  line-height: 1.5em; }
+  height: auto; }
 
 .comment-title {
-  float: left;
-  display: inline-block;
+  display: block;
+  width: 100%;
   vertical-align: middle;
   color: #111;
   font-size: 1em;
-  font-weight: bold; }
+  font-weight: bold;
+  overflow: hidden; }
 
 .comment-created {
-  float: right;
-  display: inline-block;
+  display: block;
+  margin-top: 4px;
+  width: 100%;
   vertical-align: middle;
   color: #bbb;
   font-size: 0.75em; }
@@ -1393,7 +1467,6 @@ nav:not(.mm-menu) {
   width: 100%;
   font-size: 1em;
   color: #111;
-  text-align: justify;
-  text-justify: inter-word; }
+  text-align: left; }
 
 /*# sourceMappingURL=styles.css.map */

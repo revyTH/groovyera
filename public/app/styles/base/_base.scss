@@ -25,7 +25,7 @@ body {
   text-align: justify;
   text-justify: inter-word;
   letter-spacing: .1em;
-  color: $scifi-text-hover;
+  color: white;
   background: #333;
 
   -webkit-font-smoothing: antialiased;
@@ -33,10 +33,23 @@ body {
 
   -webkit-text-size-adjust: none;
 
+  background-color: #666;
 
-  @include smartphone {
 
-  }
+
+  //padding-left: $body-padding-desktop;
+  //padding-right: $body-padding-desktop;
+  //
+  //@include tablet {
+  //  padding-left: $body-padding-tablet;
+  //  padding-right: $body-padding-tablet;
+  //}
+  //
+  //@include smartphone {
+  //  padding-left: 0;
+  //  padding-right: 0;
+  //}
+
 }
 
 

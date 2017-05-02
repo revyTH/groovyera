@@ -1,26 +1,98 @@
 
 #accordionContainer {
-  margin-top: 2em;
+  margin-top: 10em;
   width: 100%;
 }
 
 
 
-// jquery accordion styles
 
-.ui-state-focus, .ui-accordion-header {
-  @include linear-gradient(#333, $cod-gray, #333);
-  border: none;
+#usernameInput {
+  width: 100%;
+  height: 3em;
+  padding: 1em;
+  box-sizing: border-box;
+  border-top: 2px solid #dbdfe4;
+  border-left: 2px solid #dbdfe4;
+  border-right: 2px solid #dbdfe4;
+  border-bottom: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  color: #bababa;
+  background: #2b2b2b;
   outline: none;
 }
 
+
+#commentArea {
+  width: 100%;
+  height: 6em;
+  line-height: 1.2em;
+  padding: 1em;
+  box-sizing: border-box;
+  border: 2px solid #dbdfe4;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  color: #bababa;
+  background: #2b2b2b;
+  outline: none;
+  resize: none;
+  maxlength: 30;
+}
+
+
+#postCommentBtn {
+  position: absolute;
+  top: 1em;
+  right: 0;
+  display: inline-block;
+  vertical-align: middle;
+  //position: absolute;
+  //top: 10em;
+  outline: none;
+}
+
+#commentValidation {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50%;
+  line-height: 1em;
+  font-size: 1em;
+  color: red;
+}
+
+
+// jquery accordion styles
+
+.ui-state-focus, .ui-accordion-header {
+  border: none;
+  outline: none;
+  @include border-radius(0);
+  background-color: #212121;
+}
+
 .ui-accordion .ui-accordion-content {
-  padding: 2em;
+  padding: 4em;
+
+  @include smartphone {
+    padding: 1em;
+  }
 }
 
 
 #accordion .ui-accordion-content {
   border: none;
+  @include border-radius(0);
   @include linear-gradient(#333, #666, $cod-gray);
 }
 
@@ -48,26 +120,26 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 1.5em;
-  line-height: 1.5em;
+  height: auto;
 }
 
 .comment-title {
-  float: left;
-  display: inline-block;
+  display: block;
+  width: 100%;
   vertical-align: middle;
   color: $cod-gray;
   font-size: 1em;
   font-weight: bold;
+  overflow: hidden;
 }
 
 .comment-created {
-  float: right;
-  display: inline-block;
+  display: block;
+  margin-top: 4px;
+  width: 100%;
   vertical-align: middle;
   color: #bbb;
   font-size: 0.75em;
-
 }
 
 
@@ -78,8 +150,8 @@
   width: 100%;
   font-size: 1em;
   color: $cod-gray;
-  text-align: justify;
-  text-justify: inter-word;
+  text-align: left;
+  //text-justify: inter-word;
 }
 
 

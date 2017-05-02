@@ -4,12 +4,13 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
+  //left: $body-padding-desktop;
   margin: 0;
   padding-left: 1em;
   padding-right: 1em;
 
   width: 100%;
+  //width: calc(100% - #{$body-padding-desktop + $body-padding-desktop});
   height: 64px;
   line-height: 64px;
 
@@ -20,6 +21,24 @@
   font-size: 16px;
   font-weight: bold;
   color: #fff;
+
+
+  //@include tablet {
+  //  left: $body-padding-tablet;
+  //  width: calc(100% - #{$body-padding-tablet + $body-padding-tablet});
+  //}
+  //
+  //@include smartphone {
+  //  left: 0;
+  //  width: 100%;
+  //}
+
+
+  @include smartphone-landscape {
+    height: 40px;
+    line-height: 40px;
+  }
+
 }
 
 
@@ -49,6 +68,10 @@
   @include smartphone {
     width: 32px !important;
   }
+
+  @include smartphone-landscape {
+    width: 32px !important;
+  }
 }
 
 .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
@@ -64,31 +87,31 @@
 
 
 
-.header a
-{
-  display: block;
-  width: 28px;
-  height: 18px;
-  padding: 11px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.header a:before,
-.header a:after
-{
-  content: '';
-  display: block;
-  background: #fff;
-  height: 2px;
-}
-.header a span
-{
-  background: #fff;
-  display: block;
-  height: 2px;
-  margin: 6px 0;
-}
+//.header a
+//{
+//  display: block;
+//  width: 28px;
+//  height: 18px;
+//  padding: 11px;
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//}
+//.header a:before,
+//.header a:after
+//{
+//  content: '';
+//  display: block;
+//  background: #fff;
+//  height: 2px;
+//}
+//.header a span
+//{
+//  background: #fff;
+//  display: block;
+//  height: 2px;
+//  margin: 6px 0;
+//}
 
 
 

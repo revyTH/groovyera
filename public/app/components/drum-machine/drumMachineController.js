@@ -48,25 +48,35 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     $scope.removeTrack = removeTrack;
     $scope.integerval = /^\d*$/;
     $scope.beats = new Array(drumMachine.numberOfBeats).fill(false);
+    $scope.username = "";
+    $scope.commentToPost = "";
+    $scope.comments = [];
+    $scope.invalidUsernameMessage = "Give ya a name! (3-32 characters)";
+    $scope.invalidCommentMessage = "Write something cool! (3-1000 characters)";
 
-    $scope.comments = [
-        {
-            username: "pollos",
-            message: "hermanos cumo amigos!",
-            createdAt: "12 agosto 2017"
-        },
-        {
-            username: "xxx",
-            message: "zona xander",
-            createdAt: "12 giugno 2011"
-        }
-    ];
+
+    // $scope.comments = [
+    //     {
+    //         username: "pollos",
+    //         message: "hermanos cumo amigos!",
+    //         createdAt: "12 agosto 2017"
+    //     },
+    //     {
+    //         username: "xxx",
+    //         message: "zona xander",
+    //         createdAt: "12 giugno 2011"
+    //     }
+    // ];
 
     $( "#accordion" ).accordion({
         animate: 200,
         collapsible: true,
         heightStyle: "content",
         // icons: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" }
+    });
+
+    $("#postCommentBtn").button({
+        icon: "ui-icon-pencil"
     });
 
 
@@ -103,7 +113,12 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
         switch (e.keyCode) {
 
             case 32:
-                if ($scope.isStopped) {
+
+                if($("textarea#commentArea, input#usernameInput").is(":focus")){
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                else if ($scope.isStopped) {
                     play(e);
                 } else {
                     stop(e);
@@ -387,6 +402,36 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
 
 
+    $scope.postComment = ()=> {
+
+        let data = {
+            username: $scope.username,
+            message: $scope.commentToPost
+        };
+
+        $http({
+            url: 'http://192.168.1.75:4500/api/comments',
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            data: JSON.stringify(data)
+
+        }).then(function (response) {
+            console.log(response);
+            $scope.comments.splice(0, 0, response.data);
+            $scope.commentToPost = "";
+            $scope.safeApply();
+        }, function (response) {
+            console.log(response);
+        });
+
+    };
+
+
+
+
 
     /*
      * ---------------------------------------------------------------------------------------
@@ -475,7 +520,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     }
 
 
-
     function play(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -512,7 +556,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     }
 
 
-
     function loadPresetFromJson(json) {
         drumMachine.loadPreset(json).then(tracks => {
 
@@ -531,7 +574,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     }
 
 
-
     function initExportMidiMenu() {
 
         let API = $("nav#menu").data( "mmenu" );
@@ -543,8 +585,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
         API.initPanels( $("#menu-list") );
 
     }
-
-
 
 
     function initPresetsMenu() {
@@ -592,6 +632,26 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     }
 
 
+    function loadComments() {
+
+        $http({
+            url: 'http://192.168.1.75:4500/api/comments',
+            method: "GET",
+            headers: {
+                "Accept" : "application/json"
+            }
+
+        }).then(function (response) {
+            console.log(response);
+            $scope.comments = response.data;
+            $scope.safeApply();
+        }, function (response) {
+            console.log(response);
+        });
+
+    }
+
+
 
 
 
@@ -617,7 +677,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
     $(window).ready(() => {
         initPresetsMenu();
-
+        loadComments();
     })
 
     // initDATgui(drumMachine);
