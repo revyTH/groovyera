@@ -127,23 +127,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     };
 
 
-    $scope.testAPI = () => {
-
-
-        // $http({
-        //     url: 'http://localhost:4500/api/midi',
-        //     method: "GET",
-        //     responseType: "arraybuffer"
-        // }).then(function (response) {
-        //     console.log(response);
-        //     let blob = new Blob([response.data], { type: 'audio/midi' });
-        //     // console.log(response.headers);
-        //     // let fileName = response.headers('content-disposition');
-        //     FileSaver.saveAs(blob, "loopish.mid");
-        // }, function (response) {
-        //     console.log('Unable to download the file')
-        // });
-
+    $scope.exportMidi = () => {
 
         let tracks = [];
         for (let key in drumMachine.tracks) {
@@ -172,9 +156,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
                         trackData.notes.push(noteEventData);
                         waitCounter = 0;
-
-                        // console.log(noteEventData);
-
                     }
 
                     else {
@@ -194,8 +175,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
         };
 
 
-        console.log("DATA TO SEND", data);
-
 
         $http({
             url: 'http://localhost:4500/api/midi',
@@ -210,7 +189,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
             console.log(response);
             let blob = new Blob([response.data], { type: 'audio/midi' });
             // let fileName = response.headers('content-disposition');
-            FileSaver.saveAs(blob, "loopish.mid");
+            FileSaver.saveAs(blob, "loop.mid");
         }, function (response) {
             console.log(response);
         });
@@ -266,8 +245,8 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
         let preset = {
 
-            name: "preset001",
-            bpm: 180,
+            name: "preset002",
+            bpm: 115,
             timeSignature: {
                 num: 4,
                 den: 4
@@ -275,8 +254,8 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
             tracks: [
                 {
-                    name: "kick",
-                    soundPath: "app/assets/audio/kick.wav",
+                    name: "kick-elektro",
+                    soundPath: "app/assets/audio/tom-elektro.wav",
                     volume: 1,
                     pan: 0,
                     ticks: [
@@ -303,26 +282,8 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
                     ]
                 },
                 {
-                    name: "snare",
-                    soundPath: "app/assets/audio/snare.wav",
-                    volume: 1,
-                    pan: 0,
-                    ticks: [
-                        {
-                            active: true,
-                            index: 4,
-                            volume: 1
-                        },
-                        {
-                            active: true,
-                            index: 12,
-                            volume: 1
-                        }
-                    ]
-                },
-                {
-                    name: "hats",
-                    soundPath: "app/assets/audio/hat.wav",
+                    name: "low-tom",
+                    soundPath: "app/assets/audio/tom-low.wav",
                     volume: 1,
                     pan: 0,
                     ticks: [
@@ -531,6 +492,86 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
 
 
+    function loadPresetFromJson(json) {
+        drumMachine.loadPreset(json).then(tracks => {
+
+            tracks.forEach(t => {
+                drumMachine.tracks[t.id] = t;
+            });
+
+            $scope.bpm = drumMachine.bpm;
+            bpmSlider.slider("value", $scope.bpm);
+            $scope.$apply();
+
+
+        }, error => {
+            console.log(error);
+        });
+    }
+
+
+
+    function initExportMidiMenu() {
+
+        let API = $("nav#menu").data( "mmenu" );
+        let li = $('<li><a href="#exportMidi" >Export midi</a></li>');
+        li.click($scope.exportMidi);
+
+        $("#menu-list").find( ".mm-listview" ).append( li );
+
+        API.initPanels( $("#menu-list") );
+
+    }
+
+
+
+
+    function initPresetsMenu() {
+
+        $http({
+            url: "http://192.168.1.75:4500/api/presets",
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then(response => {
+
+            let presets = response.data;
+            if (presets.length === 0) {
+                return;
+            }
+
+
+            let liParent = $('<li><a href="/presets/">Presets</a></li>');
+            let ul = $("<ul></ul>");
+            liParent.append(ul);
+
+            presets.forEach(preset => {
+
+                let li = $('<li><a href="#">' + preset.name+ '</a></li>');
+                li.click(() => {
+                    loadPresetFromJson(preset);
+                });
+
+                ul.append(li);
+            });
+
+            let API = $("nav#menu").data( "mmenu" );
+            $("#menu-list").find( ".mm-listview" ).append( liParent);
+            API.initPanels( $("#menu-list") );
+
+
+            initExportMidiMenu();
+
+        }, errorResponse => {
+            console.log(errorResponse);
+            initExportMidiMenu();
+        });
+
+    }
+
+
+
 
 
 
@@ -552,6 +593,11 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
     initDefaultTracks($scope, drumMachine);
     initSequencerControls($scope, drumMachine);
+
+    $(window).ready(() => {
+        initPresetsMenu();
+
+    })
 
     // initDATgui(drumMachine);
 

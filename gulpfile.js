@@ -56,8 +56,8 @@ function build_libs() {
  */
 function build_js() {
 
-    var mode = process.env.NODE_ENV == config.mode.debug ? true : false;
-    console.log(util.colors.red('\nMODE = ' + mode + '\n'));
+    var mode = process.env.NODE_ENV === config.mode.debug ? true : false;
+    console.log(util.colors.red('\nMODE = ' + process.env.NODE_ENV + '\n'));
 
     return browserify({
         entries: config.js.index,
