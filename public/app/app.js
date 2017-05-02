@@ -13,9 +13,10 @@ import { initRoutes } from "./routes";
 import { drumMachineController } from "./components/drum-machine/drumMachineController";
 import { testController } from "./components/test/testController";
 
-import { trackDirective } from "./directives/track-directive";
-import { tickSliderDirective } from "./directives/tickSlider-directive";
-// import { transportDirective} from "./directives/transport-directive";
+import { trackDirective } from "./directives/trackDirective";
+import { tickSliderDirective } from "./directives/tickSliderDirective";
+import { commentDirective } from "./directives/commentDirective";
+
 
 
 
@@ -36,7 +37,8 @@ import { tickSliderDirective } from "./directives/tickSlider-directive";
     // register directives
     app.directive("tickSlider", tickSliderDirective);
     app.directive("theTrack", ["supportedAudioFormats", trackDirective]);
-    // app.directive("transport", transportDirective);
+    app.directive("comment", ["supportedAudioFormats", commentDirective]);
+
 
 
 

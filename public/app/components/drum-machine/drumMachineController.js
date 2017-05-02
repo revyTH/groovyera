@@ -49,6 +49,27 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     $scope.integerval = /^\d*$/;
     $scope.beats = new Array(drumMachine.numberOfBeats).fill(false);
 
+    $scope.comments = [
+        {
+            username: "pollos",
+            message: "hermanos cumo amigos!",
+            createdAt: "12 agosto 2017"
+        },
+        {
+            username: "xxx",
+            message: "zona xander",
+            createdAt: "12 giugno 2011"
+        }
+    ];
+
+    $( "#accordion" ).accordion({
+        animate: 200,
+        collapsible: true,
+        heightStyle: "content",
+        // icons: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" }
+    });
+
+
 
 
 
@@ -542,7 +563,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
             }
 
 
-            let liParent = $('<li><a href="/presets/">Presets</a></li>');
+            let liParent = $('<li><a href="#">Presets</a></li>');
             let ul = $("<ul></ul>");
             liParent.append(ul);
 

@@ -23,6 +23,7 @@
 @import "components/hamburger";
 @import "components/mmenu";
 @import "components/header";
+@import "components/footer";
 @import "../components/drum-machine/styles/drum-machine";
 @import "../components/drum-machine/styles/transport";
 
@@ -30,3 +31,4 @@
 // Directives styles
 @import "directives/tickSlider";
 @import "directives/track";
+@import "directives/comment";

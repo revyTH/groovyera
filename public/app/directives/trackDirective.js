@@ -1,4 +1,4 @@
-/*
+/**
  * ---------------------------------------------------------------------------------------
  * trackDirective
  * ---------------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ export function trackDirective(supportedAudioFormats) {
             ticksElements: "=",
             removeTrack: "="
         },
-        templateUrl: "app/directives/templates/trackDirTemplate.html",
+        templateUrl: "app/directives/templates/trackDirective.html",
         link: function (scope, elem, attrs) {
 
             scope.resizeTick = resizeTick;
