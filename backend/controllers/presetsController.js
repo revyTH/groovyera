@@ -46,10 +46,10 @@ module.exports = function(router) {
 
         .post(function(req, res) {
 
-
             let preset = new Preset(req.body);
             preset.save(err => {
                 if (err) {
+                    console.log(err);
                     res.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
                     res.end("An error occurred.");
                     return;

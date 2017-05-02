@@ -530,11 +530,13 @@ export class DrumMachine {
                 }
 
                 if (volume) {
-                    track.volume = volume;
+                    track.gainNode.gain.value = volume;
                 }
 
                 if (pan) {
-                    track.pan = pan;
+                    if (track.pannerNode) {
+                        track.pannerNode.pan.value = pan;
+                    }
                 }
 
                 resolve(track);
