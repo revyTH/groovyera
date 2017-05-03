@@ -1,4 +1,4 @@
-/*
+/**
  * ---------------------------------------------------------------------------------------
  * mainController.js
  * ---------------------------------------------------------------------------------------
@@ -6,9 +6,18 @@
 
 
 import { DrumMachine } from "../../audio/DrumMachine";
+import { psyTrancePreset } from "../../audio/presets";
 
 
 export function drumMachineController($scope, $compile, $http, FileSaver, Blob) {
+
+    let drumMachine = new DrumMachine();
+    let loadingContainer = $("#loadingContainer");
+    let commentsLoadingOverlay = $("#commentsLoadingOverlay");
+    let commentsLoadingSpinner = $("#commentsLoadingSpinner");
+    let playBtn = $("#sequencerPlayButton");
+    let stopBtn = $("#sequencerStopButton");
+    let bpmSlider = $("#sequencerBPMslider");
 
     $scope.safeApply = function(fn) {
         var phase = this.$root.$$phase;
@@ -20,24 +29,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
             this.$apply(fn);
         }
     };
-
-
-
-
-    // let transportDirective = $compile("<transport></transport>");
-    // let transportDiv = transportDirective($scope);
-    // let page = document.getElementById("page");
-    // angular.element(page).append(transportDiv);
-
-
-
-
-    let drumMachine = new DrumMachine();
-    let playBtn = $("#sequencerPlayButton");
-    let stopBtn = $("#sequencerStopButton");
-    let bpmSlider = $("#sequencerBPMslider");
-
-
 
     $scope.title = "Main Controller";
     $scope.tracks = [];
@@ -55,24 +46,29 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     $scope.invalidCommentMessage = "Write something cool! (3-1000 characters)";
 
 
-    // $scope.comments = [
-    //     {
-    //         username: "pollos",
-    //         message: "hermanos cumo amigos!",
-    //         createdAt: "12 agosto 2017"
-    //     },
-    //     {
-    //         username: "xxx",
-    //         message: "zona xander",
-    //         createdAt: "12 giugno 2011"
-    //     }
-    // ];
+
+
+
+
+
+
+    /*
+     * ---------------------------------------------------------------------------------------
+     * UI
+     * ---------------------------------------------------------------------------------------
+     */
 
     $( "#accordion" ).accordion({
         animate: 200,
         collapsible: true,
+        active: false,
         heightStyle: "content",
-        // icons: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" }
+        // icons: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" },
+        beforeActivate: () => {
+            if ($scope.comments.length === 0) {
+                loadComments();
+            }
+        }
     });
 
     $("#postCommentBtn").button({
@@ -127,6 +123,14 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
             default:
                 break;
+        }
+    });
+
+
+    // remove scroll down on spacebar
+    window.addEventListener('keydown', function(e) {
+        if(e.keyCode === 32 && e.target === document.body) {
+            e.preventDefault();
         }
     });
 
@@ -279,276 +283,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
     $scope.savePreset = function() {
 
-
-        let groovyRockPreset = {
-            name : "Groovy rock",
-            bpm : 120,
-            timeSignature : {
-                num : 4,
-                den : 4
-            },
-            tracks : [
-                {
-                    name : "kick",
-                    soundPath : "app/assets/audio/rock-metal/rock-kick.wav",
-                    volume : 1,
-                    pan : 0,
-                    ticks : [
-                        {
-                            active : true,
-                            index : 0,
-                            volume : 1
-                        },
-                        {
-                            active : true,
-                            index : 4,
-                            volume : 1
-                        },
-                        {
-                            active : true,
-                            index : 8,
-                            volume : 1
-                        },
-                        {
-                            active : true,
-                            index : 10,
-                            volume : 1
-                        },
-                        {
-                            active : true,
-                            index : 12,
-                            volume : 1
-                        }
-                    ]
-                },
-                {
-                    name : "snare",
-                    soundPath : "app/assets/audio/rock-metal/rock-snare.wav",
-                    volume : 1,
-                    pan : 0,
-                    ticks : [
-                        {
-                            active : true,
-                            index : 4,
-                            volume : 1
-                        },
-                        {
-                            active : true,
-                            index : 12,
-                            volume : 1
-                        }
-                    ]
-                },
-                {
-                    name : "ghost-snare",
-                    soundPath : "app/assets/audio/rock-metal/rock-snare-ghost.wav",
-                    volume : 1,
-                    pan : 0,
-                    ticks : [
-                        {
-                            active : true,
-                            index : 15,
-                            volume : 1
-                        }
-                    ]
-                },
-                {
-                    name : "hh open",
-                    soundPath : "app/assets/audio/rock-metal/rock-hh-open.wav",
-                    volume : 0.4,
-                    pan : 0.5,
-                    ticks : [
-                        {
-                            active : true,
-                            index : 4,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 8,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 12,
-                            volume : 0.8
-                        }
-                    ]
-                },
-                {
-                    name : "crash",
-                    soundPath : "app/assets/audio/rock-metal/rock-crash.wav",
-                    volume : 0.5,
-                    pan : -0.5,
-                    ticks : [
-                        {
-                            active : true,
-                            index : 0,
-                            volume : 0.8
-                        }
-                    ]
-                }
-            ]
-        };
-
-
-        let preset = {
-            name : "psy-trance",
-            bpm : 145,
-            timeSignature : {
-                num : 4,
-                den : 4
-            },
-            tracks : [
-                {
-                    name : "kick",
-                    soundPath : "app/assets/audio/trance/trance-kick.wav",
-                    volume : 1,
-                    pan : 0,
-                    ticks : [
-                        {
-                            active : true,
-                            index : 0,
-                            volume : 1
-                        },
-                        {
-                            active : true,
-                            index : 4,
-                            volume : 1
-                        },
-                        {
-                            active : true,
-                            index : 8,
-                            volume : 1
-                        },
-                        {
-                            active : true,
-                            index : 12,
-                            volume : 1
-                        }
-                    ]
-                },
-                {
-                    name : "clap",
-                    soundPath : "app/assets/audio/trance/trance-clap.wav",
-                    volume : 1,
-                    pan : 0,
-                    ticks : [
-                        {
-                            active : true,
-                            index : 4,
-                            volume : 1
-                        },
-                        {
-                            active : true,
-                            index : 12,
-                            volume : 1
-                        }
-                    ]
-                },
-                {
-                    name : "hh open",
-                    soundPath : "app/assets/audio/trance/trance-hh-open.wav",
-                    volume : 0.8,
-                    pan : 0.2,
-                    ticks : [
-                        {
-                            active : true,
-                            index : 2,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 6,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 10,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 14,
-                            volume : 0.8
-                        }
-                    ]
-                },
-                {
-                    name : "bass",
-                    soundPath : "app/assets/audio/trance/trance-bass-A1.wav",
-                    volume : 0.8,
-                    pan : 0,
-                    ticks : [
-                        {
-                            active : true,
-                            index : 1,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 2,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 3,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 5,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 6,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 7,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 9,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 10,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 11,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 13,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 14,
-                            volume : 0.8
-                        },
-                        {
-                            active : true,
-                            index : 15,
-                            volume : 0.8
-                        }
-                    ]
-                }
-            ]
-        };
-
-
-
-
-
+        let preset = psyTrancePreset;
 
         $http({
             url: 'http://localhost:4500/api/presets',
@@ -579,7 +314,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
         };
 
         $http({
-            url: 'http://192.168.1.75:4500/api/comments',
+            url: 'http://localhost:4500/api/comments',
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -613,10 +348,14 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     }
 
     function initDefaultTracks($scope, drumMachine) {
+
+        enableLoadingSpinner();
+
         drumMachine._loadDefaultBuffers().then(() => {
             drumMachine._initDefaultTracks();
             $scope.tracks = drumMachine.tracks;
             $scope.$apply();
+            disableLoadingSpinner();
         }, error => {
             console.log(error);
         });
@@ -726,6 +465,9 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
 
     function loadPresetFromJson(json) {
+
+        enableLoadingSpinner();
+
         drumMachine.loadPreset(json).then(tracks => {
 
             tracks.forEach(t => {
@@ -735,7 +477,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
             $scope.bpm = drumMachine.bpm;
             bpmSlider.slider("value", $scope.bpm);
             $scope.$apply();
-
+            disableLoadingSpinner();
 
         }, error => {
             console.log(error);
@@ -759,7 +501,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     function initPresetsMenu() {
 
         $http({
-            url: "http://192.168.1.75:4500/api/presets",
+            url: "http://localhost:4500/api/presets",
             method: "GET",
             headers: {
                 "Accept": "application/json"
@@ -803,8 +545,10 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
     function loadComments() {
 
+        enableCommentsLoadingSpinner();
+
         $http({
-            url: 'http://192.168.1.75:4500/api/comments',
+            url: 'http://localhost:4500/api/comments',
             method: "GET",
             headers: {
                 "Accept" : "application/json"
@@ -814,10 +558,38 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
             console.log(response);
             $scope.comments = response.data;
             $scope.safeApply();
+            disableCommentsLoadingSpinner();
         }, function (response) {
             console.log(response);
         });
 
+    }
+
+
+    function enableLoadingSpinner() {
+        setTimeout(() => {
+            loadingContainer.addClass("loading-active");
+        }, 500);
+    }
+
+    function disableLoadingSpinner() {
+        setTimeout(() => {
+            loadingContainer.removeClass("loading-active");
+        }, 500);
+    }
+
+    function enableCommentsLoadingSpinner() {
+        setTimeout(() => {
+            commentsLoadingOverlay.addClass("loading-active");
+            commentsLoadingSpinner.addClass("loading-active");
+        }, 100);
+    }
+
+    function disableCommentsLoadingSpinner() {
+        setTimeout(() => {
+            commentsLoadingOverlay.removeClass("loading-active");
+            commentsLoadingSpinner.removeClass("loading-active");
+        }, 100);
     }
 
 
@@ -846,8 +618,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
     $(window).ready(() => {
         initPresetsMenu();
-        loadComments();
-    })
+    });
 
     // initDATgui(drumMachine);
 
