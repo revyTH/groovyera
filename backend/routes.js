@@ -10,6 +10,7 @@ var express = require("express");
 var midiController = require("./controllers/midiController");
 var presetsController = require("./controllers/presetsController");
 var commentsController = require("./controllers/commentsController");
+var uploadController = require("./controllers/uploadController");
 
 var apiRouter = express.Router();
 
@@ -31,6 +32,7 @@ var apiRouter = express.Router();
     midiController(apiRouter);
     presetsController(apiRouter);
     commentsController(apiRouter);
+    uploadController(apiRouter);
 
 
 }());

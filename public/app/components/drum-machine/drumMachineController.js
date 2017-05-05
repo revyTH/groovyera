@@ -8,6 +8,10 @@
 import { DrumMachine } from "../../audio/DrumMachine";
 import { psyTrancePreset } from "../../audio/presets";
 
+// const baseServerUrl = "http://localhost:4500";
+const baseServerUrl = "http://192.168.1.72:4500";
+// const baseServerUrl = "http://192.168.1.75:4500";
+
 
 export function drumMachineController($scope, $compile, $http, FileSaver, Blob) {
 
@@ -217,7 +221,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
 
         $http({
-            url: 'http://localhost:4500/api/midi',
+            url: baseServerUrl + '/api/midi',
             method: "POST",
             responseType: "arraybuffer",
             headers: {
@@ -242,7 +246,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
 
         $http({
-            url: "http://localhost:4500/api/presets",
+            url: baseServerUrl + "/api/presets",
             method: "GET",
             headers: {
                 "Accept": "application/json"
@@ -286,7 +290,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
         let preset = psyTrancePreset;
 
         $http({
-            url: 'http://localhost:4500/api/presets',
+            url: baseServerUrl + '/api/presets',
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -305,6 +309,70 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
 
 
+    $scope.uploadFiles = function() {
+
+        let formData = new FormData();
+
+        $('input[type="file"]').each(function(index) {
+
+            let fileList = $(this)[0].files;
+
+            for(let i = 0; i < fileList.length; i++) {
+                let file = fileList[i];
+                formData.append(file.name, file);
+            }
+        });
+
+
+        let obj = {
+            name: "track",
+            bpm: 120,
+            tracks: [
+                {
+                    name: "kick"
+                },
+                {
+                    name: "snare"
+                }
+            ]
+        };
+
+        formData.append("preset", JSON.stringify(obj));
+
+
+        let xhr = new XMLHttpRequest();
+
+
+
+        xhr.open( 'POST', baseServerUrl + '/api/upload', true );
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.onload = handler;
+        xhr.send( formData );
+
+        function handler(e) {
+            console.log(e);
+        }
+
+        // $http({
+        //     url: "http://localhost:4500/upload",
+        //     method: "POST",
+        //     transformRequest: angular.identity,
+        //     header: {
+        //         "Content-Type": undefined,
+        //     },
+        //     data: formData
+        // }).then(response => {
+        //     console.log(response);
+        // }, error => {
+        //     console.log(error);
+        // });
+
+
+
+    };
+
+
+
 
     $scope.postComment = ()=> {
 
@@ -314,7 +382,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
         };
 
         $http({
-            url: 'http://localhost:4500/api/comments',
+            url: baseServerUrl + '/api/comments',
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -501,7 +569,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     function initPresetsMenu() {
 
         $http({
-            url: "http://localhost:4500/api/presets",
+            url: baseServerUrl + "/api/presets",
             method: "GET",
             headers: {
                 "Accept": "application/json"
@@ -520,7 +588,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
             presets.forEach(preset => {
 
-                let li = $('<li><a href="#">' + preset.name+ '</a></li>');
+                let li = $('<li><a href="#">' + preset.name + '</a></li>');
                 li.click(() => {
                     loadPresetFromJson(preset);
                 });
@@ -529,7 +597,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
             });
 
             let API = $("nav#menu").data( "mmenu" );
-            $("#menu-list").find( ".mm-listview" ).append( liParent);
+            $("#menu-list").find( ".mm-listview" ).append( liParent );
             API.initPanels( $("#menu-list") );
 
 
@@ -548,7 +616,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
         enableCommentsLoadingSpinner();
 
         $http({
-            url: 'http://localhost:4500/api/comments',
+            url: baseServerUrl + '/api/comments',
             method: "GET",
             headers: {
                 "Accept" : "application/json"
