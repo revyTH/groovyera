@@ -19,6 +19,10 @@ export class DrumMachine {
         this.bpm = 120;
         this.bpmMin = 30;
         this.bpmMax = 240;
+        this.timeSignature = {
+            num: 4,
+            den: 4
+        };
         this.tickTime = 60.0 / this.bpm / 4.0;  // 1/16 note
         this.isPlaying = false;
         this.isStopped = true;
@@ -251,10 +255,10 @@ export class DrumMachine {
             return;
         }
 
-        if (!this.defaultTracksLoaded) {
-            console.log("Cannot play: default tracks not loaded.");
-            return;
-        }
+        // if (!this.defaultTracksLoaded) {
+        //     console.log("Cannot play: default tracks not loaded.");
+        //     return;
+        // }
 
 
         this.isStopped = false;
@@ -287,7 +291,7 @@ export class DrumMachine {
                         return;
                     }
 
-                    if (!track.buffer) {
+                    if (!track.sampleData.decodedAudioBuffer) {
                         return;
                     }
 
@@ -298,7 +302,7 @@ export class DrumMachine {
                     }
 
                     let tickSound = ctx.createBufferSource();
-                    tickSound.buffer = track.buffer;
+                    tickSound.buffer = track.sampleData.decodedAudioBuffer;
                     let tickGainNode = ctx.createGain();
                     tickSound.connect(tickGainNode);
                     tickGainNode.gain.value = trackTick.volume;
@@ -517,34 +521,61 @@ export class DrumMachine {
     }
 
 
+    // createTrack(name, soundPath, volume, pan, ticks) {
+    //     return new Promise((resolve, reject) => {
+    //         audioLoader(this.audioContext, soundPath).then(buffer => {
+    //
+    //             let track = new Track(this, name, buffer);
+    //
+    //             if (ticks) {
+    //                 track.setTicksFromArray(ticks);
+    //             } else {
+    //                 track.setTicksFromArray(this._createEmptyTicksArray());
+    //             }
+    //
+    //             if (volume) {
+    //                 track.gainNode.gain.value = volume;
+    //             }
+    //
+    //             if (pan) {
+    //                 if (track.pannerNode) {
+    //                     track.pannerNode.pan.value = pan;
+    //                 }
+    //             }
+    //
+    //             resolve(track);
+    //
+    //         }, error => {
+    //             console.log(error);
+    //             reject(error);
+    //         });
+    //     });
+    // }
+
+
+
     createTrack(name, soundPath, volume, pan, ticks) {
         return new Promise((resolve, reject) => {
-            audioLoader(this.audioContext, soundPath).then(buffer => {
 
-                let track = new Track(this, name, buffer);
+            let track = new Track(this, name, soundPath);
 
-                if (ticks) {
-                    track.setTicksFromArray(ticks);
-                } else {
-                    track.setTicksFromArray(this._createEmptyTicksArray());
+            if (ticks) {
+                track.setTicksFromArray(ticks);
+            } else {
+                track.setTicksFromArray(this._createEmptyTicksArray());
+            }
+
+            if (volume) {
+                track.gainNode.gain.value = volume;
+            }
+
+            if (pan) {
+                if (track.pannerNode) {
+                    track.pannerNode.pan.value = pan;
                 }
+            }
 
-                if (volume) {
-                    track.gainNode.gain.value = volume;
-                }
-
-                if (pan) {
-                    if (track.pannerNode) {
-                        track.pannerNode.pan.value = pan;
-                    }
-                }
-
-                resolve(track);
-
-            }, error => {
-                console.log(error);
-                reject(error);
-            });
+            resolve(track);
         });
     }
 
@@ -567,6 +598,82 @@ export class DrumMachine {
                 reject(e);
             });
         }
+    }
+
+
+
+
+
+
+    buildJsonPreset(name, category) {
+
+        let data = {
+            name: name,
+            category: category,
+            bpm: this.bpm,
+            timeSignature: this.timeSignature
+        };
+
+        let tracks = [];
+
+        for (let id in this.tracks) {
+            if (this.tracks.hasOwnProperty(id)) {
+
+                let track = this.tracks[id];
+
+                let trackData = {
+                    name: track.name,
+                    soundPath: category + "/" + track.sampleData.fileName,
+                    volume: track.gainNode.gain.value,
+                    pan: track.pannerNode.pan.value
+                };
+
+                let ticksData = [];
+
+                track.ticks.forEach(tick => {
+                    ticksData.push({
+                        active: tick.active,
+                        index: tick.index,
+                        volume: tick.volume
+                    })
+                });
+
+                trackData.ticks = ticksData;
+
+                tracks.push(trackData);
+            }
+        }
+
+        data.tracks = tracks;
+
+
+        console.log(data);
+
+
+        return JSON.stringify(data);
+
+
+
+
+        /*
+        tracks: [
+            {
+                name: String,
+                soundPath: {type: String, required: true},
+                volume: Number,
+                pan: Number,
+
+                ticks: [
+                    {
+                        active: Boolean,
+                        index: Number,
+                        volume: Number
+                    }
+                ]
+            }
+        ]
+        */
+
     }
 
 

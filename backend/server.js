@@ -1,3 +1,12 @@
+/**
+ * ---------------------------------------------------------------------------------------
+ * server.js
+ * ---------------------------------------------------------------------------------------
+ */
+
+
+"use strict";
+
 
 
 /*
@@ -63,26 +72,6 @@ app.use(express.static("public"));
  * routing
  * ---------------------------------------------------------------------------------------
  */
-// const multer = require('multer');
-//
-// var storage =   multer.diskStorage({
-//     destination: function (req, file, callback) {
-//         callback(null, './backend/uploads');
-//     },
-//     filename: function (req, file, callback) {
-//         callback(null, file.originalname);
-//     }
-// });
-//
-// var upload = multer({ storage : storage });
-//
-// app.post('/upload', upload.any(), function (req, res, next) {
-//
-//     console.log(req.files);
-//     res.json("files uploaded!");
-//
-// });
-
 
 app.use("/api", apiRouter);
 
@@ -97,15 +86,9 @@ app.get('*', function(req, res){
 
 
 
-/*
- * ---------------------------------------------------------------------------------------
- * server
- * ---------------------------------------------------------------------------------------
- */
 
-app.listen(port, function() {
-    console.log('Server listening on port ' + port + '..');
-});
+
+
 
 
 /*
@@ -114,35 +97,64 @@ app.listen(port, function() {
  * ---------------------------------------------------------------------------------------
  */
 
-var MongoClient = require('mongodb').MongoClient;
-// var url = "mongodb://ludof:wMu4J89a%40@mycluster-shard-00-00-m9gq6.mongodb.net:27017,mycluster-shard-00-01-m9gq6.mongodb.net:27017,mycluster-shard-00-02-m9gq6.mongodb.net:27017/admin?ssl=true&replicaSet=MyCluster-shard-0&authSource=admin";
-var url = "mongodb://ludof:OX3NiC7H9qTzMF8l@mycluster-shard-00-00-m9gq6.mongodb.net:27017,mycluster-shard-00-01-m9gq6.mongodb.net:27017,mycluster-shard-00-02-m9gq6.mongodb.net:27017/drumdb?ssl=true&replicaSet=MyCluster-shard-0&authSource=admin";
-
-// MongoClient.connect(url, function(err, db) {
-//
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         console.log("Connected correctly to server");
-//     }
-//
-//     // db.close();
-// });
-
-
-
-
 
 mongoose.connect(config.database.mLab.connectionString)
     .then(() => {
         console.log("MongoDB connected.");
 
 
+        initCategories();
+
+        startServer();
 
 
     }, error => {
         console.log(error);
     });
+
+
+
+
+function initCategories() {
+
+    const Category = require("./models/Category");
+    let categories = ["rock", "jazz", "trance"];
+
+    categories.forEach(category => {
+
+        let query = {name: category},
+            update = { name: category },
+            options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+
+        Category.findOneAndUpdate(query, update, options, (error, result) => {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log(result)
+            }
+
+
+        });
+    });
+}
+
+
+
+
+
+/*
+ * ---------------------------------------------------------------------------------------
+ * server
+ * ---------------------------------------------------------------------------------------
+ */
+
+function startServer() {
+    app.listen(port, function() {
+        console.log('Server listening on port ' + port + '..');
+    });
+}
 
 
 

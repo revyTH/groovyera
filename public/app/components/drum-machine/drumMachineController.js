@@ -7,10 +7,11 @@
 
 import { DrumMachine } from "../../audio/DrumMachine";
 import { psyTrancePreset } from "../../audio/presets";
+import { groovyRockPreset } from "../../audio/presets";
 
 // const baseServerUrl = "http://localhost:4500";
-const baseServerUrl = "http://192.168.1.72:4500";
-// const baseServerUrl = "http://192.168.1.75:4500";
+// const baseServerUrl = "http://192.168.1.72:4500";
+const baseServerUrl = "http://192.168.1.75:4500";
 
 
 export function drumMachineController($scope, $compile, $http, FileSaver, Blob) {
@@ -48,6 +49,10 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     $scope.comments = [];
     $scope.invalidUsernameMessage = "Give ya a name! (3-32 characters)";
     $scope.invalidCommentMessage = "Write something cool! (3-1000 characters)";
+
+
+    $scope.tracks = drumMachine.tracks;
+    $scope.safeApply();
 
 
 
@@ -287,23 +292,59 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
     $scope.savePreset = function() {
 
-        let preset = psyTrancePreset;
 
-        $http({
-            url: baseServerUrl + '/api/presets',
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            data: JSON.stringify(preset)
+        // let preset = psyTrancePreset;
+        // let preset = groovyRockPreset;
 
-        }).then(function (response) {
-            console.log(response);
-        }, function (response) {
-            console.log(response);
-        });
+        // $http({
+        //     url: baseServerUrl + '/api/presets',
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     data: JSON.stringify(preset)
+        //
+        // }).then(function (response) {
+        //     console.log(response);
+        // }, function (response) {
+        //     console.log(response);
+        // });
 
 
+        let formData = new FormData();
+        let jsonPreset = drumMachine.buildJsonPreset("Groovy rock", "rock");
+
+
+        for (let id in drumMachine.tracks) {
+
+            if (drumMachine.tracks.hasOwnProperty(id)) {
+                let track = drumMachine.tracks[id];
+
+                let blob = new Blob([track.sampleData.originalBuffer], {
+                    // type: track.sampleData.extension ? "audio/" + track.sampleData.extension : "octet-stream"
+                    type: "octet-stream"
+                });
+
+                formData.append("sample", blob, track.sampleData.fileName);
+            }
+        }
+
+
+        formData.append("preset", jsonPreset);
+
+
+        let xhr = new XMLHttpRequest();
+
+
+
+        xhr.open( 'POST', baseServerUrl + '/api/presets', true );
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.onload = handler;
+        xhr.send( formData );
+
+        function handler(e) {
+            console.log(e);
+        }
 
     };
 
@@ -313,15 +354,44 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
         let formData = new FormData();
 
-        $('input[type="file"]').each(function(index) {
+        // $('input[type="file"]').each(function(index) {
+        //
+        //     let fileList = $(this)[0].files;
+        //
+        //     for(let i = 0; i < fileList.length; i++) {
+        //         let file = fileList[i];
+        //         formData.append(file.name, file);
+        //     }
+        // });
 
-            let fileList = $(this)[0].files;
 
-            for(let i = 0; i < fileList.length; i++) {
-                let file = fileList[i];
-                formData.append(file.name, file);
+
+
+
+
+        // drumMachine.tracks.forEach(track => {
+        //
+        //     console.log(track);
+        //     let buffer = track.buffer;
+        //     let blob = new Blob(buffer);
+        //     formData.append(track.name, blob, "campione.wav");
+        //
+        // });
+
+        for (let id in drumMachine.tracks) {
+            if (drumMachine.tracks.hasOwnProperty(id)) {
+                let track = drumMachine.tracks[id];
+
+
+                let blob = new Blob([track.sampleData.originalBuffer], {
+                    // type: track.sampleData.extension ? "audio/" + track.sampleData.extension : "octet-stream"
+                    type: "octet-stream"
+                });
+
+                formData.append("sample", blob, track.sampleData.fileName);
             }
-        });
+        }
+
 
 
         let obj = {
@@ -681,7 +751,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
      * ---------------------------------------------------------------------------------------
      */
 
-    initDefaultTracks($scope, drumMachine);
+    // initDefaultTracks($scope, drumMachine);
     initSequencerControls($scope, drumMachine);
 
     $(window).ready(() => {

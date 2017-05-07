@@ -4,6 +4,8 @@
  * ---------------------------------------------------------------------------------------
  */
 
+const path = require("path");
+
 module.exports = {
 
     mode: {
@@ -72,5 +74,10 @@ module.exports = {
         libs_all: "./public/build/libs/**/*.js",
         js_all: "./public/build/js/**/*.js",
         styles_all: "./public/build/styles/**/*.css",
+    },
+
+    samples: {
+        root: path.join(__dirname, "public/app/assets/samples/"),
+        clientPath: "app/assets/samples/"
     }
 };

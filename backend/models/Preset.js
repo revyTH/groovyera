@@ -4,29 +4,18 @@
  * ---------------------------------------------------------------------------------------
  */
 
-
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-// create a schema
-var userSchema = new Schema({
-    name: String,
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    admin: Boolean,
-    location: String,
-    meta: {
-        age: Number,
-        website: String
-    },
-    created_at: Date,
-    updated_at: Date
-});
+"use strict";
 
 
-var presetSchema = new Schema({
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+
+
+let presetSchema = new Schema({
     name: {type: String, required: true, unique: true},
-    bpm: Number,
+    _category: { type: Schema.Types.String, ref: 'Category', required: true },
+    bpm: {type: Number, required: true},
 
     timeSignature: {
         num: Number,
@@ -53,9 +42,7 @@ var presetSchema = new Schema({
 
 
 
-var Preset = mongoose.model('Preset', presetSchema);
-
-// make this available to our users in our Node applications
+let Preset = mongoose.model('Preset', presetSchema);
 module.exports = Preset;
 
 

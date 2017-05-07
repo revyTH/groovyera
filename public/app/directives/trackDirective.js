@@ -165,11 +165,12 @@ export function trackDirective(supportedAudioFormats) {
                 }
 
                 let reader = new FileReader();
+
                 reader.onload = (ev) => {
-                    scope.track.audioContext.decodeAudioData(ev.target.result, function (buffer) {
-                        scope.track.setBuffer(buffer, file.name);
-                    });
+                    let arrayBuffer = ev.target.result;
+                    scope.track.setSampleData(file.name, arrayBuffer);
                 };
+
                 reader.readAsArrayBuffer(file);
             }
 

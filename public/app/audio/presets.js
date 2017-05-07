@@ -8,6 +8,7 @@
 export let groovyRockPreset = {
     name : "Groovy rock",
     bpm : 120,
+    category: "Rock",
     timeSignature : {
         num : 4,
         den : 4
@@ -118,6 +119,7 @@ export let groovyRockPreset = {
 
 export let psyTrancePreset = {
     name : "psy-trance",
+    category: "Trance",
     bpm : 145,
     timeSignature : {
         num : 4,
