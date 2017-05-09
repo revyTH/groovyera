@@ -194,7 +194,8 @@ module.exports = function(router, socket) {
 
                                 res.statusCode = httpStatusCodes.CREATED;
                                 res.end();
-                                socket.broadcast.emit(socketEvents.presetSaved, preset);
+                                socket.broadcast.emit(socketEvents.newPreset, preset);
+                                socket.emit(socketEvents.presetSaved, "Preset saved");
                             });
 
 

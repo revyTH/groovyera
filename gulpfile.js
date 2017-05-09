@@ -198,6 +198,7 @@ function productionMode(done) {
 
 
 gulp.task("bundle", gulp.series(build_libs, build_js, build_sass));
+gulp.task("bundle-prod", gulp.series(productionMode, "bundle"));
 
 gulp.task("default", gulp.series(debugMode, "bundle", gulp.parallel("node", browserSyncInit, watch)));
 gulp.task("prod", gulp.series(productionMode, "bundle", gulp.parallel("node", browserSyncInit, watch)));

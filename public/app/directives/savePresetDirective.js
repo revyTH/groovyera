@@ -29,19 +29,6 @@ export function savePresetDirective() {
 
 
 
-            scope.onPresetCancel = function() {
-                $(".save-preset-container").remove();
-            };
-
-
-            scope.onPresetSave = function() {
-                scope.savePreset();
-            };
-
-
-
-
-
 
 
 

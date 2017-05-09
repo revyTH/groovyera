@@ -314,7 +314,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
     };
 
 
-    $scope.savePreset = function() {
+    $scope.savePreset = () => {
 
         let formData = new FormData();
         let jsonPreset = drumMachine.buildJsonPreset($scope.preset.name, $scope.preset.categorySelected.name);
@@ -354,7 +354,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
     };
 
 
-    $scope.uploadFiles = function() {
+    $scope.uploadFiles = () => {
 
         let formData = new FormData();
 
@@ -468,6 +468,16 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
             console.log(response);
         });
 
+    };
+
+
+    $scope.onPresetCancel = () => {
+        $(".save-preset-container").remove();
+    };
+
+
+    $scope.onPresetSave = () => {
+        $scope.savePreset();
     };
 
 
@@ -836,11 +846,14 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
             })
         }, 20000);
 
-        socket.on(socketEvents.presetSaved, data => {
+        socket.on(socketEvents.newPreset, data => {
             console.log(socketEvents.presetSaved, data);
+            initPresetsMenu($scope.preset.categories);
+        });
+
+        socket.on(socketEvents.presetSaved, data => {
             toastOk("Preset saved!");
             $scope.onPresetCancel();
-            initPresetsMenu($scope.preset.categories);
         });
 
         socket.on(socketEvents.presetConflict, data => {

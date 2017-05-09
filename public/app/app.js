@@ -56,6 +56,7 @@ import { savePresetDirective } from "./directives/savePresetDirective";
     supportedAudioFormats.add("audio/x-ogg");
 
     let socketEvents = {
+        newPreset: "NEW_PRESET",
         presetSaved: "PRESET_SAVED",
         presetConflict: "PRESET_CONFLICT",
         commentSaved: "COMMENT_SAVED"
