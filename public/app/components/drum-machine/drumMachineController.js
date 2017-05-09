@@ -344,12 +344,24 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
 
         xhr.open( 'POST', baseServerUrl + '/api/presets', true );
         xhr.setRequestHeader("Accept", "application/json");
-        xhr.onload = handler;
+        xhr.onload = () => {
+            // created
+            if (xhr.status === 201) {
+                toastOk("Preset saved! ;-)");
+                $scope.onPresetCancel();
+            }
+            else if (xhr.status === 409) {
+                console.log(xhr.response);
+                toastError("Preset name " + $scope.preset.name + " already taken for category " + $scope.preset.categorySelected.name);
+            }
+            else {
+                toastError("Ops! Something went wrong :-(");
+                $scope.onPresetCancel();
+            }
+        };
         xhr.send( formData );
 
-        function handler(e) {
-            console.log(e);
-        }
+
 
     };
 
@@ -847,21 +859,11 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
         }, 20000);
 
         socket.on(socketEvents.newPreset, data => {
-            console.log(socketEvents.presetSaved, data);
+            console.log(socketEvents.newPreset, data);
             initPresetsMenu($scope.preset.categories);
         });
 
-        socket.on(socketEvents.presetSaved, data => {
-            toastOk("Preset saved!");
-            $scope.onPresetCancel();
-        });
-
-        socket.on(socketEvents.presetConflict, data => {
-            console.log(socketEvents.presetConflict, data);
-            toastError(data);
-        });
-
-        socket.on(socketEvents.commentSaved, comment => {
+        socket.on(socketEvents.newComment, comment => {
             // toastOk("Comment posted!");
             $scope.comments.splice(0, 0, comment);
             $scope.commentToPost = "";

@@ -57,9 +57,7 @@ import { savePresetDirective } from "./directives/savePresetDirective";
 
     let socketEvents = {
         newPreset: "NEW_PRESET",
-        presetSaved: "PRESET_SAVED",
-        presetConflict: "PRESET_CONFLICT",
-        commentSaved: "COMMENT_SAVED"
+        newComment: "NEW_COMMENT"
     };
 
     // constants

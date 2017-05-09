@@ -620,11 +620,6 @@ export class DrumMachine {
         }
 
         data.tracks = tracks;
-
-
-        console.log(data);
-
-
         return JSON.stringify(data);
     }
 

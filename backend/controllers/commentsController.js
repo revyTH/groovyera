@@ -79,7 +79,7 @@ module.exports = function(router, socket) {
 
                 res.statusCode = httpStatusCodes.CREATED;
                 res.end();
-                socket.broadcast.emit(socketEvents.commentSaved, comment)
+                socket.broadcast.emit(socketEvents.newComment, comment)
 
             });
 

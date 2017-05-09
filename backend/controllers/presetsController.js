@@ -114,7 +114,6 @@ module.exports = function(router, socket) {
                         res.statusCode = httpStatusCodes.CONFLICT;
                         let errorMessage = "Duplicated at category " + presetData.category +" with name: " + presetData.name;
                         res.json({error: errorMessage});
-                        socket.broadcast.emit(socketEvents.presetConflict, errorMessage);
                         return;
                     }
 
@@ -195,7 +194,6 @@ module.exports = function(router, socket) {
                                 res.statusCode = httpStatusCodes.CREATED;
                                 res.end();
                                 socket.broadcast.emit(socketEvents.newPreset, preset);
-                                socket.emit(socketEvents.presetSaved, "Preset saved");
                             });
 
 
