@@ -10,8 +10,9 @@ import { psyTrancePreset } from "../../audio/presets";
 import { groovyRockPreset } from "../../audio/presets";
 
 // const baseServerUrl = "http://localhost:4500";
-const baseServerUrl = "http://192.168.1.72:4500";
+// const baseServerUrl = "http://192.168.1.72:4500";
 // const baseServerUrl = "http://192.168.1.75:4500";
+const baseServerUrl = "https://groove-monkey.herokuapp.com";
 
 
 export function drumMachineController($scope, $compile, $http, $interval, FileSaver, Blob, socketEvents) {
