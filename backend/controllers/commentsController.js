@@ -79,7 +79,8 @@ module.exports = function(router, socket) {
 
                 res.statusCode = httpStatusCodes.CREATED;
                 res.end();
-                socket.broadcast.emit(socketEvents.newComment, comment)
+                socket.emit(socketEvents.newComment, comment);              // broadcast to the one
+                socket.broadcast.emit(socketEvents.newComment, comment);    // broadcast to all except one
 
             });
 

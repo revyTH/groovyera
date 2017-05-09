@@ -193,7 +193,8 @@ module.exports = function(router, socket) {
 
                                 res.statusCode = httpStatusCodes.CREATED;
                                 res.end();
-                                socket.broadcast.emit(socketEvents.newPreset, preset);
+                                socket.emit(socketEvents.newPreset, preset);            // broadcast to the one
+                                socket.broadcast.emit(socketEvents.newPreset, preset);  // broadcast to all except one
                             });
 
 
