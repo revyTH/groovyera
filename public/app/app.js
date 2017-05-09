@@ -31,7 +31,7 @@ import { savePresetDirective } from "./directives/savePresetDirective";
 
 
     // bind controllers
-    app.controller("drumMachineController", ["$scope", "$compile", "$http", "FileSaver", "Blob", "socketEvents", drumMachineController]);
+    app.controller("drumMachineController", ["$scope", "$compile", "$http", "$interval", "FileSaver", "Blob", "socketEvents", drumMachineController]);
     app.controller("testController", ['$scope', testController]);
 
 
@@ -57,7 +57,8 @@ import { savePresetDirective } from "./directives/savePresetDirective";
 
     let socketEvents = {
         presetSaved: "PRESET_SAVED",
-        presetConflict: "PRESET_CONFLICT"
+        presetConflict: "PRESET_CONFLICT",
+        commentSaved: "COMMENT_SAVED"
     };
 
     // constants

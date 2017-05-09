@@ -70,6 +70,7 @@ table {
   box-sizing: border-box; }
 
 body {
+  min-height: 100%;
   position: relative;
   font-family: "Helvetica Neue", "Helvetica";
   font-style: normal;
@@ -87,7 +88,7 @@ body {
 body * {
   text-shadow: none; }
 
-#page {
+#mm-0, #page, #content {
   display: block;
   position: relative;
   width: 100%; }
@@ -1031,24 +1032,30 @@ nav:not(.mm-menu) {
 
 #footerContainer {
   display: block;
-  position: relative;
-  padding: 1em;
+  position: absolute;
+  right: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
+  height: 3em;
   background: #111;
   background: -webkit-linear-gradient(legacy-direction(#212121), #111);
   background: linear-gradient(#212121, #111); }
 
 #drumMachineViewContainer {
   display: block;
+  padding-bottom: 3em;
   position: relative;
   top: 0;
   left: 0;
-  width: 100%; }
+  width: 100%;
+  height: 100%;
+  min-height: 100vh; }
 
 #addTrackBtn {
-  margin-top: 1em;
+  margin-top: 2em;
   margin-left: 1em;
+  margin-bottom: 2em;
   width: 36px;
   height: 36px;
   border: 0;
@@ -1339,6 +1346,7 @@ nav:not(.mm-menu) {
   top: 0;
   left: 0;
   width: 100%;
+  min-height: calc(100vh - 3em - 36px);
   padding-top: calc(64px + 1em + 48px + 1em + 24px + 1em); }
   @media (min-width: 320px) and (max-width: 511px) {
     .tracks-container {
@@ -1524,7 +1532,6 @@ nav:not(.mm-menu) {
   padding: 0 !important; }
 
 #accordionContainer {
-  margin-top: 10em;
   width: 100%; }
 
 #usernameInput {

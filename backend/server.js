@@ -125,7 +125,7 @@ io.on('connection', function (socket) {
 
 mongoose.connect(config.database.mLab.connectionString)
     .then(() => {
-        console.log("MongoDB connected.");
+        console.log("MongoDB connected.", mongoose.connection.readyState);
 
 
         // initCategories();
@@ -185,6 +185,7 @@ function startServer() {
     // });
 
     server.listen(port, function() {
+        config.server.isRunning = true;
         console.log('Server listening on port ' + port + '..');
     });
 }

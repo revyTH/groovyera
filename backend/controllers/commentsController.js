@@ -9,11 +9,12 @@
 "use strict";
 
 
-const httpStatusCodes = require("http-status-codes");
-const moment = require('moment');
-const mongoose = require("mongoose");
-const Comment = require("../models/Comment");
-const momentFormat = "MMMM Do YYYY, h:mm:ss a";
+const   httpStatusCodes = require("http-status-codes"),
+        moment = require('moment'),
+        mongoose = require("mongoose"),
+        Comment = require("../models/Comment"),
+        momentFormat = "MMMM Do YYYY, h:mm:ss a",
+        socketEvents = require("../../config").socketEvents;
 
 
 module.exports = function(router, socket) {
@@ -77,7 +78,8 @@ module.exports = function(router, socket) {
 
 
                 res.statusCode = httpStatusCodes.CREATED;
-                res.json(comment);
+                res.end();
+                socket.broadcast.emit(socketEvents.commentSaved, comment)
 
             });
 

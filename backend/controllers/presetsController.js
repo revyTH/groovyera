@@ -47,18 +47,6 @@ module.exports = function(router, socket) {
                 return;
             }
 
-            // Preset.find({}, null, {sort: {_category: 1, name: 1}}, function(err, presets) {
-            //     if (err) {
-            //         res.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-            //         res.end();
-            //         return;
-            //     }
-            //
-            //     res.json(presets);
-            // });
-
-            // db.presets.aggregate([{$group: {_id : "$_category", presets: {$push: "$$ROOT"}}}])
-
             Preset.aggregate([
 
                 {
@@ -83,7 +71,7 @@ module.exports = function(router, socket) {
                 }
 
                 res.json(result);
-            })
+            });
 
         })
 

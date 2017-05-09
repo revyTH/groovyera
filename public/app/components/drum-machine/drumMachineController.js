@@ -14,7 +14,7 @@ const baseServerUrl = "http://192.168.1.72:4500";
 // const baseServerUrl = "http://192.168.1.75:4500";
 
 
-export function drumMachineController($scope, $compile, $http, FileSaver, Blob, socketEvents) {
+export function drumMachineController($scope, $compile, $http, $interval, FileSaver, Blob, socketEvents) {
 
     let drumMachine = new DrumMachine();
     let loadingContainer = $("#loadingContainer");
@@ -166,6 +166,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
         $scope.isStopped = false;
     };
 
+
     $scope.stopSequencer = () => {
         drumMachine._stop();
         $scope.isPlaying = false;
@@ -277,7 +278,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
 
     $scope.loadPreset = () => {
 
-
         $http({
             url: baseServerUrl + "/api/presets",
             method: "GET",
@@ -306,12 +306,9 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
                 console.log(error);
             });
 
-
-
         }, errorResponse => {
             console.log(errorResponse);
         });
-
 
     };
 
@@ -354,7 +351,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
         }
 
     };
-
 
 
     $scope.uploadFiles = function() {
@@ -449,8 +445,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
     };
 
 
-
-
     $scope.postComment = ()=> {
 
         let data = {
@@ -469,9 +463,6 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
 
         }).then(function (response) {
             console.log(response);
-            $scope.comments.splice(0, 0, response.data);
-            $scope.commentToPost = "";
-            $scope.safeApply();
         }, function (response) {
             console.log(response);
         });
@@ -492,6 +483,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
         drumMachine.removeTrack(track.id);
     }
 
+
     function initDefaultTracks($scope, drumMachine) {
 
         enableLoadingSpinner();
@@ -505,6 +497,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
             console.log(error);
         });
     }
+
 
     function initDATgui(drumMachine) {
         let gui = new dat.GUI();
@@ -643,51 +636,9 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
     }
 
 
-    function initPresetsMenuOld() {
-
-        $http({
-            url: baseServerUrl + "/api/presets",
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        }).then(response => {
-
-            let presets = response.data;
-            if (presets.length === 0) {
-                return;
-            }
-
-
-            let liParent = $('<li><a href="#">Presets</a></li>');
-            let ul = $("<ul></ul>");
-            liParent.append(ul);
-
-            presets.forEach(preset => {
-
-                let li = $('<li><a href="#">' + preset.name + '</a></li>');
-                li.click(() => {
-                    loadPresetFromJson(preset);
-                });
-
-                ul.append(li);
-            });
-
-            let API = $("nav#menu").data( "mmenu" );
-            $("#menu-list").find( ".mm-listview" ).append( liParent );
-            API.initPanels( $("#menu-list") );
-
-
-            initExportMidiMenu();
-
-        }, errorResponse => {
-            console.log(errorResponse);
-            initExportMidiMenu();
-        });
-    }
-
-
     function initPresetsMenu(categories) {
+
+        $('li[id="presetsMenu"]').remove();
 
         $http({
             url: baseServerUrl + "/api/presets",
@@ -703,7 +654,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
             }
 
 
-            let liParent = $('<li><a href="#">Presets</a></li>');
+            let liParent = $('<li id="presetsMenu"><a href="#">Presets</a></li>');
             let ulParent = $("<ul></ul>");
             liParent.append(ulParent);
 
@@ -741,15 +692,11 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
             $("#menu-list").find( ".mm-listview li:first" ).after( liParent );
             API.initPanels( $("#menu-list") );
 
+
         }, errorResponse => {
             console.log(errorResponse);
             initExportMidiMenu();
         });
-    }
-
-
-    function addPresetToMenu(preset) {
-
     }
 
 
@@ -794,14 +741,16 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
     function enableLoadingSpinner() {
         setTimeout(() => {
             loadingContainer.addClass("loading-active");
-        }, 500);
+        }, 0);
     }
+
 
     function disableLoadingSpinner() {
         setTimeout(() => {
             loadingContainer.removeClass("loading-active");
-        }, 500);
+        }, 1500);
     }
+
 
     function enableCommentsLoadingSpinner() {
         setTimeout(() => {
@@ -809,6 +758,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
             commentsLoadingSpinner.addClass("loading-active");
         }, 100);
     }
+
 
     function disableCommentsLoadingSpinner() {
         setTimeout(() => {
@@ -818,6 +768,34 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
     }
 
 
+    function toastError(text) {
+        $.toast({
+            text : text,
+            showHideTransition : 'slide',  // It can be plain, fade or slide
+            bgColor : '#ff4a40',              // Background color for toast
+            textColor : '#fff',            // text color
+            allowToastClose : false,       // Show the close button or not
+            hideAfter : 3000,              // `false` to make it sticky or time in miliseconds to hide after
+            stack : 5,                     // `fakse` to show one stack at a time count showing the number of toasts that can be shown at once
+            textAlign : 'left',            // Alignment of text i.e. left, right, center
+            position : 'top-right'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
+        });
+    }
+
+
+    function toastOk(text) {
+        $.toast({
+            text : text,
+            showHideTransition : 'slide',  // It can be plain, fade or slide
+            bgColor : '#05a2fc',              // Background color for toast
+            textColor : '#fff',            // text color
+            allowToastClose : false,       // Show the close button or not
+            hideAfter : 3000,              // `false` to make it sticky or time in miliseconds to hide after
+            stack : 5,                     // `fakse` to show one stack at a time count showing the number of toasts that can be shown at once
+            textAlign : 'left',            // Alignment of text i.e. left, right, center
+            position : 'top-right'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
+        });
+    }
 
 
 
@@ -846,46 +824,38 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob, 
     $(window).ready(() => {
         initSavePresetMenu();
         initExportMidiMenu();
+
         $scope.populateCategories().then(categories => {
             initPresetsMenu(categories);
         });
 
+        $interval(() => {
+            $scope.populateCategories().then(categories => {
+                console.log("$interval: populateCategories");
+            })
+        }, 20000);
+
         socket.on(socketEvents.presetSaved, data => {
             console.log(socketEvents.presetSaved, data);
-            $.toast({
-                text : "Preset saved!",
-                showHideTransition : 'slide',  // It can be plain, fade or slide
-                bgColor : '#05a2fc',              // Background color for toast
-                textColor : '#fff',            // text color
-                allowToastClose : false,       // Show the close button or not
-                hideAfter : 4000,              // `false` to make it sticky or time in miliseconds to hide after
-                stack : 5,                     // `fakse` to show one stack at a time count showing the number of toasts that can be shown at once
-                textAlign : 'left',            // Alignment of text i.e. left, right, center
-                position : 'top-right'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
-            });
+            toastOk("Preset saved!");
             $scope.onPresetCancel();
+            initPresetsMenu($scope.preset.categories);
         });
 
         socket.on(socketEvents.presetConflict, data => {
             console.log(socketEvents.presetConflict, data);
-            $.toast({
-                text : data,
-                showHideTransition : 'slide',  // It can be plain, fade or slide
-                bgColor : '#ff4a40',              // Background color for toast
-                textColor : '#fff',            // text color
-                allowToastClose : false,       // Show the close button or not
-                hideAfter : 4000,              // `false` to make it sticky or time in miliseconds to hide after
-                stack : 5,                     // `fakse` to show one stack at a time count showing the number of toasts that can be shown at once
-                textAlign : 'left',            // Alignment of text i.e. left, right, center
-                position : 'top-right'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
-            });
-        })
+            toastError(data);
+        });
+
+        socket.on(socketEvents.commentSaved, comment => {
+            // toastOk("Comment posted!");
+            $scope.comments.splice(0, 0, comment);
+            $scope.commentToPost = "";
+            $scope.safeApply();
+        });
 
     });
 
-
-
-    // initDATgui(drumMachine);
 
 
 }

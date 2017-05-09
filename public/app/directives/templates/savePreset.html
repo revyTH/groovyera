@@ -19,7 +19,7 @@
             <ui-select-match placeholder="Choose a category!">
                 <span ng-bind="$select.selected.name"></span>
             </ui-select-match>
-            <ui-select-choices repeat="category in (preset.categories | filter: $select.search)" refresh="populateCategories();" refresh-delay="2000" tagging="tagHandler">
+            <ui-select-choices repeat="category in (preset.categories | filter: $select.search)"  tagging="tagHandler">
                 <span ng-bind="category.name"></span>
             </ui-select-choices>
         </ui-select>
@@ -37,6 +37,8 @@
 
 
 
+    <!--&ndash;&gt; ui-select-choices-->
+    <!--refresh="populateCategories();" refresh-delay="2000"-->
 
 
 </div>

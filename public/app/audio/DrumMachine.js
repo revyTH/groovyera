@@ -16,6 +16,7 @@ export class DrumMachine {
         this.numberOfBeats = 16;
         let AudioContext = window.AudioContext || window.webkitAudioContext;
         this.audioContext = new AudioContext();
+        this.pannerNodeSupported = false;
         this.bpm = 120;
         this.bpmMin = 30;
         this.bpmMax = 240;
@@ -48,6 +49,13 @@ export class DrumMachine {
             this._enableAudioContextForiOS();
         } else {
             this.audioContextEnabled = true;
+        }
+
+        if (typeof this.audioContext.createStereoPanner === "function") {
+            this.pannerNodeSupported = true;
+            console.log("Stereo panner supported");
+        } else {
+            console.log("Stereo panner not supported");
         }
 
     }
@@ -521,39 +529,6 @@ export class DrumMachine {
     }
 
 
-    // createTrack(name, soundPath, volume, pan, ticks) {
-    //     return new Promise((resolve, reject) => {
-    //         audioLoader(this.audioContext, soundPath).then(buffer => {
-    //
-    //             let track = new Track(this, name, buffer);
-    //
-    //             if (ticks) {
-    //                 track.setTicksFromArray(ticks);
-    //             } else {
-    //                 track.setTicksFromArray(this._createEmptyTicksArray());
-    //             }
-    //
-    //             if (volume) {
-    //                 track.gainNode.gain.value = volume;
-    //             }
-    //
-    //             if (pan) {
-    //                 if (track.pannerNode) {
-    //                     track.pannerNode.pan.value = pan;
-    //                 }
-    //             }
-    //
-    //             resolve(track);
-    //
-    //         }, error => {
-    //             console.log(error);
-    //             reject(error);
-    //         });
-    //     });
-    // }
-
-
-
     createTrack(name, soundPath, volume, pan, ticks) {
         return new Promise((resolve, reject) => {
 
@@ -625,7 +600,7 @@ export class DrumMachine {
                     name: track.name,
                     soundPath: category + "/" + track.sampleData.fileName,
                     volume: track.gainNode.gain.value,
-                    pan: track.pannerNodeSupported ? track.pannerNode.pan.value : 0
+                    pan: this.pannerNodeSupported ? track.pannerNode.pan.value : 0
                 };
 
                 let ticksData = [];
@@ -651,29 +626,6 @@ export class DrumMachine {
 
 
         return JSON.stringify(data);
-
-
-
-
-        /*
-        tracks: [
-            {
-                name: String,
-                soundPath: {type: String, required: true},
-                volume: Number,
-                pan: Number,
-
-                ticks: [
-                    {
-                        active: Boolean,
-                        index: Number,
-                        volume: Number
-                    }
-                ]
-            }
-        ]
-        */
-
     }
 
 

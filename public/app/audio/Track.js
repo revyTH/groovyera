@@ -37,16 +37,14 @@ import { getFileNameFromPath } from "../utils/utils";
          this.gainNode.gain.value = volume;
 
 
-         if (typeof this.audioContext.createStereoPanner === "function") {
+         if (drumMachine.pannerNodeSupported) {
              this.pannerNode = this.audioContext.createStereoPanner();
              this.pannerNode.pan.value = pan;
              this.gainNode.connect(this.pannerNode);
              this.pannerNode.connect(this.audioContext.destination);
              this.pannerNodeSupported = true;
-             console.log("Stereo panner supported");
          } else {
              this.gainNode.connect(this.audioContext.destination);
-             console.log("Stereo panner not supported");
          }
 
 

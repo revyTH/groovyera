@@ -40,6 +40,7 @@ module.exports = {
     libs: {
         root: "./public/libs",
         all: [
+            "./public/libs/hammer/hammer.min.js",
             "./node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js",
             "./public/libs/jquery/jquery-1.9.1.min.js",
             "./public/libs/jquery-ui/jquery-ui.min.js",
@@ -52,7 +53,7 @@ module.exports = {
             "./node_modules/angular-route/angular-route.js",
             "./node_modules/angular-sanitize/angular-sanitize.min.js",
             "./node_modules/angular-file-saver/dist/angular-file-saver.bundle.js",
-            "./node_modules/ui-select/dist/select.min.js"
+            "./node_modules/ui-select/dist/select.js"
         ]
     },
 
@@ -90,6 +91,11 @@ module.exports = {
 
     socketEvents: {
         presetSaved: "PRESET_SAVED",
-        presetConflict: "PRESET_CONFLICT"
+        presetConflict: "PRESET_CONFLICT",
+        commentSaved: "COMMENT_SAVED"
+    },
+
+    server: {
+        isRunning: false
     }
 };
