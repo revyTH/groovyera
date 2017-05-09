@@ -7,6 +7,10 @@
     "start": "node backend/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "4.7.2",
+    "npm": "4.1.2"
+  },
   "author": "Ludovico Fabbri",
   "license": "ISC",
   "dependencies": {
