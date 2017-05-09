@@ -74,9 +74,9 @@
 
                 <form name="commentForm" novalidate>
                     <div style="position: relative; width: 100%;">
-                        <input type="text" name="username" id="usernameInput" data-ng-model="username" data-ng-change="validateUsername();"
+                        <input type="text" name="username" id="usernameInput" data-ng-model="username"
                                required ng-minlength="3" ng-maxlength="32" maxlength="32" placeholder="Type a username!">
-                        <textarea id="commentArea" name="comment" data-ng-model="commentToPost" data-ng-change="validateComment();"
+                        <textarea id="commentArea" name="comment" data-ng-model="commentToPost"
                                   required ng-minlength="3" ng-maxlength="1000" maxlength="1000" placeholder="Type a comment!"></textarea>
                     </div>
 
@@ -113,11 +113,6 @@
             </div>
         </div>
     </div>
-
-
-
-    <button ng-click="savePreset();">Save preset</button>
-    <button ng-click="uploadFiles();">Upload files</button>
 
 
 </div>

@@ -16,7 +16,7 @@ const Comment = require("../models/Comment");
 const momentFormat = "MMMM Do YYYY, h:mm:ss a";
 
 
-module.exports = function(router) {
+module.exports = function(router, socket) {
 
     if (!router) {
         console.log("Router undefined");

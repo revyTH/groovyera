@@ -70,3 +70,9 @@
         });
 
 }
+
+
+
+export function getFileExtension(fileName) {
+    return fileName.substr(fileName.lastIndexOf('.') + 1);
+}

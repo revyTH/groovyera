@@ -146,19 +146,17 @@ import { getFileNameFromPath } from "../utils/utils";
 
 
      setSampleData(fileName, arrayAudioBuffer) {
-         let self = this;
 
          if (!fileName || !arrayAudioBuffer) {
              console.log("Missing fileName and/or arrayAudioBuffer parameters");
              return;
          }
 
-         this.drumMachine.audioContext.decodeAudioData(arrayAudioBuffer, function(decodedBuffer) {
-             self.sampleData.fileName = fileName;
-             self.sampleData.extension = getExtensionFromFileName(fileName);
-             self.sampleData.originalBuffer = arrayAudioBuffer;
-             self.sampleData.decodedAudioBuffer = decodedBuffer;
-
+         this.drumMachine.audioContext.decodeAudioData(arrayAudioBuffer, decodedBuffer => {
+             this.sampleData.fileName = fileName;
+             this.sampleData.extension = getExtensionFromFileName(fileName);
+             this.sampleData.originalBuffer = arrayAudioBuffer;
+             this.sampleData.decodedAudioBuffer = decodedBuffer;
          });
      }
 

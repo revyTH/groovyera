@@ -625,7 +625,7 @@ export class DrumMachine {
                     name: track.name,
                     soundPath: category + "/" + track.sampleData.fileName,
                     volume: track.gainNode.gain.value,
-                    pan: track.pannerNode.pan.value
+                    pan: track.pannerNodeSupported ? track.pannerNode.pan.value : 0
                 };
 
                 let ticksData = [];

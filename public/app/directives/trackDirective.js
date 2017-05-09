@@ -7,6 +7,8 @@
 
 "use strict";
 
+import { getFileExtension } from "../utils/utils";
+
 
 export function trackDirective(supportedAudioFormats) {
 
@@ -157,10 +159,11 @@ export function trackDirective(supportedAudioFormats) {
                 if (!files || files.length < 1) return;
 
                 let file = files[0];
+                let fileExtension = getFileExtension(file.name);
 
                 // chech if it is an audio file with a supported extension
-                if (!supportedAudioFormats.has(file.type)) {
-                    console.log("File format not supported by Web Audio API");
+                if (!supportedAudioFormats.has(fileExtension)) {
+                    console.log("File format not supported by Web Audio API: ", fileExtension);
                     return;
                 }
 

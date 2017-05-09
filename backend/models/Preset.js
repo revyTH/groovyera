@@ -13,8 +13,8 @@ const Schema = mongoose.Schema;
 
 
 let presetSchema = new Schema({
-    name: {type: String, required: true, unique: true},
-    _category: { type: Schema.Types.String, ref: 'Category', required: true },
+    name: {type: String, required: true},
+    _category: { type: String, ref: 'Category', required: true },
     bpm: {type: Number, required: true},
 
     timeSignature: {

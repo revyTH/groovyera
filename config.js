@@ -40,15 +40,19 @@ module.exports = {
     libs: {
         root: "./public/libs",
         all: [
+            "./node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js",
             "./public/libs/jquery/jquery-1.9.1.min.js",
             "./public/libs/jquery-ui/jquery-ui.min.js",
             "./public/libs/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js",
             "./public/libs/jquery-mmenu/jquery.mmenu.all.min.js",
+            "./node_modules/jquery-toast-plugin/dist/jquery.toast.min.js",
             // "./public/libs/jquery-mmenu/addons/fixedelements/jquery.mmenu.fixedelements.min.js",
             "./public/libs/*.js",
             "./node_modules/angular/angular.js",
             "./node_modules/angular-route/angular-route.js",
-            "./node_modules/angular-file-saver/dist/angular-file-saver.bundle.js"
+            "./node_modules/angular-sanitize/angular-sanitize.min.js",
+            "./node_modules/angular-file-saver/dist/angular-file-saver.bundle.js",
+            "./node_modules/ui-select/dist/select.min.js"
         ]
     },
 
@@ -63,7 +67,10 @@ module.exports = {
         root: "./public/app/styles",
         sass: "./public/app/styles/**/*.scss",
         // sass: "./public/app/styles/main.scss",
-        all: ["./public/app/styles/**/*.scss", "./public/app/components/**/*.scss"]
+        all: [
+            "./public/app/styles/**/*.scss",
+            "./public/app/components/**/*.scss"
+        ]
     },
 
     build: {
@@ -79,5 +86,10 @@ module.exports = {
     samples: {
         root: path.join(__dirname, "public/app/assets/samples/"),
         clientPath: "app/assets/samples/"
+    },
+
+    socketEvents: {
+        presetSaved: "PRESET_SAVED",
+        presetConflict: "PRESET_CONFLICT"
     }
 };

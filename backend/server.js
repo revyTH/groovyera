@@ -15,7 +15,7 @@
  * ---------------------------------------------------------------------------------------
  */
 
-var express = require('express'),
+const express = require('express'),
     config = require("../config"),
     path = require('path'),
     bodyParser = require('body-parser'),
@@ -24,11 +24,15 @@ var express = require('express'),
     winston = require("winston"),
     morgan = require("morgan"),
     mongoose = require("mongoose"),
-    apiRouter = require("./routes").apiRouter;
+    apiRouter = require("./routes");
 
 
-var app = express();
-var port = process.env.PORT || 4500;
+let app = express(),
+    server = require("http").Server(app),
+    io = require("socket.io")(server);
+
+const port = process.env.PORT || 4500;
+
 
 
 
@@ -43,7 +47,7 @@ var port = process.env.PORT || 4500;
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -62,8 +66,29 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(cookiePraser());
-app.use(cors());
+// app.use(cors());     // conflict with socket.io request headers
 app.use(express.static("public"));
+
+
+
+/*
+ * ---------------------------------------------------------------------------------------
+ * socket.io
+ * ---------------------------------------------------------------------------------------
+ */
+
+io.on('connection', function (socket) {
+
+    apiRouter(app, socket);
+
+    app.get('*', function(req, res){
+        res.sendFile('index.html', {
+            root: "public"
+        });
+    });
+
+
+});
 
 
 
@@ -73,13 +98,13 @@ app.use(express.static("public"));
  * ---------------------------------------------------------------------------------------
  */
 
-app.use("/api", apiRouter);
-
-app.get('*', function(req, res){
-    res.sendFile('index.html', {
-        root: "public"
-    });
-});
+// app.use("/api", apiRouter);
+//
+// app.get('*', function(req, res){
+//     res.sendFile('index.html', {
+//         root: "public"
+//     });
+// });
 
 
 
@@ -103,7 +128,7 @@ mongoose.connect(config.database.mLab.connectionString)
         console.log("MongoDB connected.");
 
 
-        initCategories();
+        // initCategories();
 
         startServer();
 
@@ -144,6 +169,10 @@ function initCategories() {
 
 
 
+
+
+
+
 /*
  * ---------------------------------------------------------------------------------------
  * server
@@ -151,10 +180,18 @@ function initCategories() {
  */
 
 function startServer() {
-    app.listen(port, function() {
+    // app.listen(port, function() {
+    //     console.log('Server listening on port ' + port + '..');
+    // });
+
+    server.listen(port, function() {
         console.log('Server listening on port ' + port + '..');
     });
 }
+
+
+
+
 
 
 

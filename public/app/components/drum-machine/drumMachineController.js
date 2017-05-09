@@ -10,11 +10,11 @@ import { psyTrancePreset } from "../../audio/presets";
 import { groovyRockPreset } from "../../audio/presets";
 
 // const baseServerUrl = "http://localhost:4500";
-// const baseServerUrl = "http://192.168.1.72:4500";
-const baseServerUrl = "http://192.168.1.75:4500";
+const baseServerUrl = "http://192.168.1.72:4500";
+// const baseServerUrl = "http://192.168.1.75:4500";
 
 
-export function drumMachineController($scope, $compile, $http, FileSaver, Blob) {
+export function drumMachineController($scope, $compile, $http, FileSaver, Blob, socketEvents) {
 
     let drumMachine = new DrumMachine();
     let loadingContainer = $("#loadingContainer");
@@ -50,11 +50,15 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     $scope.invalidUsernameMessage = "Give ya a name! (3-32 characters)";
     $scope.invalidCommentMessage = "Write something cool! (3-1000 characters)";
 
+    $scope.preset = {
+        name: "",
+        categorySelected: undefined,
+        categories: []
+    };
+
 
     $scope.tracks = drumMachine.tracks;
     $scope.safeApply();
-
-
 
 
 
@@ -113,7 +117,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
     });
 
-
+    /*
     window.addEventListener("keyup", (e) => {
         switch (e.keyCode) {
 
@@ -142,7 +146,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
             e.preventDefault();
         }
     });
-
+    */
 
 
 
@@ -246,6 +250,30 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     };
 
 
+    $scope.populateCategories = () => {
+        return new Promise((resolve, reject) => {
+            $http({
+                url: baseServerUrl + "/api/categories",
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                }
+            }).then(response => {
+                // console.log(response);
+                let categories = response.data;
+                // categories.forEach(c => {
+                //     $scope.categories.push(c.name);
+                // });
+                $scope.preset.categories = categories;
+                resolve(categories);
+
+            }, error => {
+                console.log(error);
+                reject(error);
+            });
+        });
+    };
+
 
     $scope.loadPreset = () => {
 
@@ -288,31 +316,10 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     };
 
 
-
-
     $scope.savePreset = function() {
 
-
-        // let preset = psyTrancePreset;
-        // let preset = groovyRockPreset;
-
-        // $http({
-        //     url: baseServerUrl + '/api/presets',
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     data: JSON.stringify(preset)
-        //
-        // }).then(function (response) {
-        //     console.log(response);
-        // }, function (response) {
-        //     console.log(response);
-        // });
-
-
         let formData = new FormData();
-        let jsonPreset = drumMachine.buildJsonPreset("Groovy rock", "rock");
+        let jsonPreset = drumMachine.buildJsonPreset($scope.preset.name, $scope.preset.categorySelected.name);
 
 
         for (let id in drumMachine.tracks) {
@@ -636,7 +643,7 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
     }
 
 
-    function initPresetsMenu() {
+    function initPresetsMenuOld() {
 
         $http({
             url: baseServerUrl + "/api/presets",
@@ -677,7 +684,87 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
             console.log(errorResponse);
             initExportMidiMenu();
         });
+    }
 
+
+    function initPresetsMenu(categories) {
+
+        $http({
+            url: baseServerUrl + "/api/presets",
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        }).then(response => {
+
+            let presetsData = response.data;
+            if (presetsData.length === 0) {
+                return;
+            }
+
+
+            let liParent = $('<li><a href="#">Presets</a></li>');
+            let ulParent = $("<ul></ul>");
+            liParent.append(ulParent);
+
+
+            categories.forEach(category => {
+
+                let match = presetsData.find(e => { return e._id === category.name; });
+
+                if (!match) {
+                   return;
+                }
+
+                let categoryPresets = match.presets;
+
+                let liCategory = $('<li><a href="#">' + category.name + '</a></li>');
+                let ul = $("<ul></ul>");
+
+
+                categoryPresets.forEach(preset => {
+                    let li = $('<li><a href="#">' + preset.name + '</a></li>');
+                    li.click(() => {
+                        loadPresetFromJson(preset);
+                    });
+
+                    ul.append(li);
+                });
+
+                liCategory.append(ul);
+                ulParent.append(liCategory);
+
+            });
+
+
+            let API = $("nav#menu").data( "mmenu" );
+            $("#menu-list").find( ".mm-listview li:first" ).after( liParent );
+            API.initPanels( $("#menu-list") );
+
+        }, errorResponse => {
+            console.log(errorResponse);
+            initExportMidiMenu();
+        });
+    }
+
+
+    function addPresetToMenu(preset) {
+
+    }
+
+
+    function initSavePresetMenu() {
+        let li = $('<li><a href="#">Save preset</a></li>');
+
+        li.click(() => {
+            let savePreset = angular.element(document.createElement('save-preset'));
+            let domElem = $compile( savePreset )( $scope );
+            angular.element(document.body).append(domElem);
+        });
+
+        let API = $("nav#menu").data( "mmenu" );
+        $("#menu-list").find( ".mm-listview" ).append( li );
+        API.initPanels( $("#menu-list") );
     }
 
 
@@ -745,18 +832,58 @@ export function drumMachineController($scope, $compile, $http, FileSaver, Blob) 
 
 
 
-    /*
+
+
+    /**
      * ---------------------------------------------------------------------------------------
      * init
      * ---------------------------------------------------------------------------------------
      */
 
-    // initDefaultTracks($scope, drumMachine);
+    const socket = io.connect(baseServerUrl);
     initSequencerControls($scope, drumMachine);
 
     $(window).ready(() => {
-        initPresetsMenu();
+        initSavePresetMenu();
+        initExportMidiMenu();
+        $scope.populateCategories().then(categories => {
+            initPresetsMenu(categories);
+        });
+
+        socket.on(socketEvents.presetSaved, data => {
+            console.log(socketEvents.presetSaved, data);
+            $.toast({
+                text : "Preset saved!",
+                showHideTransition : 'slide',  // It can be plain, fade or slide
+                bgColor : '#05a2fc',              // Background color for toast
+                textColor : '#fff',            // text color
+                allowToastClose : false,       // Show the close button or not
+                hideAfter : 4000,              // `false` to make it sticky or time in miliseconds to hide after
+                stack : 5,                     // `fakse` to show one stack at a time count showing the number of toasts that can be shown at once
+                textAlign : 'left',            // Alignment of text i.e. left, right, center
+                position : 'top-right'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
+            });
+            $scope.onPresetCancel();
+        });
+
+        socket.on(socketEvents.presetConflict, data => {
+            console.log(socketEvents.presetConflict, data);
+            $.toast({
+                text : data,
+                showHideTransition : 'slide',  // It can be plain, fade or slide
+                bgColor : '#ff4a40',              // Background color for toast
+                textColor : '#fff',            // text color
+                allowToastClose : false,       // Show the close button or not
+                hideAfter : 4000,              // `false` to make it sticky or time in miliseconds to hide after
+                stack : 5,                     // `fakse` to show one stack at a time count showing the number of toasts that can be shown at once
+                textAlign : 'left',            // Alignment of text i.e. left, right, center
+                position : 'top-right'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
+            });
+        })
+
     });
+
+
 
     // initDATgui(drumMachine);
 

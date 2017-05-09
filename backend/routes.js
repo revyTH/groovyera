@@ -4,41 +4,66 @@
  * ---------------------------------------------------------------------------------------
  */
 
+"use strict";
+
+let express = require("express");
+let midiController = require("./controllers/midiController");
+let presetsController = require("./controllers/presetsController");
+let categoryController = require("./controllers/categoryController");
+let commentsController = require("./controllers/commentsController");
+
+// let apiRouter = express.Router();
+//
+//
+// (function () {
+//
+//
+//     // middleware to use for all requests
+//     // apiRouter.use((req, res, next) => {
+//     //
+//     //     // check something useful
+//     //
+//     //     next();
+//     // });
+//
+//
+//
+//     // register controllers
+//     midiController(apiRouter);
+//     presetsController(apiRouter);
+//     categoryController(apiRouter);
+//     commentsController(apiRouter);
+//
+//
+// }());
+//
+//
+//
+// exports.apiRouter = apiRouter;
 
 
-var express = require("express");
-var midiController = require("./controllers/midiController");
-var presetsController = require("./controllers/presetsController");
-var commentsController = require("./controllers/commentsController");
-var uploadController = require("./controllers/uploadController");
 
-var apiRouter = express.Router();
+module.exports = function(app, socket) {
 
-
-(function () {
-
+    let apiRouter = express.Router();
 
     // middleware to use for all requests
-    apiRouter.use((req, res, next) => {
-
-        // check something useful
-
-        next();
-    });
+    // apiRouter.use((req, res, next) => {
+    //
+    //     // check something useful
+    //
+    //     next();
+    // });
 
 
 
     // register controllers
-    midiController(apiRouter);
-    presetsController(apiRouter);
-    commentsController(apiRouter);
-    uploadController(apiRouter);
+    midiController(apiRouter, socket);
+    presetsController(apiRouter, socket);
+    categoryController(apiRouter, socket);
+    commentsController(apiRouter, socket);
 
 
-}());
+    app.use("/api", apiRouter);
 
-
-
-
-
-exports.apiRouter = apiRouter;
+};

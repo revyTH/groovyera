@@ -116,6 +116,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
   /* <-- Apparently some margin are still there even though it's hidden */ }
 
+input::-webkit-input-placeholder {
+  color: #999999; }
+
 /*
  * ---------------------------------------------------------------------------------------
  * layout.scss
@@ -1227,6 +1230,98 @@ nav:not(.mm-menu) {
 
 .beat-indicator-active {
   background-color: yellow; }
+
+.save-preset-container {
+  position: fixed;
+  padding: 2em;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #666;
+  background: -webkit-linear-gradient(legacy-direction(#333), #666, #111);
+  background: linear-gradient(#333, #666, #111);
+  z-index: 10; }
+
+#preset-title {
+  position: relative;
+  margin-bottom: 2em;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white; }
+
+#presetNameInput {
+  width: 100%;
+  height: auto;
+  line-height: 1.5em;
+  padding: 1em;
+  font-size: 1em;
+  border: 0 !important;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */
+  color: #454545;
+  border: 1px solid white;
+  background: #FCFCFC;
+  background: -webkit-linear-gradient(legacy-direction(#EEE), #FCFCFC);
+  background: linear-gradient(#EEE, #FCFCFC);
+  outline: none; }
+
+.validation-message {
+  width: 100%;
+  padding: 1em;
+  color: red;
+  font-size: 1em; }
+
+#selectCategory {
+  width: 100%;
+  height: 3em;
+  line-height: 3em;
+  margin-top: 2em;
+  font-size: 1em;
+  padding: 1em;
+  color: #454545;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */
+  outline: none; }
+
+.ui-selectmenu-menu {
+  outline: none;
+  z-index: 9999; }
+
+#presetCancelBtn {
+  position: fixed;
+  padding: 1em;
+  left: 2em;
+  bottom: 2em;
+  width: 30%;
+  background-color: red !important;
+  color: white !important;
+  outline: none; }
+
+#presetSaveBtn {
+  position: fixed;
+  padding: 1em;
+  right: 2em;
+  bottom: 2em;
+  width: 30%;
+  background-color: #1ea4f9 !important;
+  color: white !important;
+  outline: none; }
+
+.select2-container .select2-choice {
+  padding: 1em !important;
+  height: auto !important;
+  line-height: 1.5em !important;
+  font-size: 1em !important;
+  outline: none !important; }
 
 .ui-slider-vertical {
   width: 8px;

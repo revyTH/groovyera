@@ -1,0 +1,108 @@
+
+
+.save-preset-container {
+  position: fixed;
+  padding: 2em;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  @include linear-gradient(#333, #666, $cod-gray);
+  z-index: 10;
+}
+
+
+#preset-title {
+  position: relative;
+  margin-bottom: 2em;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+}
+
+
+
+#presetNameInput {
+  width: 100%;
+  height: auto;
+  line-height: 1.5em;
+  padding: 1em;
+
+  font-size: 1em;
+  //border-top: 2px solid #dbdfe4;
+  //border-left: 2px solid #dbdfe4;
+  //border-right: 2px solid #dbdfe4;
+  //border-bottom: 2px solid #dbdfe4;
+  border: 0 !important;
+  @include border-radius(2px);
+
+  color: #454545;
+  border: 1px solid white;
+  @include linear-gradient(#EEE, #FCFCFC);
+  outline: none;
+}
+
+.validation-message {
+  width: 100%;
+  padding: 1em;
+  color: red;
+  font-size: 1em;
+}
+
+
+#selectCategory {
+  width: 100%;
+  height: 3em;
+  line-height: 3em;
+  margin-top: 2em;
+  font-size: 1em;
+  padding: 1em;
+  color: #454545;
+  @include border-radius(2px);
+  outline: none;
+}
+
+
+// to show jquery dropdown menu
+.ui-selectmenu-menu {
+  outline: none;
+  z-index: 9999;
+}
+
+
+#presetCancelBtn {
+  position: fixed;
+  padding: 1em;
+  left: 2em;
+  bottom: 2em;
+  width: 30%;
+  background-color: red !important;
+  color: white !important;
+  outline: none;
+}
+
+
+#presetSaveBtn {
+  position: fixed;
+  padding: 1em;
+  right: 2em;
+  bottom: 2em;
+  width: 30%;
+  background-color: $scifi-text-hover !important;
+  color: white !important;
+  outline: none;
+}
+
+
+
+.select2-container .select2-choice {
+  padding: 1em !important;
+  height: auto !important;
+  line-height: 1.5em !important;
+  font-size: 1em !important;
+  outline: none !important;
+}

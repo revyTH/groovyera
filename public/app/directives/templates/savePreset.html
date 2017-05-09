@@ -1,0 +1,42 @@
+
+
+<div class="save-preset-container">
+
+    <p id="preset-title">Save preset</p>
+
+    <form name="savePresetForm" novalidate>
+        <input type="text" name="presetName" id="presetNameInput" data-ng-model="preset.name" ng-change="onChange();"
+               required ng-minlength="6" ng-maxlength="32" maxlength="32" placeholder="Choose a name!">
+
+
+        <p class="validation-message"
+           ng-show="savePresetForm.presetName.$invalid && !savePresetForm.presetName.$pristine">{{invalidPresetNameMessage}}</p>
+
+
+
+        <ui-select name="presetCategory" ng-model="preset.categorySelected" theme="select2" required
+                   style="width: 100% !important; margin: 0 !important; margin-top: 2em !important; outline: none !important;">
+            <ui-select-match placeholder="Choose a category!">
+                <span ng-bind="$select.selected.name"></span>
+            </ui-select-match>
+            <ui-select-choices repeat="category in (preset.categories | filter: $select.search)" refresh="populateCategories();" refresh-delay="2000" tagging="tagHandler">
+                <span ng-bind="category.name"></span>
+            </ui-select-choices>
+        </ui-select>
+
+        <p class="validation-message"
+           ng-show="!preset.categorySelected">{{invalidCategoryMessage}}</p>
+
+
+    </form>
+
+
+
+    <button id="presetCancelBtn" data-ng-click="onPresetCancel();">Cancel</button>
+    <button id="presetSaveBtn" data-ng-click="onPresetSave();" data-ng-disabled="savePresetForm.$invalid">Save</button>
+
+
+
+
+
+</div>

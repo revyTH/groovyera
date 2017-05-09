@@ -4,16 +4,18 @@
  * ---------------------------------------------------------------------------------------
  */
 
-
-var httpStatusCodes = require("http-status-codes");
-fs = require("fs");
-var path = require("path");
-var MidiWriter = require('midi-writer-js');
+"use strict"
 
 
+const   httpStatusCodes = require("http-status-codes"),
+        fs = require("fs"),
+        path = require("path"),
+        MidiWriter = require('midi-writer-js');
 
 
-module.exports = function(router) {
+
+
+module.exports = function(router, socket) {
 
     if (!router) {
         console.log("Router undefined");
