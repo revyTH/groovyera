@@ -23,7 +23,7 @@ export function savePresetDirective() {
                 return null;
             };
 
-            scope.invalidPresetNameMessage = "Choose a preset name (6-32 characters)";
+            scope.invalidPresetNameMessage = "Choose a preset name (4-24 characters)";
             scope.invalidCategoryMessage = "Choose a category";
 
 

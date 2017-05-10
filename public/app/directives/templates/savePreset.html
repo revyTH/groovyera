@@ -6,7 +6,7 @@
 
     <form name="savePresetForm" novalidate>
         <input type="text" name="presetName" id="presetNameInput" data-ng-model="preset.name" ng-change="onChange();"
-               required ng-minlength="6" ng-maxlength="32" maxlength="32" placeholder="Choose a name!">
+               required ng-minlength="4" ng-maxlength="24" maxlength="24" placeholder="Choose a name!">
 
 
         <p class="validation-message"
@@ -24,8 +24,10 @@
             </ui-select-choices>
         </ui-select>
 
-        <p class="validation-message"
-           ng-show="!preset.categorySelected">{{invalidCategoryMessage}}</p>
+        <!--<p class="validation-message"-->
+           <!--ng-show="savePresetForm.presetCategory.$invalid">{{invalidCategoryMessage}}</p>-->
+
+
 
 
     </form>

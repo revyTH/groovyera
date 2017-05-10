@@ -10,10 +10,7 @@ import { psyTrancePreset } from "../../audio/presets";
 import { groovyRockPreset } from "../../audio/presets";
 
 
-export function drumMachineController($scope, $compile, $http, $interval, FileSaver, Blob, socketEvents) {
-
-    const serverBaseURL = process.env.BASE_SERVER_URL;
-    console.log("SERVER_BASE_URL", serverBaseURL);
+export function drumMachineController($scope, $compile, $http, $interval, serverBaseURL, FileSaver, Blob, socketEvents) {
 
     let drumMachine = new DrumMachine();
     let loadingContainer = $("#loadingContainer");
@@ -274,7 +271,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
         });
     };
 
-
+    /*
     $scope.loadPreset = () => {
 
         $http({
@@ -310,6 +307,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
         });
 
     };
+    */
 
 
     $scope.savePreset = () => {
@@ -623,11 +621,11 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
     }
 
 
-    function loadPresetFromJson(json) {
-
+    function loadPreset(data) {
+        window.scrollTo(0, 0);
         enableLoadingSpinner();
 
-        drumMachine.loadPreset(json).then(tracks => {
+        drumMachine.loadPreset(data).then(tracks => {
 
             tracks.forEach(t => {
                 drumMachine.tracks[t.id] = t;
@@ -635,7 +633,9 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
 
             $scope.bpm = drumMachine.bpm;
             bpmSlider.slider("value", $scope.bpm);
-            $scope.$apply();
+            $scope.preset.name = data.name;
+            $("#presetTitle").text($scope.preset.name);
+            $scope.safeApply();
             disableLoadingSpinner();
 
         }, error => {
@@ -697,7 +697,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
                 categoryPresets.forEach(preset => {
                     let li = $('<li><a href="#">' + preset.name + '</a></li>');
                     li.click(() => {
-                        loadPresetFromJson(preset);
+                        loadPreset(preset);
                     });
 
                     ul.append(li);
@@ -841,8 +841,11 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
 
     const socket = io.connect(serverBaseURL);
     initSequencerControls($scope, drumMachine);
+    loadPreset(groovyRockPreset);
+    window.scrollTo(0, 0);
 
     $(window).ready(() => {
+        window.scrollTo(0, 0);
         initSavePresetMenu();
         initExportMidiMenu();
 
@@ -865,6 +868,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
             // toastOk("Comment posted!");
             $scope.comments.splice(0, 0, comment);
             $scope.commentToPost = "";
+            $scope.commentForm.$setPristine();
             $scope.safeApply();
         });
 

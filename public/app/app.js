@@ -28,7 +28,7 @@ import { savePresetDirective } from "./directives/savePresetDirective";
 
 
     // bind controllers
-    app.controller("drumMachineController", ["$scope", "$compile", "$http", "$interval", "FileSaver", "Blob", "socketEvents", drumMachineController]);
+    app.controller("drumMachineController", ["$scope", "$compile", "$http", "$interval", "serverBaseURL", "FileSaver", "Blob", "socketEvents", drumMachineController]);
     app.controller("testController", ['$scope', testController]);
 
 
@@ -58,7 +58,7 @@ import { savePresetDirective } from "./directives/savePresetDirective";
     };
 
     // constants
-
+    app.constant("serverBaseURL", process.env.BASE_SERVER_URL);
     app.constant("supportedAudioFormats", supportedAudioFormats);
     app.constant("socketEvents", socketEvents);
 

@@ -140,9 +140,27 @@ module.exports = function(router, socket) {
                                 let absolutePath = samplesPath + presetData.tracks[i].soundPath;
                                 let buffer = req.files[i].buffer;
 
-                                fs.writeFileSync(absolutePath, buffer);
+                                let destFolderPath = path.dirname(absolutePath);
+                                let relativePath = presetData.tracks[i].soundPath;
 
-                                presetData.tracks[i].soundPath = samplesClientPath + presetData.tracks[i].soundPath;
+                                // create destination folder if does not exist
+                                if (!fs.existsSync(destFolderPath)) {
+                                    fs.mkdirSync(destFolderPath);
+                                }
+                                // else check if there is a different file with the same name
+                                else {
+                                    let sampleName = path.basename(absolutePath);
+                                    let fileNames = fs.readdirSync(destFolderPath);
+                                    // name collision, modify target file name before write
+                                    if (fileNames.find(f => {return f === sampleName})) {
+
+                                        relativePath = relativePath.substr(0, relativePath.lastIndexOf(".")) + "-" + Date.now() + path.extname(sampleName);
+                                        absolutePath = samplesPath + relativePath;
+                                    }
+                                }
+
+                                fs.writeFileSync(absolutePath, buffer);
+                                presetData.tracks[i].soundPath = samplesClientPath + relativePath;
                             }
                         }
 

@@ -1003,6 +1003,17 @@ nav:not(.mm-menu) {
   display: inline-block;
   margin-left: 1em; }
 
+#presetTitle {
+  display: inline-block;
+  float: right;
+  font-weight: 300;
+  letter-spacing: 4px;
+  color: #fff; }
+
+#presetTitle::after {
+  float: none;
+  clear: both; }
+
 #hamburgerBtn {
   position: relative;
   left: 0;
