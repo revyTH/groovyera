@@ -4,7 +4,7 @@
   "description": "",
   "main": "backend/server.js",
   "scripts": {
-    "postinstall": "gulp bundle-prod",
+    "postinstall": "npm install && gulp bundle-prod",
     "start": "node backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
