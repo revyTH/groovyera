@@ -16,6 +16,7 @@ const gulp = require("gulp"),
     util = require("gulp-util"),
     uglify = require("gulp-uglify"),
     browserify = require('browserify'),
+    envify = require('envify/custom'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     sourcemaps = require("gulp-sourcemaps"),
@@ -59,14 +60,20 @@ function build_libs() {
  */
 function build_js() {
 
-    let mode = process.env.NODE_ENV === config.mode.debug ? true : false;
+    let mode = process.env.NODE_ENV === config.mode.dev;
     console.log(util.colors.red('\nMODE = ' + process.env.NODE_ENV + '\n'));
 
     return browserify({
         entries: config.js.index,
         cache: {},
-        debug: true
+        dev: true
     })
+        .transform(envify({
+            global: true,
+            _: 'purge',
+            NODE_ENV: process.env.NODE_ENV,
+            BASE_SERVER_URL: process.env.NODE_ENV === config.mode.dev ? config.baseServerURL.dev : config.baseServerURL.prod
+        }))
         .transform(babelify, {presets: ["es2015", "react"], sourceMaps: mode})
         .bundle()
         .pipe(source("app.bundle.min.js"))
@@ -167,7 +174,7 @@ function watch() {
  * debugMode
  */
 function debugMode(done) {
-    process.env.NODE_ENV = config.mode.debug;
+    process.env.NODE_ENV = config.mode.dev;
     console.log(util.colors.blue('NODE_ENV = ' + process.env.NODE_ENV ));
     done();
 }
@@ -177,7 +184,7 @@ function debugMode(done) {
  * productionMode
  */
 function productionMode(done) {
-    process.env.NODE_ENV = config.mode.production;
+    process.env.NODE_ENV = config.mode.prod;
     console.log(util.colors.blue('NODE_ENV = ' + process.env.NODE_ENV ));
     done();
 }

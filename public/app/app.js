@@ -7,12 +7,9 @@
 
 "use strict";
 
-
 import { initRoutes } from "./routes";
-
 import { drumMachineController } from "./components/drum-machine/drumMachineController";
 import { testController } from "./components/test/testController";
-
 import { trackDirective } from "./directives/trackDirective";
 import { tickSliderDirective } from "./directives/tickSliderDirective";
 import { commentDirective } from "./directives/commentDirective";
@@ -61,6 +58,7 @@ import { savePresetDirective } from "./directives/savePresetDirective";
     };
 
     // constants
+
     app.constant("supportedAudioFormats", supportedAudioFormats);
     app.constant("socketEvents", socketEvents);
 

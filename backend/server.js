@@ -8,6 +8,15 @@
 "use strict";
 
 
+/*
+ * ---------------------------------------------------------------------------------------
+ * environment
+ * ---------------------------------------------------------------------------------------
+ */
+
+const port = process.env.PORT || 4500;
+
+
 
 /*
  * ---------------------------------------------------------------------------------------
@@ -15,23 +24,27 @@
  * ---------------------------------------------------------------------------------------
  */
 
-const express = require('express'),
-    config = require("../config"),
-    path = require('path'),
-    bodyParser = require('body-parser'),
-    cookiePraser = require('cookie-parser'),
-    cors = require('cors'),
-    winston = require("winston"),
-    morgan = require("morgan"),
-    mongoose = require("mongoose"),
-    apiRouter = require("./routes");
+
+
+
+const
+        express = require('express'),
+        config = require("../config"),
+        path = require('path'),
+        bodyParser = require('body-parser'),
+        cookiePraser = require('cookie-parser'),
+        cors = require('cors'),
+        winston = require("winston"),
+        morgan = require("morgan"),
+        mongoose = require("mongoose"),
+        apiRouter = require("./routes");
 
 
 let app = express(),
     server = require("http").Server(app),
     io = require("socket.io")(server);
 
-const port = process.env.PORT || 4500;
+
 
 
 

@@ -9,13 +9,11 @@ import { DrumMachine } from "../../audio/DrumMachine";
 import { psyTrancePreset } from "../../audio/presets";
 import { groovyRockPreset } from "../../audio/presets";
 
-// const baseServerUrl = "http://localhost:4500";
-// const baseServerUrl = "http://192.168.1.72:4500";
-// const baseServerUrl = "http://192.168.1.75:4500";
-const baseServerUrl = "https://groove-monkey.herokuapp.com";
-
 
 export function drumMachineController($scope, $compile, $http, $interval, FileSaver, Blob, socketEvents) {
+
+    const serverBaseURL = process.env.BASE_SERVER_URL;
+    console.log("SERVER_BASE_URL", serverBaseURL);
 
     let drumMachine = new DrumMachine();
     let loadingContainer = $("#loadingContainer");
@@ -232,7 +230,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
 
 
         $http({
-            url: baseServerUrl + '/api/midi',
+            url: serverBaseURL + '/api/midi',
             method: "POST",
             responseType: "arraybuffer",
             headers: {
@@ -255,7 +253,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
     $scope.populateCategories = () => {
         return new Promise((resolve, reject) => {
             $http({
-                url: baseServerUrl + "/api/categories",
+                url: serverBaseURL + "/api/categories",
                 method: "GET",
                 headers: {
                     "Accept": "application/json"
@@ -280,7 +278,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
     $scope.loadPreset = () => {
 
         $http({
-            url: baseServerUrl + "/api/presets",
+            url: serverBaseURL + "/api/presets",
             method: "GET",
             headers: {
                 "Accept": "application/json"
@@ -342,7 +340,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
 
 
 
-        xhr.open( 'POST', baseServerUrl + '/api/presets', true );
+        xhr.open( 'POST', serverBaseURL + '/api/presets', true );
         xhr.setRequestHeader("Accept", "application/json");
         xhr.onload = () => {
             // created
@@ -430,7 +428,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
 
 
 
-        xhr.open( 'POST', baseServerUrl + '/api/upload', true );
+        xhr.open( 'POST', serverBaseURL + '/api/upload', true );
         xhr.setRequestHeader("Accept", "application/json");
         xhr.onload = handler;
         xhr.send( formData );
@@ -466,7 +464,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
         };
 
         $http({
-            url: baseServerUrl + '/api/comments',
+            url: serverBaseURL + '/api/comments',
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -664,7 +662,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
         $('li[id="presetsMenu"]').remove();
 
         $http({
-            url: baseServerUrl + "/api/presets",
+            url: serverBaseURL + "/api/presets",
             method: "GET",
             headers: {
                 "Accept": "application/json"
@@ -743,7 +741,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
         enableCommentsLoadingSpinner();
 
         $http({
-            url: baseServerUrl + '/api/comments',
+            url: serverBaseURL + '/api/comments',
             method: "GET",
             headers: {
                 "Accept" : "application/json"
@@ -841,7 +839,7 @@ export function drumMachineController($scope, $compile, $http, $interval, FileSa
      * ---------------------------------------------------------------------------------------
      */
 
-    const socket = io.connect(baseServerUrl);
+    const socket = io.connect(serverBaseURL);
     initSequencerControls($scope, drumMachine);
 
     $(window).ready(() => {

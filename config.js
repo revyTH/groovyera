@@ -9,8 +9,13 @@ const path = require("path");
 module.exports = {
 
     mode: {
-        debug: "debug",
-        production: "prod"
+        dev: "development",
+        prod: "production"
+    },
+
+    baseServerURL: {
+        dev: "http://localhost:4500",
+        prod: "https://groove-monkey.herokuapp.com"
     },
 
     project: {
