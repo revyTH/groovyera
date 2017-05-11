@@ -25,7 +25,7 @@ body {
   font-weight: normal;
   text-align: justify;
   text-justify: inter-word;
-  letter-spacing: .1em;
+  letter-spacing: 2px;
   color: white;
   background: #333;
 
@@ -59,6 +59,19 @@ body *
 {
   text-shadow: none;
 }
+
+
+// preload button images
+body:after{
+  display:none;
+  content:
+  url('../../app/assets/icons/Play-50-green.png')
+  url('../../app/assets/icons/Play-50-white.png')
+  url('../../app/assets/icons/Stop-50-red.png')
+  url('../../app/assets/icons/Stop-50-white.png')
+}
+
+
 
 
 #mm-0, #page, #content {

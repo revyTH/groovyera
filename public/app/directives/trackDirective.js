@@ -93,12 +93,13 @@ export function trackDirective($http, $compile, supportedAudioFormats) {
             }
 
 
-            elem.find('button[name=soloTrackButton]').button({
+            elem.find('button[name="soloTrackButton"]').button();
 
-            });
+            elem.find('button[name="muteTrackButton"]').button();
 
-            elem.find('button[name=muteTrackButton]').button({
-
+            elem.find('button[name="loadSoundFromServerBtn"]').button({
+                showLabel: false,
+                icon: "ui-icon-volume-on"
             });
 
 
@@ -113,18 +114,18 @@ export function trackDirective($http, $compile, supportedAudioFormats) {
              * ---------------------------------------------------------------------------------------
              */
 
-            // $(window).resize(() => {
-            //     scope.ticksElements.forEach((e) => {
-            //         resizeTick(e);
-            //     });
-            // });
 
-
+            scope.$on("$destroy", ()=> {
+                elem.unbind("dragover", onDragOver);
+                elem.unbind("drop", onDrop);
+                elem.unbind("dragleave", onDragLeave);
+            });
 
 
             elem.on("dragover", onDragOver);
             elem.on("drop", onDrop);
             elem.on("dragleave", onDragLeave);
+
 
 
 
@@ -217,6 +218,7 @@ export function trackDirective($http, $compile, supportedAudioFormats) {
                     e.preventDefault();
                 }
             }
+
 
             function playSound() {
                 scope.track.playLoadedSample();

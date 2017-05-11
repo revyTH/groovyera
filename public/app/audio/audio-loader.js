@@ -38,3 +38,31 @@ export function audioLoader(audioCtx, url) {
         xhr.send();
     });
 }
+
+
+
+export function getArrayBuffer(audioCtx, url) {
+
+    return new Promise((resolve, reject) => {
+
+        if (!audioCtx) {
+            reject("Missing audio context parameter.");
+            return;
+        }
+
+        if (!url) {
+            reject("Missing url parameter");
+            return;
+        }
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.responseType = "arraybuffer";
+
+        xhr.onload = function() {
+            resolve(xhr.response);
+        };
+
+        xhr.send();
+    });
+}

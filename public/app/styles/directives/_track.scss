@@ -37,12 +37,20 @@
   margin: 0;
   padding: 0;
   border: 0;
-  width: 5em;
+  width: 14em;
   font-size: 1em;
   font-weight: bold;
   color: white;
   background: none;
   outline: none;
+
+  @include tablet {
+    width: 10em;
+  }
+
+  @include smartphone {
+    width: 5em;
+  }
 }
 
 
@@ -242,18 +250,33 @@
 
 
 
+input[name="loadFileFromDisk"] {
+  display: inline-block;
+  vertical-align: middle;
+  color: transparent;
+  width: 7em;
+}
+
 
 .load-sound-from-server-button {
 
   display: inline-block;
   vertical-align: middle;
-  width: 74px;
+  margin-left: 185px;
+
+  width: 7em;
   height: 18px;
   font-size: 10px;
   outline: none;
 
+  @include tablet {
+    margin-left: 122px;
+    width: calc(7em - 4px);
+  }
+
   @include smartphone {
-    width: 58px;
+      margin-left: 42px;
+      width: 5em;
   }
 
 }

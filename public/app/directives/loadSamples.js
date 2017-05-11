@@ -5,6 +5,9 @@
  */
 
 
+import { getArrayBuffer } from "../audio/audio-loader";
+
+
 "use strict";
 
 
@@ -54,6 +57,9 @@ export function loadSamples($http, supportedAudioFormats) {
                     showLabel: false
                 });
 
+
+                elem.find('button[id="samplesCancelBtn"]').button();
+
                 elem.css("display", "block");
 
                 scope.disableLoadingSpinner();
@@ -78,9 +84,6 @@ export function loadSamples($http, supportedAudioFormats) {
 
             function addEvents() {
 
-                scope.$on("$destroy", ()=> {
-
-                });
 
             }
 
@@ -98,11 +101,10 @@ export function loadSamples($http, supportedAudioFormats) {
             scope.close = function() {
                 $("#angularView").css("display", "block");
                 elem.remove();
-                scope.$destroy();
             };
 
 
-            scope.playSound = function(sample) {
+            scope.playSampleFromServer = function(sample) {
                 if (!sample) return;
 
                 if (scope.samplesBuffers.hasOwnProperty(sample.path)) {
@@ -115,6 +117,18 @@ export function loadSamples($http, supportedAudioFormats) {
                         scope.playSoundFromBuffer(buffer);
                     });
                 }
+            };
+
+
+
+            scope.loadSampleOnTrack = function(sample) {
+                if (!sample) return;
+
+                getArrayBuffer(scope.audioContext, sample.path).then(arrayBuffer => {
+                    scope.track.setSampleData(sample.name, arrayBuffer);
+                    scope.close();
+                });
+
             };
 
 

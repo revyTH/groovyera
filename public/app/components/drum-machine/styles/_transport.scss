@@ -93,13 +93,44 @@
   }
 }
 
+//#sequencerPlayButton {
+//  background-image: url('../../app/assets/icons/Play-50-white.png');
+//}
+//
+//#sequencerStopButton {
+//  background-image: url('../../app/assets/icons/Stop-50-red.png');
+//}
+
 #sequencerPlayButton {
+  background-color: transparent;
+}
+
+
+.sequencer-play-active {
+  background-color: transparent;
+  background-image: url('../../app/assets/icons/Play-50-green.png');
+}
+
+.sequencer-play-inactive {
+  background-color: transparent;
   background-image: url('../../app/assets/icons/Play-50-white.png');
 }
 
-#sequencerStopButton {
+.sequencer-stop-active {
+  background-color: transparent;
   background-image: url('../../app/assets/icons/Stop-50-red.png');
 }
+
+.sequencer-stop-inactive {
+  background-color: transparent;
+  background-image: url('../../app/assets/icons/Stop-50-white.png');
+}
+
+
+
+
+
+
 
 #sequencerBPMsliderLabel {
   margin: 0;

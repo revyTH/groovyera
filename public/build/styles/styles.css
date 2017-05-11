@@ -76,7 +76,7 @@ body {
   font-weight: normal;
   text-align: justify;
   text-justify: inter-word;
-  letter-spacing: .1em;
+  letter-spacing: 2px;
   color: white;
   background: #333;
   -webkit-font-smoothing: antialiased;
@@ -86,6 +86,10 @@ body {
 
 body * {
   text-shadow: none; }
+
+body:after {
+  display: none;
+  content: url("../../app/assets/icons/Play-50-green.png") url("../../app/assets/icons/Play-50-white.png") url("../../app/assets/icons/Stop-50-red.png") url("../../app/assets/icons/Stop-50-white.png"); }
 
 #mm-0, #page, #content {
   display: block;
@@ -1014,6 +1018,10 @@ nav:not(.mm-menu) {
   font-weight: 300;
   letter-spacing: 4px;
   color: #fff; }
+  @media (min-width: 320px) and (max-width: 511px) {
+    #presetTitle {
+      font-size: 0.7em;
+      letter-spacing: 2px; } }
 
 #presetTitle::after {
   float: none;
@@ -1053,9 +1061,35 @@ nav:not(.mm-menu) {
   left: 0;
   width: 100%;
   height: 3em;
+  line-height: 3em;
   background: #111;
   background: -webkit-linear-gradient(legacy-direction(#212121), #111);
-  background: linear-gradient(#212121, #111); }
+  background: linear-gradient(#212121, #111);
+  text-align: center; }
+
+.social-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  margin-left: 4px;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  width: 2em;
+  height: 2em;
+  background-size: cover;
+  outline: none;
+  cursor: pointer;
+  cursor: hand; }
+
+#facebookBtn {
+  background-image: url("../../app/assets/icons/facebook.png"); }
+
+#githubBtn {
+  background-image: url("../../app/assets/icons/github.png"); }
+
+#googleBtn {
+  background-image: url("../../app/assets/icons/googleplus.png"); }
 
 #drumMachineViewContainer {
   display: block;
@@ -1145,10 +1179,23 @@ nav:not(.mm-menu) {
       height: 32px; } }
 
 #sequencerPlayButton {
+  background-color: transparent; }
+
+.sequencer-play-active {
+  background-color: transparent;
+  background-image: url("../../app/assets/icons/Play-50-green.png"); }
+
+.sequencer-play-inactive {
+  background-color: transparent;
   background-image: url("../../app/assets/icons/Play-50-white.png"); }
 
-#sequencerStopButton {
+.sequencer-stop-active {
+  background-color: transparent;
   background-image: url("../../app/assets/icons/Stop-50-red.png"); }
+
+.sequencer-stop-inactive {
+  background-color: transparent;
+  background-image: url("../../app/assets/icons/Stop-50-white.png"); }
 
 #sequencerBPMsliderLabel {
   margin: 0;
@@ -1384,12 +1431,18 @@ nav:not(.mm-menu) {
   margin: 0;
   padding: 0;
   border: 0;
-  width: 5em;
+  width: 14em;
   font-size: 1em;
   font-weight: bold;
   color: white;
   background: none;
   outline: none; }
+  @media (min-width: 512px) and (max-width: 1023px) {
+    .track-name {
+      width: 10em; } }
+  @media (min-width: 320px) and (max-width: 511px) {
+    .track-name {
+      width: 5em; } }
 
 .track-top-container {
   position: relative;
@@ -1544,16 +1597,28 @@ nav:not(.mm-menu) {
   margin: 0 !important;
   padding: 0 !important; }
 
+input[name="loadFileFromDisk"] {
+  display: inline-block;
+  vertical-align: middle;
+  color: transparent;
+  width: 7em; }
+
 .load-sound-from-server-button {
   display: inline-block;
   vertical-align: middle;
-  width: 74px;
+  margin-left: 185px;
+  width: 7em;
   height: 18px;
   font-size: 10px;
   outline: none; }
+  @media (min-width: 512px) and (max-width: 1023px) {
+    .load-sound-from-server-button {
+      margin-left: 122px;
+      width: calc(7em - 4px); } }
   @media (min-width: 320px) and (max-width: 511px) {
     .load-sound-from-server-button {
-      width: 58px; } }
+      margin-left: 42px;
+      width: 5em; } }
 
 #accordionContainer {
   width: 100%; }
@@ -1776,5 +1841,20 @@ nav:not(.mm-menu) {
 .ui-button[name="loadSoundButton"] {
   margin: 0 !important;
   padding: 0 !important; }
+
+#samplesCancelBtn {
+  margin-top: 10em;
+  margin-left: calc(50vw - 15% - 2em);
+  padding: 1em;
+  bottom: 1em;
+  width: 30%;
+  background-color: red !important;
+  color: white !important;
+  outline: none; }
+  @media (min-width: 320px) and (max-width: 511px) {
+    #samplesCancelBtn {
+      width: 50%;
+      margin-top: 8em;
+      margin-left: calc(50vw - 25% - 0.5em); } }
 
 /*# sourceMappingURL=styles.css.map */

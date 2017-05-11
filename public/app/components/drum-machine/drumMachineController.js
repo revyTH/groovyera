@@ -97,6 +97,8 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
 
 
+
+
     /*
      * ---------------------------------------------------------------------------------------
      * event listeners
@@ -117,14 +119,14 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
     });
 
-    /*
+
     window.addEventListener("keyup", (e) => {
         switch (e.keyCode) {
 
+            //space
             case 32:
 
-                if($("textarea#commentArea, input#usernameInput").is(":focus")){
-                    e.preventDefault();
+                if($('textarea#commentArea, input#usernameInput, input[name="trackName"], input[name="presetName"]').is(":focus")){
                     e.stopPropagation();
                 }
                 else if ($scope.isStopped) {
@@ -140,13 +142,34 @@ export function drumMachineController($scope, $compile, $http, $interval, server
     });
 
 
+    window.addEventListener("keydown", (e) => {
+        switch (e.keyCode) {
+
+            //space
+            case 32:
+
+                if($('textarea#commentArea, input#usernameInput, input[name="trackName"], input[name="presetName"]').is(":focus")){
+                    e.stopPropagation();
+                } else {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                break;
+
+            default:
+                break;
+        }
+    });
+
+
     // remove scroll down on spacebar
     window.addEventListener('keydown', function(e) {
         if(e.keyCode === 32 && e.target === document.body) {
             e.preventDefault();
         }
     });
-    */
+
 
 
 
@@ -596,17 +619,34 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
 
     function play(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+
+        // playBtn.css({
+        //     backgroundColor: "transparent",
+        //     backgroundImage: "url(./app/assets/icons/Play-50-green.png)"
+        // });
+        //
+        // stopBtn.css({
+        //     backgroundColor: "transparent",
+        //     backgroundImage: "url(./app/assets/icons/Stop-50-white.png)"
+        // });
+
+        stopBtn.removeClass("sequencer-stop-active");
+        playBtn.removeClass("sequencer-play-inactive");
+
+        stopBtn.addClass("sequencer-stop-inactive");
+        playBtn.addClass("sequencer-play-active");
 
         playBtn.css({
-            backgroundColor: "transparent",
-            backgroundImage: "url(./app/assets/icons/Play-50-green.png)"
+            backgroundColor: "transparent"
         });
 
         stopBtn.css({
-            backgroundColor: "transparent",
-            backgroundImage: "url(./app/assets/icons/Stop-50-white.png)"
+            backgroundColor: "transparent"
         });
 
         $scope.startSequencer();
@@ -614,17 +654,33 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
 
     function stop(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
 
-        stopBtn.css({
-            backgroundColor: "transparent",
-            backgroundImage: "url(./app/assets/icons/Stop-50-red.png)"
-        });
+
+        // stopBtn.css({
+        //     backgroundColor: "transparent",
+        //     backgroundImage: "url(./app/assets/icons/Stop-50-red.png)"
+        // });
+        //
+        // playBtn.css({
+        //     backgroundColor: "transparent",
+        //     backgroundImage: "url(./app/assets/icons/Play-50-white.png)"
+        // });
+
+        playBtn.removeClass("sequencer-play-active");
+        stopBtn.removeClass("sequencer-stop-inactive");
+        playBtn.addClass("sequencer-play-inactive");
+        stopBtn.addClass("sequencer-stop-active");
 
         playBtn.css({
-            backgroundColor: "transparent",
-            backgroundImage: "url(./app/assets/icons/Play-50-white.png)"
+            backgroundColor: "transparent"
+        });
+
+        stopBtn.css({
+            backgroundColor: "transparent"
         });
 
         $scope.stopSequencer();

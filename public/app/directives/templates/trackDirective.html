@@ -7,32 +7,32 @@
     <div class="track-top-container">
 
         <div style="width: 100%; min-height: 2em; line-height: 2em; ">
-            <button name="playSoundButton" class="play-sound-button" data-ng-click="playSound();"></button>
-            <input type="text" data-ng-model="track.name" class="track-name">
+            <button name="playSoundButton" class="play-sound-button" data-ng-click="playSound(); $event.stopPropagation();" title="Play sound"></button>
+            <input name="trackName" type="text" data-ng-model="track.name" class="track-name">
 
             <button name="soloTrackButton" class="track-control-button" data-ng-class="{'solo-button-active' : track.solo}"
-            data-ng-click="onSoloTrack();">s</button>
-            <button name="muteTrackButton" class="track-control-button" data-ng-class="{'mute-button-active' : track.mute}"
-            data-ng-click="onMuteTrack();" >m</button>
+            data-ng-click="onSoloTrack();" title="Solo track">s</button><button name="muteTrackButton" class="track-control-button" style="margin-left: 4px;" data-ng-class="{'mute-button-active' : track.mute}"
+            data-ng-click="onMuteTrack();" title="Mute track">m</button>
 
 
             <div style="position: absolute; right: 0; top: 0; height: 2em; line-height: 2em;">
                 <label for="trackVolumeSlider" class="track-control-label volume-label">vol</label>
-                <div id="trackVolumeSlider" style="display: inline-block; vertical-align: middle;"></div>
+                <div id="trackVolumeSlider" style="display: inline-block; vertical-align: middle;" title="Volume"></div>
             </div>
         </div>
 
 
         <div style="width: 100%; min-height: 2em; line-height: 2em;">
-            <input type="file" name="loadFile" style="display: inline-block; vertical-align: middle; color: transparent; width: 10.5em;"
+            <input type="file" name="loadFileFromDisk" title="Load sound from local disk"
                    onchange="angular.element(this).scope().handleFiles(this.files)">
 
-            <button name="loadSoundFromServerBtn" data-ng-click="loadSamplesFromServer();" class="load-sound-from-server-button">Server</button>
+            <button name="loadSoundFromServerBtn" data-ng-click="loadSamplesFromServer();" title="Listen and/or load samples"
+                    class="load-sound-from-server-button">Server</button>
 
 
             <div style="position: absolute; right: 0; bottom: 0; height: 2em; line-height: 2em;">
                 <label for="trackPanSlider" class="track-control-label pan-label">pan</label>
-                <div id="trackPanSlider" style="display: inline-block; vertical-align: middle"></div>
+                <div id="trackPanSlider" style="display: inline-block; vertical-align: middle" title="Pan"></div>
             </div>
         </div>
 

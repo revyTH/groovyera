@@ -118,11 +118,6 @@ import { getFileNameFromPath } from "../utils/utils";
      }
 
 
-     // setBuffer(buffer, fileName) {
-     //     this.buffer = buffer;
-     //     console.log("Track " + this.name + ": audio buffer changed ( " + fileName + " )");
-     // }
-
 
      setBuffer(arrayBuffer, fileName) {
          this.originalBuffer = arrayBuffer;

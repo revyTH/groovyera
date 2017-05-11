@@ -29,8 +29,10 @@ export class DrumMachine {
         this.isStopped = true;
         this.buffers = {};
         this.tracks = {};
-        this.defaultBuffersLoaded = false;
-        this.defaultTracksLoaded = false;
+
+        // this.defaultBuffersLoaded = false;
+        // this.defaultTracksLoaded = false;
+
         this._tracksInSolo = new Set();
         this._tracksInMute = new Set();
 
@@ -104,6 +106,7 @@ export class DrumMachine {
     }
 
 
+    /*
     _loadDefaultBuffers() {
 
         let ctx = this.audioContext;
@@ -244,6 +247,7 @@ export class DrumMachine {
 
         // this._start();
     }
+    */
 
 
     _onBpmChanged() {
@@ -262,11 +266,6 @@ export class DrumMachine {
             console.log("Cannot play: it is already playing.");
             return;
         }
-
-        // if (!this.defaultTracksLoaded) {
-        //     console.log("Cannot play: default tracks not loaded.");
-        //     return;
-        // }
 
 
         this.isStopped = false;

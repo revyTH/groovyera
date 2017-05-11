@@ -129,3 +129,23 @@
 
 
 
+#samplesCancelBtn {
+  margin-top: 10em;
+  margin-left: calc(50vw - 15% - 2em);
+  padding: 1em;
+  bottom: 1em;
+  width: 30%;
+  background-color: red !important;
+  color: white !important;
+  outline: none;
+
+  @include smartphone {
+    width: 50%;
+    margin-top: 8em;
+    margin-left: calc(50vw - 25% - 0.5em);
+  }
+}
+
+.ui-button[id="samplesCancelBtn"] {
+
+}

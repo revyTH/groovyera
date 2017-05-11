@@ -55,6 +55,11 @@
   font-weight: 300;
   letter-spacing: 4px;
   color: #fff;
+
+  @include smartphone {
+    font-size: 0.7em;
+    letter-spacing: 2px;
+  }
 }
 
 #presetTitle::after {
