@@ -16,7 +16,7 @@ export let groovyRockPreset = {
     tracks : [
         {
             name : "kick",
-            soundPath : "app/assets/audio/rock-metal/rock-kick.wav",
+            soundPath : "app/assets/samples/rock/rock-kick.wav",
             volume : 1,
             pan : 0,
             ticks : [
@@ -49,7 +49,7 @@ export let groovyRockPreset = {
         },
         {
             name : "snare",
-            soundPath : "app/assets/audio/rock-metal/rock-snare.wav",
+            soundPath : "app/assets/samples/rock/rock-snare.wav",
             volume : 1,
             pan : 0,
             ticks : [
@@ -67,7 +67,7 @@ export let groovyRockPreset = {
         },
         {
             name : "ghost-snare",
-            soundPath : "app/assets/audio/rock-metal/rock-snare-ghost.wav",
+            soundPath : "app/assets/samples/rock/rock-snare-ghost.wav",
             volume : 1,
             pan : 0,
             ticks : [
@@ -80,7 +80,7 @@ export let groovyRockPreset = {
         },
         {
             name : "hh open",
-            soundPath : "app/assets/audio/rock-metal/rock-hh-open.wav",
+            soundPath : "app/assets/samples/rock/rock-hh-open.wav",
             volume : 0.4,
             pan : 0.5,
             ticks : [
@@ -103,7 +103,7 @@ export let groovyRockPreset = {
         },
         {
             name : "crash",
-            soundPath : "app/assets/audio/rock-metal/rock-crash.wav",
+            soundPath : "app/assets/samples/rock/rock-crash.wav",
             volume : 0.5,
             pan : -0.5,
             ticks : [
@@ -128,7 +128,7 @@ export let psyTrancePreset = {
     tracks : [
         {
             name : "kick",
-            soundPath : "app/assets/audio/trance/trance-kick.wav",
+            soundPath : "app/assets/samples/trance/trance-kick.wav",
             volume : 1,
             pan : 0,
             ticks : [
@@ -156,7 +156,7 @@ export let psyTrancePreset = {
         },
         {
             name : "clap",
-            soundPath : "app/assets/audio/trance/trance-clap.wav",
+            soundPath : "app/assets/samples/trance/trance-clap.wav",
             volume : 1,
             pan : 0,
             ticks : [
@@ -174,7 +174,7 @@ export let psyTrancePreset = {
         },
         {
             name : "hh open",
-            soundPath : "app/assets/audio/trance/trance-hh-open.wav",
+            soundPath : "app/assets/samples/trance/trance-hh-open.wav",
             volume : 0.8,
             pan : 0.2,
             ticks : [
@@ -202,7 +202,7 @@ export let psyTrancePreset = {
         },
         {
             name : "bass",
-            soundPath : "app/assets/audio/trance/trance-bass-A1.wav",
+            soundPath : "app/assets/samples/trance/trance-bass-A1.wav",
             volume : 0.8,
             pan : 0,
             ticks : [

@@ -356,6 +356,22 @@ export class DrumMachine {
     }
 
 
+    playSoundFromBuffer(buffer, time) {
+        if (!buffer) return;
+        let ctx = this.audioContext;
+
+        let sound = ctx.createBufferSource();
+        sound.buffer = buffer;
+        sound.connect(ctx.destination);
+        if (time) {
+            sound.start(time);
+        }
+        else {
+            sound.start();
+        }
+    }
+
+
     removeTrack(trackID) {
         let track = this.tracks[trackID];
         this._tracksInSolo.delete(track);

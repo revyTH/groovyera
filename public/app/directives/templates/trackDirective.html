@@ -24,8 +24,10 @@
 
 
         <div style="width: 100%; min-height: 2em; line-height: 2em;">
-            <input type="file" name="loadFile" style="display: inline-block; vertical-align: middle; color: transparent; width: 8em;"
+            <input type="file" name="loadFile" style="display: inline-block; vertical-align: middle; color: transparent; width: 10.5em;"
                    onchange="angular.element(this).scope().handleFiles(this.files)">
+
+            <button name="loadSoundFromServerBtn" data-ng-click="loadSamplesFromServer();" class="load-sound-from-server-button">Server</button>
 
 
             <div style="position: absolute; right: 0; bottom: 0; height: 2em; line-height: 2em;">

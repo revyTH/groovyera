@@ -74,14 +74,15 @@
 
 // jquery accordion styles
 
-.ui-state-focus, .ui-accordion-header {
+#accordionContainer .ui-state-focus, #accordionContainer .ui-accordion-header {
   border: none;
   outline: none;
   @include border-radius(0);
-  background-color: #212121;
+  //background-color: #212121;
 }
 
-.ui-accordion .ui-accordion-content {
+
+#accordionContainer .ui-accordion .ui-accordion-content {
   padding: 4em;
 
   @include smartphone {
@@ -90,7 +91,7 @@
 }
 
 
-#accordion .ui-accordion-content {
+#accordionContainer #accordion .ui-accordion-content {
   border: none;
   @include border-radius(0);
   @include linear-gradient(#333, #666, $cod-gray);

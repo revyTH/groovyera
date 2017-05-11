@@ -133,7 +133,7 @@ import { getFileNameFromPath } from "../utils/utils";
      }
 
 
-     playSound() {
+     playLoadedSample() {
          if (!this.audioContext || !this.sampleData.decodedAudioBuffer) return;
          let sound = this.audioContext.createBufferSource();
          sound.buffer = this.sampleData.decodedAudioBuffer;

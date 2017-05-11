@@ -10,7 +10,7 @@
 import { getFileExtension } from "../utils/utils";
 
 
-export function trackDirective(supportedAudioFormats) {
+export function trackDirective($http, $compile, supportedAudioFormats) {
 
 
     return {
@@ -19,16 +19,26 @@ export function trackDirective(supportedAudioFormats) {
         scope: {
             track: "=",
             ticksElements: "=",
-            removeTrack: "="
+            samplesData: "=",
+            samplesBuffers: "=",
+            removeTrack: "=",
+            audioContext: "=",
+            audioLoader: "=",
+            playSoundFromBuffer: "=",
+            enableLoadingSpinner: "=",
+            disableLoadingSpinner: "="
         },
         templateUrl: "app/directives/templates/trackDirective.html",
         link: function (scope, elem, attrs) {
+
+            const serverBaseURL = process.env.BASE_SERVER_URL;
 
             scope.resizeTick = resizeTick;
             scope.handleFiles = handleFiles;
             scope.playSound = playSound;
             scope.onSoloTrack = onSoloTrack;
             scope.onMuteTrack = onMuteTrack;
+            scope.loadSamplesFromServer = loadSamplesFromServer;
 
 
 
@@ -47,6 +57,8 @@ export function trackDirective(supportedAudioFormats) {
                 icon: "ui-icon-circle-triangle-e",
                 showLabel: false
             });
+
+            elem.find('button[name="loadSoundFromServerBtn"]').button();
 
             elem.find('div[id="trackVolumeSlider"]').slider({
                 min: 0,
@@ -128,6 +140,7 @@ export function trackDirective(supportedAudioFormats) {
              * ---------------------------------------------------------------------------------------
              */
 
+
             function resizeTick(tickElem) {
                 let ticksContainerWidth = elem.find(".ticks-container").width();
                 console.log(ticksContainerWidth);
@@ -206,7 +219,7 @@ export function trackDirective(supportedAudioFormats) {
             }
 
             function playSound() {
-                scope.track.playSound();
+                scope.track.playLoadedSample();
             }
 
 
@@ -218,6 +231,26 @@ export function trackDirective(supportedAudioFormats) {
                 scope.track.drumMachine.muteTrack(scope.track.id);
             }
 
+            function loadSamplesFromServer() {
+
+                scope.enableLoadingSpinner();
+
+                $http({
+                    url: serverBaseURL + "/api/samples",
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                }).then(response => {
+
+                    scope.samplesData = response.data;
+
+                    let loadSamplesElem = $('<load-samples></load-samples>');
+                    let el = $compile(loadSamplesElem)(scope);
+                    $("body").append(el);
+
+                });
+            }
 
 
         }

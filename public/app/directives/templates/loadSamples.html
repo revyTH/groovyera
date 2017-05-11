@@ -1,0 +1,31 @@
+
+<div id="loadSamplesContainer">
+
+    <p class="title">Samples</p>
+
+
+
+
+    <div style="width: 100%;">
+        <div class="samples-accordion" ng-repeat="(category, samples) in samplesData" ng-show="samples.length">
+            <h3>{{category}}</h3>
+            <div style="position: relative;">
+
+                <ul>
+                    <li ng-repeat="sample in samples" class="sample-item" data-ng-click="playSound(sample); $event.stopPropagation();">
+                        <button name="playSampleButton" class="play-sound-button" data-ng-click="playSound(sample); $event.stopPropagation();"></button>
+                        <p class="sample-label">{{sample.name}}</p>
+                        <button name="loadSampleButton" class="load-sound-button"></button>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <button ng-click="close()">Close</button>
+
+
+</div>

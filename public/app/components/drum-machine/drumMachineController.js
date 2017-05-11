@@ -6,6 +6,7 @@
 
 
 import { DrumMachine } from "../../audio/DrumMachine";
+import { audioLoader } from "../../audio/audio-loader";
 import { psyTrancePreset } from "../../audio/presets";
 import { groovyRockPreset } from "../../audio/presets";
 
@@ -34,12 +35,15 @@ export function drumMachineController($scope, $compile, $http, $interval, server
     $scope.title = "Main Controller";
     $scope.tracks = [];
     $scope.ticksElements = [];
+    $scope.audioContext = drumMachine.audioContext;
     $scope.bpm = drumMachine.bpm;
     $scope.isPlaying = drumMachine.isPlaying;
     $scope.isStopped = drumMachine.isStopped;
     $scope.removeTrack = removeTrack;
     $scope.integerval = /^\d*$/;
     $scope.beats = new Array(drumMachine.numberOfBeats).fill(false);
+    $scope.samplesData = {};
+    $scope.samplesBuffers = {};
     $scope.username = "";
     $scope.commentToPost = "";
     $scope.comments = [];
@@ -155,6 +159,12 @@ export function drumMachineController($scope, $compile, $http, $interval, server
      * public
      * ---------------------------------------------------------------------------------------
      */
+
+    $scope.enableLoadingSpinner = enableLoadingSpinner;
+    $scope.disableLoadingSpinner = disableLoadingSpinner;
+
+    $scope.audioLoader = audioLoader;
+    $scope.playSoundFromBuffer = drumMachine.playSoundFromBuffer;
 
     $scope.startSequencer = () => {
         drumMachine._start();
@@ -761,6 +771,7 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
     function enableLoadingSpinner() {
         setTimeout(() => {
+            window.scrollTo(0, 0);
             loadingContainer.addClass("loading-active");
         }, 0);
     }
@@ -768,6 +779,7 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
     function disableLoadingSpinner() {
         setTimeout(() => {
+            window.scrollTo(0, 0);
             loadingContainer.removeClass("loading-active");
         }, 1500);
     }
@@ -777,7 +789,7 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         setTimeout(() => {
             commentsLoadingOverlay.addClass("loading-active");
             commentsLoadingSpinner.addClass("loading-active");
-        }, 100);
+        }, 0);
     }
 
 

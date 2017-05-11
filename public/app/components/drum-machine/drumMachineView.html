@@ -53,7 +53,10 @@
         <ul>
             <li ng-repeat="(id, track) in tracks">
                 <div class="track-separator"></div>
-                <div the-track track="track" ticks-elements="ticksElements" remove-track="removeTrack" class="track"></div>
+                <div the-track track="track" ticks-elements="ticksElements" samples-data="samplesData" samples-buffers="samplesBuffers"
+                     enable-loading-spinner="enableLoadingSpinner" disable-loading-spinner="disableLoadingSpinner"
+                     audio-loader="audioLoader" audio-context="audioContext" play-sound-from-buffer="playSoundFromBuffer"
+                     remove-track="removeTrack" class="track"></div>
             </li>
             <div class="track-separator"></div>
         </ul>

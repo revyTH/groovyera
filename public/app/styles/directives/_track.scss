@@ -243,6 +243,20 @@
 
 
 
+.load-sound-from-server-button {
+
+  display: inline-block;
+  vertical-align: middle;
+  width: 74px;
+  height: 18px;
+  font-size: 10px;
+  outline: none;
+
+  @include smartphone {
+    width: 58px;
+  }
+
+}
 
 
 

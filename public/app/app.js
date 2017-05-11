@@ -14,6 +14,7 @@ import { trackDirective } from "./directives/trackDirective";
 import { tickSliderDirective } from "./directives/tickSliderDirective";
 import { commentDirective } from "./directives/commentDirective";
 import { savePresetDirective } from "./directives/savePresetDirective";
+import { loadSamples } from "./directives/loadSamples";
 
 
 
@@ -34,9 +35,10 @@ import { savePresetDirective } from "./directives/savePresetDirective";
 
     // register directives
     app.directive("tickSlider", tickSliderDirective);
-    app.directive("theTrack", ["supportedAudioFormats", trackDirective]);
+    app.directive("theTrack", ["$http", "$compile", "supportedAudioFormats", trackDirective]);
     app.directive("comment", commentDirective);
     app.directive("savePreset", savePresetDirective);
+    app.directive("loadSamples", ["$http", "supportedAudioFormats", loadSamples]);
 
 
 

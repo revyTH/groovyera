@@ -11,35 +11,9 @@ let midiController = require("./controllers/midiController");
 let presetsController = require("./controllers/presetsController");
 let categoryController = require("./controllers/categoryController");
 let commentsController = require("./controllers/commentsController");
+let samplesController = require("./controllers/samplesController");
 
-// let apiRouter = express.Router();
-//
-//
-// (function () {
-//
-//
-//     // middleware to use for all requests
-//     // apiRouter.use((req, res, next) => {
-//     //
-//     //     // check something useful
-//     //
-//     //     next();
-//     // });
-//
-//
-//
-//     // register controllers
-//     midiController(apiRouter);
-//     presetsController(apiRouter);
-//     categoryController(apiRouter);
-//     commentsController(apiRouter);
-//
-//
-// }());
-//
-//
-//
-// exports.apiRouter = apiRouter;
+
 
 
 
@@ -62,6 +36,7 @@ module.exports = function(app, socket) {
     presetsController(apiRouter, socket);
     categoryController(apiRouter, socket);
     commentsController(apiRouter, socket);
+    samplesController(apiRouter, socket);
 
 
     app.use("/api", apiRouter);
