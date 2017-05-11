@@ -6,7 +6,7 @@
 
 
 export let groovyRockPreset = {
-    name : "Groovy rock",
+    name : "Straight rock",
     bpm : 120,
     category: "rock",
     timeSignature : {
@@ -27,22 +27,12 @@ export let groovyRockPreset = {
                 },
                 {
                     active : true,
-                    index : 4,
-                    volume : 1
-                },
-                {
-                    active : true,
                     index : 8,
                     volume : 1
                 },
                 {
                     active : true,
                     index : 10,
-                    volume : 1
-                },
-                {
-                    active : true,
-                    index : 12,
                     volume : 1
                 }
             ]
@@ -66,23 +56,10 @@ export let groovyRockPreset = {
             ]
         },
         {
-            name : "ghost-snare",
-            soundPath : "app/assets/samples/rock/rock-snare-ghost.wav",
-            volume : 1,
-            pan : 0,
-            ticks : [
-                {
-                    active : true,
-                    index : 15,
-                    volume : 1
-                }
-            ]
-        },
-        {
             name : "hh open",
             soundPath : "app/assets/samples/rock/rock-hh-open.wav",
             volume : 0.4,
-            pan : 0.5,
+            pan : 0.4,
             ticks : [
                 {
                     active : true,
@@ -116,6 +93,10 @@ export let groovyRockPreset = {
         }
     ]
 };
+
+
+
+
 
 export let psyTrancePreset = {
     name : "psy-trance",
