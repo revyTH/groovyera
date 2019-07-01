@@ -4,9 +4,7 @@
  * ---------------------------------------------------------------------------------------
  */
 
-
 "use strict";
-
 
 /*
  * ---------------------------------------------------------------------------------------
@@ -16,18 +14,13 @@
 
 const port = process.env.PORT || 4500;
 
-
-
 /*
  * ---------------------------------------------------------------------------------------
  * global variables
  * ---------------------------------------------------------------------------------------
  */
-
-
-
-
 const
+        http = require("http"),
         express = require('express'),
         config = require("../config"),
         path = require('path'),
@@ -39,16 +32,9 @@ const
         mongoose = require("mongoose"),
         apiRouter = require("./routes");
 
-
-let app = express(),
-    server = require("http").Server(app),
-    io = require("socket.io")(server);
-
-
-
-
-
-
+const app = express();
+const server = http.createServer(app);
+const io = require("socket.io")(server);
 
 /*
  * ---------------------------------------------------------------------------------------
@@ -58,31 +44,18 @@ let app = express(),
 
 // Add headers
 app.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
     next();
 });
 
 
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(cookiePraser());
-// app.use(cors());     // conflict with socket.io request headers
+app.use(cors());
 app.use(express.static("public"));
-
-
 
 /*
  * ---------------------------------------------------------------------------------------
@@ -90,19 +63,16 @@ app.use(express.static("public"));
  * ---------------------------------------------------------------------------------------
  */
 
-io.on('connection', function (socket) {
+io.on("connection", socket => {
 
     apiRouter(app, socket);
 
-    app.get('*', function(req, res){
-        res.sendFile('index.html', {
+    app.get("*", function(req, res){
+        res.sendFile("index.html", {
             root: "public"
         });
     });
-
 });
-
-
 
 /*
  * ---------------------------------------------------------------------------------------
@@ -118,39 +88,19 @@ io.on('connection', function (socket) {
 //     });
 // });
 
-
-
-
-
-
-
-
-
-
-
 /*
  * ---------------------------------------------------------------------------------------
  * db
  * ---------------------------------------------------------------------------------------
  */
-
-
 mongoose.connect(config.database.mLab.connectionString)
     .then(() => {
         console.log("MongoDB connected.", mongoose.connection.readyState);
-
-
         // initCategories();
-
         startServer();
-
-
     }, error => {
         console.log(error);
     });
-
-
-
 
 function initCategories() {
 
@@ -171,19 +121,9 @@ function initCategories() {
             else {
                 console.log(result)
             }
-
-
         });
     });
 }
-
-
-
-
-
-
-
-
 
 /*
  * ---------------------------------------------------------------------------------------
@@ -196,20 +136,8 @@ function startServer() {
     //     console.log('Server listening on port ' + port + '..');
     // });
 
-    server.listen(port, function() {
+    server.listen(port, () => {
         config.server.isRunning = true;
-        console.log('Server listening on port ' + port + '..');
+        console.log(`Server listening on port ${port}...`);
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-

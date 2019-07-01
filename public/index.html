@@ -4,32 +4,19 @@
     <meta charset="UTF-8">
     <title>Drum Machine</title>
     <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
-    <!--<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width,height=device-height">-->
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-
 
     <!--styles-->
     <link rel="stylesheet" href="libs/jquery-ui/jquery-ui.structure.min.css">
     <link rel="stylesheet" href="libs/jquery-ui/jquery-ui.theme.min.css">
     <link rel="stylesheet" href="libs/jquery-mmenu/jquery.mmenu.all.css">
     <link rel="stylesheet" href="libs/jquery-toast/jquery.toast.min.css">
-
     <link rel="stylesheet" href="libs/angular-ui-select/select.css">
-    <!--<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
-
     <link rel="stylesheet" href="build/styles/styles.css">
 
-
-
-
-
-
     <!--js-->
-    <!--<script type="text/javascript" src="http://hammerjs.github.io/dist/hammer.min.js"></script>-->
     <script src="build/libs/libs.bundle.min.js"></script>
     <script src="build/js/app.bundle.min.js"></script>
-
     <script type="text/javascript">
         $(function() {
             $('nav#menu').mmenu({
@@ -65,26 +52,12 @@
             });
 
         });
-
-
-
     </script>
-
-
-
-
 </head>
 <body>
-
     <div id="loadingContainer" class="loading-active">
         <span id="loadingSpinner"></span>
     </div>
-
-
-
-
-
-
 
     <div id="page">
 
@@ -101,27 +74,17 @@
             <span id="presetTitle"></span>
         </div>
 
-
-
-
         <div class="content" id="content">
 
             <!--ANGULAR VIEWS-->
             <div id="angularView" data-ng-view=""></div>
         </div>
 
-
-
-
-
         <nav id="menu">
             <ul id="menu-list">
                 <li><a href="#">Home</a></li>
             </ul>
         </nav>
-
-
-
 
         <div id="footerContainer">
             <!--Footer :-)-->
@@ -133,11 +96,6 @@
 
         </div>
 
-
-
     </div>
-
-
-
 </body>
 </html>

@@ -4,7 +4,6 @@
  * ---------------------------------------------------------------------------------------
  */
 
-
 "use strict";
 
 import { initRoutes } from "./routes";
@@ -16,22 +15,17 @@ import { commentDirective } from "./directives/commentDirective";
 import { savePresetDirective } from "./directives/savePresetDirective";
 import { loadSamples } from "./directives/loadSamples";
 
-
-
-
 (function() {
-
     let app = angular.module("myApp", ["ngRoute", "ngFileSaver", "ngSanitize", "ui.select"]);
-
+    console.log(app);
 
     // configure angular routes
     app.config(["$routeProvider", initRoutes]);
 
-
     // bind controllers
-    app.controller("drumMachineController", ["$scope", "$compile", "$http", "$interval", "serverBaseURL", "FileSaver", "Blob", "socketEvents", drumMachineController]);
+    app.controller("drumMachineController", ["$scope", "$compile", "$http", "$interval", "serverBaseURL", "FileSaver",
+        "Blob", "socketEvents", drumMachineController]);
     app.controller("testController", ['$scope', testController]);
-
 
     // register directives
     app.directive("tickSlider", tickSliderDirective);
@@ -39,9 +33,6 @@ import { loadSamples } from "./directives/loadSamples";
     app.directive("comment", commentDirective);
     app.directive("savePreset", savePresetDirective);
     app.directive("loadSamples", ["$http", "supportedAudioFormats", loadSamples]);
-
-
-
 
     let supportedAudioFormats = new Set();
     supportedAudioFormats.add("wav");
@@ -63,7 +54,5 @@ import { loadSamples } from "./directives/loadSamples";
     app.constant("serverBaseURL", process.env.BASE_SERVER_URL);
     app.constant("supportedAudioFormats", supportedAudioFormats);
     app.constant("socketEvents", socketEvents);
-
-
 
 }());

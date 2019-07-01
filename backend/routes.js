@@ -13,23 +13,8 @@ let categoryController = require("./controllers/categoryController");
 let commentsController = require("./controllers/commentsController");
 let samplesController = require("./controllers/samplesController");
 
-
-
-
-
 module.exports = function(app, socket) {
-
     let apiRouter = express.Router();
-
-    // middleware to use for all requests
-    // apiRouter.use((req, res, next) => {
-    //
-    //     // check something useful
-    //
-    //     next();
-    // });
-
-
 
     // register controllers
     midiController(apiRouter, socket);
@@ -38,7 +23,5 @@ module.exports = function(app, socket) {
     commentsController(apiRouter, socket);
     samplesController(apiRouter, socket);
 
-
     app.use("/api", apiRouter);
-
 };

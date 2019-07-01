@@ -10,7 +10,6 @@ import { audioLoader } from "../../audio/audio-loader";
 import { psyTrancePreset } from "../../audio/presets";
 import { groovyRockPreset } from "../../audio/presets";
 
-
 export function drumMachineController($scope, $compile, $http, $interval, serverBaseURL, FileSaver, Blob, socketEvents) {
 
     let drumMachine = new DrumMachine();
@@ -885,21 +884,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
             position : 'top-right'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
         });
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * ---------------------------------------------------------------------------------------

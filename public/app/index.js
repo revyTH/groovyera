@@ -8,17 +8,8 @@
 
 import { Audio } from "./audio/Audio";
 
-
-
-
-
-
-
 function testing() {
-
     let audio = new Audio();
-
-
 
     $("#startBtn").on("click", () => {
         audio._start();
@@ -39,11 +30,7 @@ function testing() {
         hatTrack.mute = !hatTrack.mute;
 
     });
-
 }
-
-
-
 
 testing();
 
