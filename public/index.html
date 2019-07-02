@@ -20,12 +20,12 @@
     <script type="text/javascript">
         $(function() {
             $('nav#menu').mmenu({
-                drag 		: true,
-                pageScroll 	: {
-                    scroll 		: true,
-                    update		: true
+                drag: false,
+                pageScroll: {
+                    scroll: true,
+                    update: true
                 },
-                extensions	: {
+                extensions: {
 //                    '(min-width: 800px)': [ 'widescreen' ]
                 }
             });
@@ -70,12 +70,10 @@
             </button>
 
             <span id="title"> GroovyEra </span>
-
             <span id="presetTitle"></span>
         </div>
 
         <div class="content" id="content">
-
             <!--ANGULAR VIEWS-->
             <div id="angularView" data-ng-view=""></div>
         </div>

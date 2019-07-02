@@ -60,10 +60,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
     $scope.safeApply();
 
 
-
-
-
-
     /*
      * ---------------------------------------------------------------------------------------
      * UI
@@ -87,17 +83,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         icon: "ui-icon-pencil"
     });
 
-
-
-
-
-
-
-
-
-
-
-
     /*
      * ---------------------------------------------------------------------------------------
      * event listeners
@@ -117,7 +102,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         drumMachine.addCallBackInLoop(updateBeatIndicators);
 
     });
-
 
     window.addEventListener("keyup", (e) => {
         switch (e.keyCode) {
@@ -139,8 +123,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
                 break;
         }
     });
-
-
     window.addEventListener("keydown", (e) => {
         switch (e.keyCode) {
 
@@ -160,21 +142,11 @@ export function drumMachineController($scope, $compile, $http, $interval, server
                 break;
         }
     });
-
-
-    // remove scroll down on spacebar
     window.addEventListener('keydown', function(e) {
         if(e.keyCode === 32 && e.target === document.body) {
             e.preventDefault();
         }
-    });
-
-
-
-
-
-
-
+    }); // remove scroll down on spacebar
 
     /*
      * ---------------------------------------------------------------------------------------
@@ -194,7 +166,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         $scope.isStopped = false;
     };
 
-
     $scope.stopSequencer = () => {
         drumMachine._stop();
         $scope.isPlaying = false;
@@ -203,11 +174,9 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         $(indicators).removeClass("beat-indicator-active");
     };
 
-
     $scope.addTrack = () => {
         drumMachine.addEmptyTrack();
     };
-
 
     $scope.exportMidi = () => {
 
@@ -278,7 +247,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
     };
 
-
     $scope.populateCategories = () => {
         return new Promise((resolve, reject) => {
             $http({
@@ -341,7 +309,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
     };
     */
 
-
     $scope.savePreset = () => {
 
         let formData = new FormData();
@@ -392,7 +359,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
 
     };
-
 
     $scope.uploadFiles = () => {
 
@@ -485,7 +451,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
     };
 
-
     $scope.postComment = ()=> {
 
         let data = {
@@ -510,19 +475,13 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
     };
 
-
     $scope.onPresetCancel = () => {
         $(".save-preset-container").remove();
     };
 
-
     $scope.onPresetSave = () => {
         $scope.savePreset();
     };
-
-
-
-
 
     /*
      * ---------------------------------------------------------------------------------------
@@ -533,7 +492,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
     function removeTrack(track) {
         drumMachine.removeTrack(track.id);
     }
-
 
     function initDefaultTracks($scope, drumMachine) {
 
@@ -549,7 +507,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         });
     }
 
-
     function initDATgui(drumMachine) {
         let gui = new dat.GUI();
         let bpmController = gui.add(drumMachine, "bpm", 50.0, 220.0);
@@ -558,7 +515,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
             drumMachine.bpm = Math.floor(drumMachine.bpm);
         });
     }
-
 
     function initSequencerControls(scope, drumMachine) {
 
@@ -616,7 +572,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         }
     }
 
-
     function play(e) {
         if (e) {
             e.preventDefault();
@@ -651,7 +606,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         $scope.startSequencer();
     }
 
-
     function stop(e) {
         if (e) {
             e.preventDefault();
@@ -685,7 +639,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         $scope.stopSequencer();
     }
 
-
     function loadPreset(data) {
         window.scrollTo(0, 0);
         enableLoadingSpinner();
@@ -708,7 +661,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         });
     }
 
-
     function initExportMidiMenu() {
 
         let API = $("nav#menu").data( "mmenu" );
@@ -721,70 +673,56 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
     }
 
+    async function initPresetsMenu(categories) {
 
-    function initPresetsMenu(categories) {
+        let response;
+
+        try {
+            response = await $http({
+                url: serverBaseURL + "/api/presets",
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+        }
+        catch (err) {
+            console.error(err);
+            return;
+        }
+
+        const presetsData = response.data;
+        if (presetsData.length === 0) return;
 
         $('li[id="presetsMenu"]').remove();
+        let liParent = $('<li id="presetsMenu"><a href="#">Presets</a></li>');
+        let ulParent = $("<ul></ul>");
+        liParent.append(ulParent);
 
-        $http({
-            url: serverBaseURL + "/api/presets",
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        }).then(response => {
+        categories.forEach(category => {
 
-            let presetsData = response.data;
-            if (presetsData.length === 0) {
-                return;
-            }
+            const matches = presetsData.filter(p => p.category === category.name);
+            if (!matches.length) return;
+            let liCategory = $('<li><a href="#">' + category.name + '</a></li>');
+            let ul = $("<ul></ul>");
 
-
-            let liParent = $('<li id="presetsMenu"><a href="#">Presets</a></li>');
-            let ulParent = $("<ul></ul>");
-            liParent.append(ulParent);
-
-
-            categories.forEach(category => {
-
-                let match = presetsData.find(e => { return e._id === category.name; });
-
-                if (!match) {
-                   return;
-                }
-
-                let categoryPresets = match.presets;
-
-                let liCategory = $('<li><a href="#">' + category.name + '</a></li>');
-                let ul = $("<ul></ul>");
-
-
-                categoryPresets.forEach(preset => {
-                    let li = $('<li><a href="#">' + preset.name + '</a></li>');
-                    li.click(() => {
-                        loadPreset(preset);
-                    });
-
-                    ul.append(li);
+            matches.forEach(preset => {
+                let li = $('<li><a href="#">' + preset.name + '</a></li>');
+                li.click(() => {
+                    loadPreset(preset);
                 });
 
-                liCategory.append(ul);
-                ulParent.append(liCategory);
-
+                ul.append(li);
             });
 
-
-            let API = $("nav#menu").data( "mmenu" );
-            $("#menu-list").find( ".mm-listview li:first" ).after( liParent );
-            API.initPanels( $("#menu-list") );
-
-
-        }, errorResponse => {
-            console.log(errorResponse);
-            initExportMidiMenu();
+            liCategory.append(ul);
+            ulParent.append(liCategory);
         });
-    }
 
+        let API = $("nav#menu").data( "mmenu" );
+        $("#menu-list").find( ".mm-listview li:first" ).after( liParent );
+        API.initPanels( $("#menu-list") );
+    }
 
     function initSavePresetMenu() {
         let li = $('<li><a href="#">Save preset</a></li>');
@@ -800,29 +738,27 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         API.initPanels( $("#menu-list") );
     }
 
-
-    function loadComments() {
-
+    async function loadComments() {
         enableCommentsLoadingSpinner();
+        let response;
+        try {
+            response = await $http({
+                url: serverBaseURL + '/api/comments',
+                method: "GET",
+                headers: {
+                    "Accept" : "application/json"
+                }
+            });
+        }
+        catch(err) {
+            console.error(err);
+            return;
+        }
 
-        $http({
-            url: serverBaseURL + '/api/comments',
-            method: "GET",
-            headers: {
-                "Accept" : "application/json"
-            }
-
-        }).then(function (response) {
-            console.log(response);
-            $scope.comments = response.data;
-            $scope.safeApply();
-            disableCommentsLoadingSpinner();
-        }, function (response) {
-            console.log(response);
-        });
-
+        $scope.comments = response.data;
+        $scope.safeApply();
+        disableCommentsLoadingSpinner();
     }
-
 
     function enableLoadingSpinner() {
         setTimeout(() => {
@@ -831,14 +767,12 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         }, 0);
     }
 
-
     function disableLoadingSpinner() {
         setTimeout(() => {
             window.scrollTo(0, 0);
             loadingContainer.removeClass("loading-active");
         }, 1500);
     }
-
 
     function enableCommentsLoadingSpinner() {
         setTimeout(() => {
@@ -847,14 +781,12 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         }, 0);
     }
 
-
     function disableCommentsLoadingSpinner() {
         setTimeout(() => {
             commentsLoadingOverlay.removeClass("loading-active");
             commentsLoadingSpinner.removeClass("loading-active");
         }, 100);
     }
-
 
     function toastError(text) {
         $.toast({
@@ -869,7 +801,6 @@ export function drumMachineController($scope, $compile, $http, $interval, server
             position : 'top-right'       // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values to position the toast on page
         });
     }
-
 
     function toastOk(text) {
         $.toast({
@@ -923,11 +854,7 @@ export function drumMachineController($scope, $compile, $http, $interval, server
             $scope.commentForm.$setPristine();
             $scope.safeApply();
         });
-
     });
-
-
-
 }
 
 

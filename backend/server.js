@@ -29,6 +29,7 @@ async function bootstrap() {
     await require("./bootstrap/mongodb")();
     require("./bootstrap/morgan")(app);
     require("./bootstrap/routes")(app);
+    require("./bootstrap/socket")(server);
 
     server.listen(port, () => {
         config.server.isRunning = true;

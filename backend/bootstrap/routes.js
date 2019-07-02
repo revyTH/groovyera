@@ -2,7 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const category = require("../routes/category");
+const categories = require("../routes/categories");
+const comments = require("../routes/comments");
+const presets = require("../routes/presets");
+const samples = require("../routes/samples");
 const error = require("../middleware/error");
 const logger = require("./winston");
 
@@ -20,9 +23,18 @@ module.exports = function(app) {
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(cookieParser());
     app.use(cors());
-    app.use("/api/categories", category);
+    app.use("/api/categories", categories);
+    app.use("/api/comments", comments);
+    app.use("/api/presets", presets);
+    app.use("/api/samples", samples);
     app.use(express.static("public"));
     app.use(error);
+
+    app.get("*", function(req, res){
+        res.sendFile("index.html", {
+            root: "../public"
+        });
+    });
 
     logger.info("Routes initialized");
 }

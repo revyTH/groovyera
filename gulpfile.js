@@ -20,21 +20,9 @@ const gulp = require("gulp"),
     buffer = require('vinyl-buffer'),
     sourcemaps = require("gulp-sourcemaps"),
     sass = require("gulp-sass"),
-    // watchify = require("watchify"),
     // path = require("path"),
     nodemon = require("gulp-nodemon"),
-    // mongoose = require("mongoose"),
     config = require("./config");
-
-gulp.task("node", function (done) {
-    nodemon({
-        script: "backend/server.js"
-        , ext: "js html"
-        , env: { "NODE_ENV": "development" }
-    });
-
-    done();
-});
 
 /**
  * build_libs
@@ -65,7 +53,7 @@ function build_js() {
             NODE_ENV: process.env.NODE_ENV,
             BASE_SERVER_URL: process.env.NODE_ENV === config.mode.dev ? config.baseServerURL.dev : config.baseServerURL.prod
         }))
-        .transform("babelify", {presets: ["@babel/preset-env", "@babel/preset-react"], sourceMaps: mode})
+        .transform(babelify, {presets: ["@babel/preset-env", "@babel/preset-react"], sourceMaps: mode})
         .bundle()
         .pipe(source("app.bundle.min.js"))
         .pipe(buffer())
@@ -170,8 +158,17 @@ function productionMode(done) {
  * ---------------------------------------------------------------------------------------
  */
 
+gulp.task("node", function (done) {
+    nodemon({
+        script: "backend/server.js"
+        , ext: "js html"
+        , env: { "NODE_ENV": "development" }
+    });
+
+    done();
+});
+
 gulp.task("bundle", gulp.series(build_libs, build_js, build_sass));
 gulp.task("bundle-prod", gulp.series(productionMode, "bundle"));
 gulp.task("dev", gulp.series(debugMode, "bundle", gulp.parallel("node", browserSyncInit, watch)));
 gulp.task("prod", gulp.series(productionMode, "bundle", gulp.parallel("node", browserSyncInit, watch)));
-

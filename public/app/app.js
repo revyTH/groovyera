@@ -6,6 +6,8 @@
 
 "use strict";
 
+require("regenerator-runtime/runtime");
+
 import { initRoutes } from "./routes";
 import { drumMachineController } from "./components/drum-machine/drumMachineController";
 import { testController } from "./components/test/testController";
@@ -17,7 +19,6 @@ import { loadSamples } from "./directives/loadSamples";
 
 (function() {
     let app = angular.module("myApp", ["ngRoute", "ngFileSaver", "ngSanitize", "ui.select"]);
-    console.log(app);
 
     // configure angular routes
     app.config(["$routeProvider", initRoutes]);

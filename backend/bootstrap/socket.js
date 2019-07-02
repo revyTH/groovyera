@@ -1,16 +1,9 @@
-/*
- * ---------------------------------------------------------------------------------------
- * socket.io
- * ---------------------------------------------------------------------------------------
- */
+const logger = require("./winston");
 
-// io.on("connection", socket => {
-//
-//     apiRouter(app, socket);
-//
-//     app.get("*", function(req, res){
-//         res.sendFile("index.html", {
-//             root: "public"
-//         });
-//     });
-// });
+module.exports = (server) => {
+    const io = require("socket.io")(server);
+
+    io.on("connection", socket => {
+        logger.info("socket.io connected");
+    })
+}

@@ -1,5 +1,4 @@
-2019-07-02T10:04:17.883Z - info: Connected to MongoDB
-2019-07-02T10:04:17.900Z - info: Routes initialized
-2019-07-02T10:04:17.909Z - info: Server listening on port 4500...
-2019-07-02T10:04:26.763Z - info: ::1 - - [02/Jul/2019:10:04:26 +0000] "GET /api/categories HTTP/1.1" 200 2 "-" "PostmanRuntime/7.15.0"
-2019-07-02T10:04:28.996Z - info: ::1 - - [02/Jul/2019:10:04:28 +0000] "GET /api/categoriex HTTP/1.1" 404 153 "-" "PostmanRuntime/7.15.0"
+2019-07-02T17:59:40.331Z - info: Connected to MongoDB
+2019-07-02T17:59:40.418Z - info: Routes initialized
+2019-07-02T17:59:40.450Z - info: Server listening on port 4500...
+2019-07-02T17:59:41.417Z - info: socket.io connected

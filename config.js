@@ -14,9 +14,7 @@ module.exports = {
     },
 
     baseServerURL: {
-        // dev: "http://localhost:4500",
-        // dev: "http://192.168.1.72:4500",
-        dev: "http://192.168.1.75:4500",
+        dev: "http://localhost:4500",
         prod: "https://groovyera.herokuapp.com"
     },
 

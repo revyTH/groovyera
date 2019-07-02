@@ -1,18 +1,8 @@
-/**
- * ---------------------------------------------------------------------------------------
- * Comment.js
- * ---------------------------------------------------------------------------------------
- */
+const mongoose = require("mongoose");
+require("mongoose-moment")(mongoose);
+const Joi = require("joi");
 
-"use strict";
-
-let mongoose = require('mongoose');
-require('mongoose-moment')(mongoose);
-
-let Schema = mongoose.Schema;
-
-// create a schema
-let commentSchema = new Schema({
+const commentSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -29,8 +19,17 @@ let commentSchema = new Schema({
     createdAt: "String"
 });
 
+function validateComment(comment) {
+    const schema = {
+        username: Joi.string().min(3).max(32).required(),
+        message: Joi.string().min(3).max(1000).required()
+    };
 
+    return Joi.validate(comment, schema);
+}
 
-let Comment = mongoose.model('Comment', commentSchema);
+const Comment = mongoose.model("Comment", commentSchema)
 
-module.exports = Comment;
+module.exports.Comment = Comment;
+module.exports.commentSchema = commentSchema;
+module.exports.validate = validateComment;
