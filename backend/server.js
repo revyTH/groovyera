@@ -5,9 +5,10 @@
  */
 
 const http = require("http");
-const express = require('express');
+const express = require("express");
+require("express-async-errors"); // Patch to handle errors in express async routes (without try/catch)
 const config = require("../config");
-const logger = require("./bootstrap/logging");
+const logger = require("./bootstrap/winston");
 
 const port = process.env.PORT || 4500;
 const app = express();
@@ -21,11 +22,12 @@ async function bootstrap() {
     });
 
     process.on("unhandledRejection", (reason, promise) => {
-        logger.error(new Error(reason));
+        logger.error(reason);
         process.exit(1);
     });
 
     await require("./bootstrap/mongodb")();
+    require("./bootstrap/morgan")(app);
     require("./bootstrap/routes")(app);
 
     server.listen(port, () => {

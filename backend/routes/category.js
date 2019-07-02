@@ -4,19 +4,12 @@
  * ---------------------------------------------------------------------------------------------------------------------
  */
 
-const httpStatusCodes = require("http-status-codes");
 const Category = require("../models/Category");
+const router = require("express").Router()
 
-module.exports = function(router) {
-    router.route("/categories")
-        .get(function (req, res) {
-            Category.find({}, null, {sort: {name: 1}}, function (err, categories) {
-                if (err) {
-                    res.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
-                    res.end("An error occurred");
-                    return;
-                }
-                res.json(categories);
-            });
-        })
-};
+router.get("/", async (req, res) => {
+    const categories = await Category.find({}, null, {sort: {name: 1}});
+    res.json(categories);
+});
+
+module.exports = router;

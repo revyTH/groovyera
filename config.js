@@ -26,6 +26,9 @@ module.exports = {
     },
 
     database: {
+        local: {
+            connectionString: "mongodb://localhost:27017/groovyera"
+        },
         mLab: {
             username: "drumdb_admin",
             password: "5LE-4BY-hfQ-wz2",
