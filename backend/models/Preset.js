@@ -5,7 +5,7 @@ const { categorySchema } = require("./Category");
 const presetSchema = new mongoose.Schema({
     name: {
         type: String,
-        minLength: 5,
+        minLength: 4,
         maxLength: 80,
         required: true
     },
@@ -62,7 +62,7 @@ function validatePreset(preset) {
     })
 
     const schema = Joi.object().keys({
-        name: Joi.string().min(5).max(80).required(),
+        name: Joi.string().min(4).max(80).required(),
         category: Joi.string().min(3).max(50).required(),
         bpm: Joi.number().min(10).max(280).required(),
         timeSignature: Joi.object().keys({

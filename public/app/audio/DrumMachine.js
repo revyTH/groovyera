@@ -62,7 +62,6 @@ export class DrumMachine {
 
     }
 
-
     /*
      * get bpm
      */
@@ -79,10 +78,6 @@ export class DrumMachine {
             this._onBpmChanged();
         }
     }
-
-
-
-
 
     _enableAudioContextForiOS() {
         $(document).ready(() => {
@@ -104,7 +99,6 @@ export class DrumMachine {
 
         });
     }
-
 
     /*
     _loadDefaultBuffers() {
@@ -249,11 +243,9 @@ export class DrumMachine {
     }
     */
 
-
     _onBpmChanged() {
         this.tickTime = 60.0 / this.bpm / 4.0;  // 1/16 note
     }
-
 
     _start() {
 
@@ -340,11 +332,9 @@ export class DrumMachine {
         scheduler();
     }
 
-
     _stop() {
         this.isStopped = true;
     }
-
 
     _playSound(bufferName, time) {
         let ctx = this.audioContext;
@@ -353,7 +343,6 @@ export class DrumMachine {
         sound.connect(ctx.destination);
         sound.start(time);
     }
-
 
     playSoundFromBuffer(buffer, time) {
         if (!buffer) return;
@@ -370,15 +359,12 @@ export class DrumMachine {
         }
     }
 
-
     removeTrack(trackID) {
         let track = this.tracks[trackID];
         this._tracksInSolo.delete(track);
         this._tracksInMute.delete(track);
         delete this.tracks[trackID];
     }
-
-
 
     soloTrack(trackID) {
 
@@ -444,8 +430,6 @@ export class DrumMachine {
         }
     }
 
-
-
     muteTrack(trackID) {
 
         if (!this.tracks.hasOwnProperty(trackID)) return;
@@ -494,12 +478,10 @@ export class DrumMachine {
         }
     }
 
-
     addCallBackInLoop(fn) {
         if (!typeof fn === "function") return;
         this.callBacksInLoop.push( fn );
     }
-
 
     isInRangeBPM(value) {
         if (value >= this.bpmMin && value <= this.bpmMax) {
@@ -508,7 +490,6 @@ export class DrumMachine {
             return false;
         }
     }
-
 
     _createEmptyTicksArray() {
         let ticks = [];
@@ -523,7 +504,6 @@ export class DrumMachine {
         return ticks;
     }
 
-
     _clearTracks() {
         this._tracksInSolo.clear();
         this._tracksInMute.clear();
@@ -535,14 +515,12 @@ export class DrumMachine {
         }
     }
 
-
     addEmptyTrack() {
         let name = "track_" + (Object.keys(this.tracks).length + 1);
         let track = new Track(this, name);
         track.setTicksFromArray(this._createEmptyTicksArray());
         this.tracks[track.id] = track;
     }
-
 
     createTrack(name, soundPath, volume, pan, ticks) {
         return new Promise((resolve, reject) => {
@@ -569,7 +547,6 @@ export class DrumMachine {
         });
     }
 
-
     loadPreset(data) {
         try {
             this.bpm = data.bpm;
@@ -589,11 +566,6 @@ export class DrumMachine {
             });
         }
     }
-
-
-
-
-
 
     buildJsonPreset(name, category) {
 
@@ -637,8 +609,4 @@ export class DrumMachine {
         data.tracks = tracks;
         return JSON.stringify(data);
     }
-
-
-
-
 }

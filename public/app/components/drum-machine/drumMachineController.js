@@ -310,61 +310,55 @@ export function drumMachineController($scope, $compile, $http, $interval, server
     */
 
     $scope.savePreset = () => {
-
         let formData = new FormData();
         let jsonPreset = drumMachine.buildJsonPreset($scope.preset.name, $scope.preset.categorySelected.name);
 
-
         for (let id in drumMachine.tracks) {
-
             if (drumMachine.tracks.hasOwnProperty(id)) {
                 let track = drumMachine.tracks[id];
-
                 let blob = new Blob([track.sampleData.originalBuffer], {
                     // type: track.sampleData.extension ? "audio/" + track.sampleData.extension : "octet-stream"
                     type: "octet-stream"
                 });
-
                 formData.append("sample", blob, track.sampleData.fileName);
             }
         }
 
-
         formData.append("preset", jsonPreset);
 
+        for (const [key, value] of formData) {
+            console.log(key, value);
+        }
 
         let xhr = new XMLHttpRequest();
 
-
-
-        xhr.open( 'POST', serverBaseURL + '/api/presets', true );
+        xhr.open( "POST", serverBaseURL + "/api/presets", true );
         xhr.setRequestHeader("Accept", "application/json");
         xhr.onload = () => {
             // created
-            if (xhr.status === 201) {
+            if (xhr.status === 200 || xhr.status === 201) {
                 toastOk("Preset saved! ;-)");
                 $scope.onPresetCancel();
             }
             else if (xhr.status === 409) {
                 console.log(xhr.response);
-                toastError("Preset name " + $scope.preset.name + " already taken for category " + $scope.preset.categorySelected.name);
+                toastError("Preset name " + $scope.preset.name + " already taken for category "
+                    + $scope.preset.categorySelected.name);
             }
             else {
                 toastError("Ops! Something went wrong :-(");
                 $scope.onPresetCancel();
             }
         };
-        xhr.send( formData );
 
-
-
+        xhr.send(formData);
     };
 
     $scope.uploadFiles = () => {
 
         let formData = new FormData();
 
-        // $('input[type="file"]').each(function(index) {
+        // $("input[type="file"]").each(function(index) {
         //
         //     let fileList = $(this)[0].files;
         //
@@ -729,13 +723,13 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
         li.click(() => {
             let savePreset = angular.element(document.createElement('save-preset'));
-            let domElem = $compile( savePreset )( $scope );
+            let domElem = $compile(savePreset)($scope);
             angular.element(document.body).append(domElem);
         });
 
-        let API = $("nav#menu").data( "mmenu" );
-        $("#menu-list").find( ".mm-listview" ).append( li );
-        API.initPanels( $("#menu-list") );
+        let API = $("nav#menu").data("mmenu");
+        $("#menu-list").find(".mm-listview").append(li);
+        API.initPanels($("#menu-list"));
     }
 
     async function loadComments() {
@@ -834,13 +828,15 @@ export function drumMachineController($scope, $compile, $http, $interval, server
 
         $scope.populateCategories().then(categories => {
             initPresetsMenu(categories);
+
+            testMulter();
         });
 
-        $interval(() => {
-            $scope.populateCategories().then(categories => {
-                console.log("$interval: populateCategories");
-            })
-        }, 20000);
+        // $interval(() => {
+        //     $scope.populateCategories().then(categories => {
+        //         console.log("$interval: populateCategories");
+        //     })
+        // }, 20000);
 
         socket.on(socketEvents.newPreset, data => {
             console.log(socketEvents.newPreset, data);
@@ -855,7 +851,33 @@ export function drumMachineController($scope, $compile, $http, $interval, server
             $scope.safeApply();
         });
     });
+
+    function testMulter() {
+
+        // let jsonPreset = drumMachine.buildJsonPreset("preset001", "rock");
+        // console.log(jsonPreset);
+        // const formData = new FormData();
+        //
+        // for (let id in drumMachine.tracks) {
+        //     if (drumMachine.tracks.hasOwnProperty(id)) {
+        //         let track = drumMachine.tracks[id];
+        //         let blob = new Blob([track.sampleData.originalBuffer], {
+        //             // type: track.sampleData.extension ? "audio/" + track.sampleData.extension : "octet-stream"
+        //             type: "octet-stream"
+        //         });
+        //         console.log(blob);
+        //         formData.append("sample", blob, track.sampleData.fileName);
+        //         // console.log(blob, track.sampleData.fileName);
+        //     }
+        // }
+        // for (let [key, value] of formData.entries()) {
+        //     console.log(key, value);
+        // }
+
+    }
 }
+
+
 
 
 

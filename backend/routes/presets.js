@@ -2,6 +2,7 @@ const { Preset, validate } = require("../models/Preset");
 const { Category } = require("../models/Category");
 const router = require("express").Router();
 const Status = require("http-status-codes");
+const path = require("path");
 const glob = require("multi-glob").glob;
 const multer = require("multer");
 const fd = require("file-duplicates");
@@ -10,6 +11,8 @@ const samplesPath = require("../../config").samples.root;
 const samplesClientPath = require("../../config").samples.clientPath;
 const socketEvents = require("../../config").socketEvents;
 const logger = require("../bootstrap/winston");
+const config = require("../../config");
+const { checkIfFileAlreadyExistsAsync } = require("../utils/utils");
 
 router.get("/", async (req, res) => {
     const categories = await Preset.find({}, null, {sort: {name: 1}});
@@ -26,15 +29,29 @@ router.get("/", async (req, res) => {
 
 router.post("/", upload.any(), async (req, res) => {
 
-    const { error } = validate(req.body);
+    // console.log(req.body);
+    // console.log(req.files);
+
+    if (!req.body.preset) return res.status(Status.BAD_REQUEST).send("Preset data is required");
+
+    let presetData;
+
+    try {
+        presetData = JSON.parse(req.body.preset);
+    }
+    catch (err) {
+        return res.status(Status.BAD_REQUEST).send("Preset data is invalid json");
+    }
+
+    const { error } = validate(presetData);
     if (error) return res.status(Status.BAD_REQUEST).send(error.details[0].message);
 
     // Check if preset already exists
     const check = await Preset.findOne({
-        name: req.body.name,
-        "category.name": req.body.category.name
+        name: presetData.name,
+        category: presetData.category
     });
-    console.log(check);
+
     if (check) return res.status(Status.CONFLICT).send("A preset with the same name already exists");
 
     const globPatterns = [
@@ -47,13 +64,23 @@ router.post("/", upload.any(), async (req, res) => {
 
         if (err) throw err;
 
-        const presetData = req.body;
         const promises = [];
 
-        presetData.tracks.forEach(track => {
-            const soundFile = req.files.find(file => file.originalname === path.basename(track.soundPath));
-            promises.push(fd.find(soundFile.buffer, filePaths));
-        });
+        // presetData.tracks.forEach(track => {
+        //     const soundFile = req.files.find(file => file.originalname === path.basename(track.soundPath));
+        //     console.log(soundFile, filePaths);
+        //     promises.push(fd.find(soundFile.buffer, filePaths));
+        // });
+
+        const track = presetData.tracks[0];
+        const soundFile = req.files.find(file => file.originalname === path.basename(track.soundPath));
+        // console.log(soundFile.buffer);
+        // console.log(config.samples.root);
+        // const found = await fd.find(soundFile.buffer, config.samples.root);
+        const found = await checkIfFileAlreadyExistsAsync(soundFile.buffer, filePaths);
+        console.log(found);
+
+        return res.json({message: "All ok!"});
 
         await Promise.all(promises).then(values => {
 
