@@ -345,28 +345,27 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         xhr.send(formData);
     };
 
-    $scope.postComment = ()=> {
-
-        let data = {
+    $scope.postComment = async () => {
+        const data = {
             username: $scope.username,
             message: $scope.commentToPost
         };
 
-        $http({
-            url: serverBaseURL + '/api/comments',
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            data: JSON.stringify(data)
+        try {
+            await $http({
+                url: serverBaseURL + '/api/comments',
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                data: JSON.stringify(data)
 
-        }).then(function (response) {
-            console.log(response);
-        }, function (response) {
-            console.log(response);
-        });
-
+            });
+        }
+        catch (err) {
+            console.error(err);
+        }
     };
 
     $scope.onPresetCancel = () => {

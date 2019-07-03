@@ -2,9 +2,14 @@ const moment = require("moment");
 const { Comment, validate } = require("../models/Comment");
 const router = require("express").Router();
 const Status = require("http-status-codes");
-
+const socketEvents = require("../../config").socketEvents;
 const momentFormat = "MMMM Do YYYY, h:mm:ss a";
-// const socketEvents = require("../../config").socketEvents;
+
+let io;
+
+global.io.on("connection", socket => {
+    io = socket;
+});
 
 router.get("/", async (req, res) => {
     const comments = await Comment.find({}).sort("-createdTs");
@@ -20,6 +25,8 @@ router.post("/", async (req, res) => {
     const comment = new Comment(req.body);
     await comment.save();
     res.json(comment);
+    io && io.emit(socketEvents.newComment, comment);
+    io && io.broadcast.emit(socketEvents.newComment, comment);
 });
 
 router.delete("/", async (req, res) => {
