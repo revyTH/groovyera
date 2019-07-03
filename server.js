@@ -42,3 +42,5 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+module.exports = server;

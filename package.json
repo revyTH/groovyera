@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node node_modules/gulp/bin/gulp.js dev",
     "prod": "node node_modules/gulp/bin/gulp.js prod",
-    "node": "node node_modules/nodemon/bin/nodemon.js server.js"
+    "node": "node node_modules/nodemon/bin/nodemon.js server.js",
+    "test": "mocha --exit test/**/*.js"
   },
   "engines": {
     "node": "4.7.2",
@@ -56,6 +57,7 @@
     "babelify": "^10.0.0",
     "browser-sync": "^2.26.7",
     "browserify": "^16.2.3",
+    "chai": "^4.2.0",
     "gulp": "4.0",
     "gulp-clean-css": "^4.2.0",
     "gulp-concat": "^2.6.1",
@@ -70,7 +72,9 @@
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
     "imagemin-pngquant": "^8.0.0",
+    "mocha": "^6.1.4",
     "nodemon": "^1.19.1",
+    "supertest": "^4.0.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.11.1"

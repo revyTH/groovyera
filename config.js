@@ -22,12 +22,10 @@ module.exports = {
         index: "index.html"
     },
 
-    database: {
+    mongodb: {
         local: {
-            connectionString: "mongodb://localhost:27017/groovyera"
-        },
-        mLab: {
-            connectionString: "mongodb://drumdb_admin:5LE-4BY-hfQ-wz2@ds123381.mlab.com:23381/drumdb"
+            default: "mongodb://localhost:27017/groovyera",
+            test: "mongodb://localhost:27017/groovyera_test"
         }
     },
 
