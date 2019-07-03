@@ -79,17 +79,18 @@ import { getFileNameFromPath } from "../utils/utils";
      // }
 
 
+    _cloneArrayBuffer(buffer) {
+        const res = new ArrayBuffer(buffer.byteLength);
+        new Uint8Array(res).set(new Uint8Array(buffer));
+        return res;
+    }
 
-     /*
-      *
-      */
      _initTicks() {
          this.ticks = [];
          for (let i = 0; i < this.drumMachine.numberOfBeats; ++i) {
              this.ticks.push(new Tick(i));
          }
      }
-
 
      setTick(index, active = true, volume = 1.0) {
          if (index < 0 || index > (this.drumMachine.numberOfBeats-1)) {
@@ -99,7 +100,6 @@ import { getFileNameFromPath } from "../utils/utils";
          this.ticks[index].volume = volume;
          this.ticks[index].active = active;
      }
-
 
      setTicksFromArray(data) {
          data.forEach(e => {
@@ -117,8 +117,6 @@ import { getFileNameFromPath } from "../utils/utils";
          });
      }
 
-
-
      setBuffer(arrayBuffer, fileName) {
          this.originalBuffer = arrayBuffer;
          this.drumMachine.audioContext.decodeAudioData(arrayBuffer, decodedAudioBuffer => {
@@ -126,7 +124,6 @@ import { getFileNameFromPath } from "../utils/utils";
              console.log("Track " + this.name + ": audio buffer changed ( " + fileName + " )");
          });
      }
-
 
      playLoadedSample() {
          if (!this.audioContext || !this.sampleData.decodedAudioBuffer) return;
@@ -136,8 +133,6 @@ import { getFileNameFromPath } from "../utils/utils";
          sound.start();
      }
 
-
-
      setSampleData(fileName, arrayAudioBuffer) {
 
          if (!fileName || !arrayAudioBuffer) {
@@ -145,10 +140,13 @@ import { getFileNameFromPath } from "../utils/utils";
              return;
          }
 
+         // Clone original buffer because it will be empty after decoding
+         const clonedBuffer = this._cloneArrayBuffer(arrayAudioBuffer);
+
          this.drumMachine.audioContext.decodeAudioData(arrayAudioBuffer, decodedBuffer => {
              this.sampleData.fileName = fileName;
              this.sampleData.extension = getExtensionFromFileName(fileName);
-             this.sampleData.originalBuffer = arrayAudioBuffer;
+             this.sampleData.originalBuffer = clonedBuffer;
              this.sampleData.decodedAudioBuffer = decodedBuffer;
          });
      }

@@ -13,6 +13,11 @@ const logger = require("./bootstrap/winston");
 const port = process.env.PORT || 4500;
 const app = express();
 const server = http.createServer(app);
+global.io = require("socket.io")(server);
+
+global.io.on("connection", socket => {
+    logger.info("socket.io connected");
+});
 
 async function bootstrap() {
 
@@ -29,7 +34,7 @@ async function bootstrap() {
     await require("./bootstrap/mongodb")();
     require("./bootstrap/morgan")(app);
     require("./bootstrap/routes")(app);
-    require("./bootstrap/socket")(server);
+    // require("./bootstrap/socket")(server);
 
     server.listen(port, () => {
         config.server.isRunning = true;
@@ -38,3 +43,19 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+// const fd = require("file-duplicates");
+// const fs = require("fs");
+//
+// async function test() {
+//
+//     const buffer = fs.readFileSync("./public/app/assets/samples/rock/rock-kick.wav")
+//
+//     const res = await fd.find(buffer, "./public/app/assets/samples");
+//     const res1 = await fd.find(__dirname + "/../public/app/assets/samples/rock/rock-kick.wav", "./public/app/assets/samples");
+//     console.log(res)
+//     console.log(res1)
+//
+// }
+//
+// test()
