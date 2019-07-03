@@ -6,6 +6,7 @@ const categories = require("../routes/categories");
 const comments = require("../routes/comments");
 const presets = require("../routes/presets");
 const samples = require("../routes/samples");
+const midi = require("../routes/midi");
 const error = require("../middleware/error");
 const logger = require("./winston");
 
@@ -27,6 +28,7 @@ module.exports = function(app) {
     app.use("/api/comments", comments);
     app.use("/api/presets", presets);
     app.use("/api/samples", samples);
+    app.use("/api/midi", midi);
     app.use(express.static("public"));
     app.use(error);
 

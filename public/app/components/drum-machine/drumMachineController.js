@@ -7,7 +7,6 @@
 
 import { DrumMachine } from "../../audio/DrumMachine";
 import { audioLoader } from "../../audio/audio-loader";
-import { psyTrancePreset } from "../../audio/presets";
 import { groovyRockPreset } from "../../audio/presets";
 
 export function drumMachineController($scope, $compile, $http, $interval, serverBaseURL, FileSaver, Blob, socketEvents) {
@@ -178,9 +177,9 @@ export function drumMachineController($scope, $compile, $http, $interval, server
         drumMachine.addEmptyTrack();
     };
 
-    $scope.exportMidi = () => {
+    $scope.exportMidi = async () => {
+        const tracks = [];
 
-        let tracks = [];
         for (let key in drumMachine.tracks) {
             if (drumMachine.tracks.hasOwnProperty(key)) {
 
@@ -218,33 +217,29 @@ export function drumMachineController($scope, $compile, $http, $interval, server
             }
         }
 
-
-        let data = {
+        const data = {
             bpm: drumMachine.bpm,
             timeSignature: {num: 4, den: 4},
             tracks: tracks
         };
 
+        try {
+            const response = await $http({
+                url: serverBaseURL + "/api/midi",
+                method: "POST",
+                responseType: "arraybuffer",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify(data)
 
-
-        $http({
-            url: serverBaseURL + '/api/midi',
-            method: "POST",
-            responseType: "arraybuffer",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            data: JSON.stringify(data)
-
-        }).then(function (response) {
-            console.log(response);
-            let blob = new Blob([response.data], { type: 'audio/midi' });
-            // let fileName = response.headers('content-disposition');
+            });
+            const blob = new Blob([response.data], {type: "audio/midi"});
             FileSaver.saveAs(blob, "loop.mid");
-        }, function (response) {
-            console.log(response);
-        });
-
+        }
+        catch (err) {
+            console.error(err);
+        }
     };
 
     $scope.populateCategories = () => {
