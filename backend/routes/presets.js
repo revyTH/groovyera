@@ -62,14 +62,14 @@ router.post("/", upload.any(), async (req, res) => {
 
         for (let i = 0; i < presetData.tracks.length; i++) {
             // Duplicated sound file found, update sound path
-            if (values[i]) {
-                logger.info("Duplicated found at: " + values[i][0]);
+            if (values[i][0]) {
+                logger.info("Duplicated file found at: " + values[i][0]);
                 let relativePath = path.basename(path.dirname(values[i][0])) + "/" + path.basename(values[i][0]);
                 presetData.tracks[i].soundPath = samplesClientPath + relativePath;
             }
             // New sound file: write sound file to disk and update path
             else {
-                logger.info("Not found: ", req.files[i].originalname);
+                logger.info("New file: " + req.files[i].originalname);
                 let absolutePath = samplesPath + presetData.tracks[i].soundPath;
                 let buffer = req.files[i].buffer;
 

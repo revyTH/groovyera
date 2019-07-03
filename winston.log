@@ -1,3 +1,9 @@
-2019-07-03T10:36:23.561Z - info: Connected to MongoDB
-2019-07-03T10:36:23.700Z - info: Routes initialized
-2019-07-03T10:36:23.706Z - info: Server listening on port 4500...
+2019-07-03T10:43:17.513Z - info: Connected to MongoDB
+2019-07-03T10:43:17.612Z - info: Routes initialized
+2019-07-03T10:43:17.619Z - info: Server listening on port 4500...
+2019-07-03T10:43:18.691Z - info: socket.io connected
+2019-07-03T10:43:27.702Z - info: Not found: 
+2019-07-03T10:43:27.734Z - info: ::1 - - [03/Jul/2019:10:43:27 +0000] "POST /api/presets HTTP/1.1" 200 1452 "http://localhost:4500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
+2019-07-03T10:43:27.809Z - info: ::1 - - [03/Jul/2019:10:43:27 +0000] "GET /api/presets HTTP/1.1" 200 37598 "http://localhost:4500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
+2019-07-03T10:44:07.048Z - info: ::1 - - [03/Jul/2019:10:44:07 +0000] "GET /app/assets/samples/electro/tom%20boom.wav HTTP/1.1" 200 352844 "http://localhost:4500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
+2019-07-03T10:44:15.867Z - info: ::1 - - [03/Jul/2019:10:44:15 +0000] "GET /app/assets/samples/percussive/operator.wav HTTP/1.1" 200 88244 "http://localhost:4500/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
