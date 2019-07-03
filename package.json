@@ -11,8 +11,8 @@
     "postinstall": "node node_modules/gulp/bin/gulp.js prod"
   },
   "engines": {
-    "node": "4.7.2",
-    "npm": "4.1.2"
+    "node": "12.4.0",
+    "npm": "6.9.0"
   },
   "author": "Ludovico Fabbri",
   "license": "ISC",
