@@ -15,6 +15,7 @@ const config = require("../../config");
 const exists = promisify(fs.exists);
 const mkdir = promisify(fs.mkdir);
 const readdir = promisify(fs.readdir);
+const writeFile = promisify(fs.writeFile);
 
 let io;
 
@@ -92,7 +93,7 @@ router.post("/", upload.any(), async (req, res) => {
                     }
                 }
 
-                fs.writeFileSync(absolutePath, buffer);
+                await writeFile(absolutePath, buffer);
                 presetData.tracks[i].soundPath = samplesClientPath + relativePath;
             }
         }
@@ -105,9 +106,9 @@ router.post("/", upload.any(), async (req, res) => {
     io && io.broadcast.emit(socketEvents.newPreset, preset); // broadcast to all except one
 });
 
-router.delete("/", async (req, res) => {
-    await Preset.remove({});
-    res.send();
-})
+// router.delete("/", async (req, res) => {
+//     await Preset.remove({});
+//     res.send();
+// })
 
 module.exports = router;

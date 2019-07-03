@@ -12,7 +12,6 @@ import { getArrayAudioBufferFromUrl } from "../utils/utils";
 import { getExtensionFromFileName } from "../utils/utils";
 import { getFileNameFromPath } from "../utils/utils";
 
-
  export class Track {
 
      constructor (drumMachine, name = "track_default", soundPath = undefined, volume = 1.0, pan = 0, mute = false ) {
@@ -28,14 +27,12 @@ import { getFileNameFromPath } from "../utils/utils";
              decodedAudioBuffer:    undefined,
          };
 
-
          this.solo = false;
          this.mute = mute;
          this.ticks = [];
          this.pannerNodeSupported = false;
          this.gainNode = this.audioContext.createGain();
          this.gainNode.gain.value = volume;
-
 
          if (drumMachine.pannerNodeSupported) {
              this.pannerNode = this.audioContext.createStereoPanner();
@@ -47,7 +44,6 @@ import { getFileNameFromPath } from "../utils/utils";
              this.gainNode.connect(this.audioContext.destination);
          }
 
-
          if (soundPath) {
              getArrayAudioBufferFromUrl(this.audioContext, soundPath).then(buffer => {
                 let fileName = getFileNameFromPath(soundPath);
@@ -55,29 +51,8 @@ import { getFileNameFromPath } from "../utils/utils";
              });
          }
 
-
-
          this._initTicks();
      }
-
-
-     // setGain(val) {
-     //     this.gainNode.gain.value = val > 1 ? 1.0 : val;
-     // }
-
-
-     // setPan(val) {
-     //     if (val < -1) {
-     //         this.pannerNode.pan.value = -1;
-     //     }
-     //     else if (val > 1) {
-     //         this.pannerNode.pan.value = 1;
-     //     }
-     //     else {
-     //         this.pannerNode.pan.value = val;
-     //     }
-     // }
-
 
     _cloneArrayBuffer(buffer) {
         const res = new ArrayBuffer(buffer.byteLength);

@@ -15,9 +15,9 @@ router.post("/", async (req, res) => {
     res.send(category);
 })
 
-router.delete("/", async (req, res) => {
-    await Category.remove({});
-    res.send();
-})
+// router.delete("/", async (req, res) => {
+//     await Category.remove({});
+//     res.send();
+// })
 
 module.exports = router;

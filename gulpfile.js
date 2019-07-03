@@ -13,34 +13,28 @@ const gulp = require("gulp"),
     // notify = require("gulp-notify"),
     rename = require("gulp-rename"),
     util = require("gulp-util"),
+    gulpif = require("gulp-if"),
     uglify = require("gulp-uglify"),
+    cleanCSS = require("gulp-clean-css"),
     browserify = require('browserify'),
     envify = require('envify/custom'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     sourcemaps = require("gulp-sourcemaps"),
     sass = require("gulp-sass"),
-    // path = require("path"),
+    path = require("path"),
     nodemon = require("gulp-nodemon"),
     config = require("./config");
 
-/**
- * build_libs
- */
 function build_libs() {
     return gulp.src(config.libs.all)
         .pipe(concat("libs.bundle.min.js"))
+        .pipe(gulpif(process.env.NODE_ENV === config.mode.prod, uglify()))
         .pipe(gulp.dest(config.build.libs))
-        // .pipe(notify("Build libs done"));
 }
 
-/**
- * build
- */
 function build_js() {
-
-    let mode = process.env.NODE_ENV === config.mode.dev;
-    console.log(util.colors.red('\nMODE = ' + process.env.NODE_ENV + '\n'));
+    const mode = process.env.NODE_ENV === config.mode.dev;
 
     return browserify({
         entries: config.js.index,
@@ -51,50 +45,30 @@ function build_js() {
             global: true,
             _: 'purge',
             NODE_ENV: process.env.NODE_ENV,
-            BASE_SERVER_URL: process.env.NODE_ENV === config.mode.dev ? config.baseServerURL.dev : config.baseServerURL.prod
+            BASE_SERVER_URL: process.env.APP_BASE_URL ? process.env.APP_BASE_URL : config.baseServerURL.dev
         }))
         .transform(babelify, {presets: ["@babel/preset-env", "@babel/preset-react"], sourceMaps: mode})
         .bundle()
         .pipe(source("app.bundle.min.js"))
         .pipe(buffer())
-        // .pipe(rename('app.bundle.min.js'))
         .pipe(sourcemaps.init({loadMaps: mode}))
-        // .pipe(uglify())
+        .pipe(gulpif(process.env.NODE_ENV === config.mode.prod, uglify()))
         .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest(config.build.js))
-        // .pipe(notify("Build js done"))
         .pipe(browserSync.reload({ stream: true}))
-        // .pipe(notify("Browser-sync reload done"));
 }
 
-/**
- * sass
- */
 function build_sass() {
-
-    // var output_style = process.env.NODE_ENV == 'dev' ? 'expanded' : 'compressed';
-
     return gulp.src(config.styles.sass)
         .pipe(sourcemaps.init())
-        .pipe(sass({
-            // includePaths: ['node_modules/susy/sass'],       //include susy-framework from node_modules
-        }).on('error', sass.logError))
+        .pipe(sass({}).on('error', sass.logError))
         .pipe(rename('styles.css'))
+        // .pipe(gulpif(process.env.NODE_ENV === config.mode.prod, cleanCSS({compatibility: 'ie8'})))
         .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest(config.build.styles))
-        // .pipe(notify("Build sass done"))
-        // .pipe(rename('styles.min.css'))
-        // .pipe(minify_css({compatibility: 'ie8'}))
-        // .pipe(gulp.dest(config.dist_path + '/styles'))
-        // .pipe(notify('Build styles.min.css: done'))
         .pipe(browserSync.stream())
-        // .pipe(browserSync.reload({ stream: true}))
-        // .pipe(notify("Browser-sync stream done"));
 }
 
-/**
- * browserSyncInit
- */
 function browserSyncInit(cb) {
 
     setTimeout(() => {
@@ -114,9 +88,6 @@ function browserSyncInit(cb) {
     }, 2000);
 }
 
-/**
- * watch
- */
 function watch() {
 
     return new Promise(function (resolve, reject) {
@@ -124,7 +95,6 @@ function watch() {
             gulp.watch(config.js.all).on("change", gulp.series(build_js));
             gulp.watch(config.styles.all).on("change", gulp.series(build_sass));
             gulp.watch(config.html.all).on("change", browserSync.reload);
-            // gulp.watch(config.html.all).on("change", function() );
             resolve();
         }
         catch (e) {
@@ -134,35 +104,23 @@ function watch() {
     });
 }
 
-/**
- * debugMode
- */
 function debugMode(done) {
     process.env.NODE_ENV = config.mode.dev;
-    console.log(util.colors.blue('NODE_ENV = ' + process.env.NODE_ENV ));
+    console.log(util.colors.red(`\nNODE_ENV = ${process.env.NODE_ENV}\n`));
     done();
 }
 
-/**
- * productionMode
- */
 function productionMode(done) {
     process.env.NODE_ENV = config.mode.prod;
-    console.log(util.colors.blue('NODE_ENV = ' + process.env.NODE_ENV ));
+    console.log(util.colors.red(`\nNODE_ENV = ${process.env.NODE_ENV}\n`));
     done();
 }
-
-/**
- * ---------------------------------------------------------------------------------------
- * tasks
- * ---------------------------------------------------------------------------------------
- */
 
 gulp.task("node", function (done) {
     nodemon({
-        script: "backend/server.js"
-        , ext: "js html"
-        , env: { "NODE_ENV": "development" }
+        script: "server.js",
+        ext: "js html",
+        env: { "NODE_ENV": process.env.NODE_ENV }
     });
 
     done();
@@ -171,4 +129,4 @@ gulp.task("node", function (done) {
 gulp.task("bundle", gulp.series(build_libs, build_js, build_sass));
 gulp.task("bundle-prod", gulp.series(productionMode, "bundle"));
 gulp.task("dev", gulp.series(debugMode, "bundle", gulp.parallel("node", browserSyncInit, watch)));
-gulp.task("prod", gulp.series(productionMode, "bundle", gulp.parallel("node", browserSyncInit, watch)));
+gulp.task("prod", gulp.series(productionMode, "bundle"));

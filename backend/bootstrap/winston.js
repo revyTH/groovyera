@@ -31,10 +31,10 @@ const logger = createLogger({
         })
     ),
     transports: [
-        new transports.File({
-            filename: "winston.log",
-            options: { flags: "w" }
-        }),
+        // new transports.File({
+        //     filename: "winston.log",
+        //     options: { flags: "w" }
+        // }),
         new transports.Console({
             format: colorize()
         })

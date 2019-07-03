@@ -29,22 +29,22 @@ router.post("/", async (req, res) => {
 
 function buildMidiFile(data) {
     return new Promise(function(resolve, reject) {
-        var tracks = [];
+        const tracks = [];
         tracks[0] = new MidiWriter.Track();
         tracks[0].setTimeSignature(data.timeSignature.num, data.timeSignature.den);
         tracks[0].setTempo(data.bpm);
 
-        var trackIndex = 0;
+        let trackIndex = 0;
         data.tracks.forEach(function(trackData) {
 
-            var track = new MidiWriter.Track();
+            const track = new MidiWriter.Track();
             track.addTrackName(trackData.name);
             track.addEvent(new MidiWriter.ProgramChangeEvent({instrument : trackIndex}));
 
-            var notes = [];
+            const notes = [];
             trackData.notes.forEach(function(noteData) {
 
-                var noteEventData = {
+                const noteEventData = {
                     pitch: noteData.pitch,
                     velocity: noteData.velocity * 100,
                     duration: noteData.duration,
@@ -66,10 +66,8 @@ function buildMidiFile(data) {
             trackIndex += 1;
         });
 
-        var writer = new MidiWriter.Writer(tracks);
-        // writer.saveMIDI("loop");
-        var buffer = writer.buildFile();
-
+        const writer = new MidiWriter.Writer(tracks);
+        const buffer = writer.buildFile();
         resolve(buffer);
     });
 }

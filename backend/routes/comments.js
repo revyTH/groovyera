@@ -29,9 +29,9 @@ router.post("/", async (req, res) => {
     io && io.broadcast.emit(socketEvents.newComment, comment);
 });
 
-router.delete("/", async (req, res) => {
-    await Comment.remove({});
-    res.send();
-})
+// router.delete("/", async (req, res) => {
+//     await Comment.remove({});
+//     res.send();
+// })
 
 module.exports = router;
